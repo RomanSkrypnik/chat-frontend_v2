@@ -8,7 +8,7 @@ import SidebarMenu from "./partials/SidebarMenu";
 const Sidebar = () => {
 
     return (
-        <aside className="sidebar">
+        <aside className="sidebar d-flex flex-column">
             <div className="sidebar__head d-flex">
                 <AvatarButton/>
                 <div className="flex-grow-1 ms-3">
@@ -17,7 +17,7 @@ const Sidebar = () => {
                 </div>
                 <SettingButton/>
             </div>
-            <div className="sidebar__body">
+            <div className="sidebar__body flex-grow-1">
                 <SidebarUserTab/>
             </div>
             <SidebarMenu/>

@@ -38,4 +38,8 @@
 
     position: relative;
   }
+
+  div[class$="ValueContainer"] {
+    cursor: pointer;
+  }
 }

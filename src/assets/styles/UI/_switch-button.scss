@@ -1,0 +1,23 @@
+.switch-button {
+
+  .switch-button__button {
+    &.switch-button__button_active {
+      color: $white;
+      background-color: $purple;
+    }
+    text-align: center;
+    color: $darkGrey;
+    border-radius: 14px;
+    padding: 11px 0;
+  }
+
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 260px;
+  border-radius: 14px;
+  background: $lightWhite;
+  border: 1px solid #F8F1F1;
+}

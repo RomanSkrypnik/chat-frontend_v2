@@ -12,6 +12,12 @@
 
 
 .last-text {
+
+  &.last-text_alt{
+    font-size: 12px;
+    line-height: 18px;
+  }
+
   font-weight: 300;
   font-size: 10px;
   line-height: 15px;

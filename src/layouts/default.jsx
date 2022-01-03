@@ -5,7 +5,7 @@ const DefaultLayout = ({children}) => {
     return (
         <div className='d-flex'>
             <Sidebar/>
-            <main>
+            <main className="flex-grow-1">
                 {children}
             </main>
         </div>
