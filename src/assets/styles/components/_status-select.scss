@@ -1,0 +1,41 @@
+.status-select {
+
+  &.working {
+    div[class$="-singleValue"] {
+      &::before {
+        background-color: $yellow;
+      }
+    }
+  }
+
+  &.busy {
+    div[class$="-singleValue"] {
+      &::before {
+        background-color: $red;
+      }
+    }
+  }
+
+  &.free {
+    div[class$="-singleValue"] {
+      &::before {
+        background-color: $green;
+      }
+    }
+  }
+
+  div[class$="-singleValue"] {
+    &::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+    }
+
+    position: relative;
+  }
+}

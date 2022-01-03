@@ -1,0 +1,26 @@
+.read-message-icon {
+
+  &::before,
+  &::after
+  {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5px;
+    height: 5px;
+    background-color: $green;
+    border-radius: 50%;
+  }
+
+  &::before {
+    left: 0;
+  }
+
+  &::after {
+    right: 0;
+  }
+
+  position: relative;
+  width: 13px;
+}

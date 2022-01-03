@@ -1,0 +1,31 @@
+.sidebar-tab {
+
+  .sidebar-tab__message,
+  .sidebar-tab__time {
+    color: $lightGrey;
+  }
+
+  .sidebar-tab__name {
+    color: $darkGrey;
+  }
+
+  .sidebar-tab__time {
+    margin-bottom: 11px;
+  }
+
+  &:hover {
+    .sidebar-tab__message,
+    .sidebar-tab__time,
+    .sidebar-tab__name
+    {
+      color: $white;
+    }
+    color: $white;
+    background-color: $purple;
+  }
+
+  transition-duration: 0.3s;
+  cursor: pointer;
+  border-radius: 14px;
+  padding: 15px;
+}

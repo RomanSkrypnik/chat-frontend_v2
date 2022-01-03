@@ -1,0 +1,30 @@
+.settings-button {
+
+  &::before,
+  &::after,
+  .settings-button__middle-dot {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 5px;
+    background-color: #6588DE;
+    left: 0;
+  }
+
+  &::before {
+    top: 0;
+  }
+
+  &::after {
+    bottom: 0;
+  }
+
+  .settings-button__middle-dot {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  height: 21px;
+  position: relative;
+}

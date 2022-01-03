@@ -1,0 +1,25 @@
+.sidebar {
+
+  .sidebar__name {
+    color: $darkGrey;
+    margin-bottom: 2px;
+  }
+
+  .sidebar__head {
+    background-color: $lightBlue;
+    border-radius: 0 0 14px 14px;
+    padding: 30px 20px 26px 35px
+  }
+
+  .sidebar__body {
+    background-color: $lightBlue;
+    height: 100%;
+    border-radius: 14px 14px 0 0;
+    margin-top: 10px;
+    padding: 24px 20px;
+  }
+
+  flex-grow: 1;
+  height: 85vh;
+  max-width: 350px;
+}
