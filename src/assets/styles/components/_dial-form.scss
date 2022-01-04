@@ -1,0 +1,9 @@
+.dial-form {
+  border-radius: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $dialGrey;
+  padding: 30px 31px 40px;
+}

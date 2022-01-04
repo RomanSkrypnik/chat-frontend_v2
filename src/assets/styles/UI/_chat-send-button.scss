@@ -1,0 +1,11 @@
+.chat-send-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  min-width: 108px;
+  border-radius: 14px;
+  color: $white;
+  border: 1px solid $darkPurple;
+  background-color: $purple;
+  padding: 9px 22px;
+}

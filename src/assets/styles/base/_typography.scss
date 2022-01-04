@@ -24,6 +24,12 @@
 }
 
 .bold-text {
+
+  &.bold-text_alt {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
   font-weight: 600;
   font-size: 14px;
   line-height: 21px;

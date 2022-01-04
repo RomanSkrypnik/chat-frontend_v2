@@ -1,0 +1,7 @@
+.text-input {
+  &::placeholder {
+    color: $lightGrey;
+  }
+  width: 100%;
+  height: 42px;
+}
