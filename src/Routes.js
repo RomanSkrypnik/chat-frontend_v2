@@ -1,19 +1,11 @@
 import React from "react";
-import Home from "./pages/home";
-import About from "./pages/about";
-import Help from "./pages/help";
-import Login from "./pages/login";
-import Register from "./pages/register";
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Help from "./pages/Help";
 
-const authRoutes = [
-    {path: '/login', element: <Login/>},
-    {path: '/register', element: <Register/>},
+const routes = [
+    {path: 'about', element: About},
+    {path: 'help', element: Help},
 ];
 
-const mainRoutes = [
-    {path: '/', element: <Home/>},
-    {path: '/about', element: <About/>},
-    {path: '/help', element: <Help/>},
-];
-
-export {mainRoutes, authRoutes};
+export default routes;

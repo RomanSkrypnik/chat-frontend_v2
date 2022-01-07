@@ -12,4 +12,12 @@ const DefaultLayout = ({children}) => {
     );
 };
 
-export default DefaultLayout;
+const withDefaultLayout = (Component) => {
+    return (
+        <DefaultLayout>
+            <Component/>
+        </DefaultLayout>
+    );
+};
+
+export default withDefaultLayout;
