@@ -3,6 +3,7 @@ import SwitchButton from "../components/UI/buttons/SwitchButton";
 import ChatScroll from "../components/partials/ChatScroll";
 import ChatTextInput from "../components/inputs/ChatTextInput";
 import SettingButton from "../components/UI/buttons/SettingButton";
+import withDefaultLayout from "../layouts/Default";
 
 const Home = () => {
     return (
@@ -17,4 +18,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default withDefaultLayout(Home);

@@ -1,0 +1,29 @@
+.file-input {
+
+  &.file-input_dark {
+    .file-input__cross {
+      path {
+        fill: $purple;
+      }
+    }
+    border: 1px dashed $purple;
+  }
+
+  .file-input__cross {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .file-input__input {
+    display: none;
+  }
+
+  cursor: pointer;
+  position: relative;
+  border: 1px dashed $fileWhite;
+  border-radius: 8px;
+  width: 70px;
+  height: 70px;
+}

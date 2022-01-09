@@ -1,14 +1,35 @@
 import React from 'react';
-import {useNavigate, useParams} from "react-router-dom";
 import withUnauthorizedLayout from "../layouts/Unauthorized";
+import DialForm from "../components/partials/DialForm";
 
 const Login = () => {
-    const router = useParams();
+
+    const dialData = {
+        title: 'Login',
+        subtitle: 'To sign in, please write down your email and password',
+        fields: [
+            {placeholder: 'email', name: 'email'},
+            {placeholder: 'password', name: 'password'}
+        ],
+        buttons: [{
+            text: 'Sign in',
+            type: 'submit',
+        }],
+        onSubmit: (e) => {
+            e.preventDefault();
+        }
+    };
 
     return (
-        <div>
-           login
-        </div>
+        <section className="login">
+            <DialForm
+                title={dialData.title}
+                subtitle={dialData.subtitle}
+                fields={dialData.fields}
+                button={dialData.button}
+                onSubmit={dialData.onSubmit}
+            />
+        </section>
     );
 };
 

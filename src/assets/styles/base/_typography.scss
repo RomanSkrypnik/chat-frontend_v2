@@ -30,6 +30,11 @@
     line-height: 18px;
   }
 
+  &.bold-text_fz25 {
+    font-size: 25px;
+    line-height: 30px;
+  }
+
   font-weight: 600;
   font-size: 14px;
   line-height: 21px;
@@ -41,3 +46,8 @@
   font-size: 12px;
   line-height: 150.5%;
 }
+
+.text-purple {
+  color: $purple;
+}
+
