@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import {Stepper} from 'react-form-stepper';
 import DialForm from "../components/partials/DialForm";
 import withUnauthorizedLayout from "../layouts/Unauthorized";
-import $api from "../http";
+import AuthService from "../services/AuthService";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [formData, setFormData] = useState({});
-
+    const navigate = useNavigate();
 
     const stepFirst = {
         title: 'Create your account',
@@ -72,8 +73,9 @@ const Register = () => {
             },
         ],
         onSubmit: () => {
-            $api.post('/register', {...formData})
-                .then(res => console.log(res))
+            const data = formData.data;
+            AuthService.register(data)
+                .then(() => navigate('/login'))
                 .catch(err => console.log(err));
         }
     };
