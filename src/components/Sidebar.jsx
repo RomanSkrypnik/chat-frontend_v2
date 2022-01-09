@@ -4,9 +4,9 @@ import SettingButton from "./UI/buttons/SettingButton";
 import StatusSelect from "./inputs/StatusSelect";
 import SidebarUserTab from "./partials/SidebarUserTab";
 import SidebarMenu from "./partials/SidebarMenu";
+import StatusService from "../services/StatusService";
 
 const Sidebar = () => {
-
     return (
         <aside className="sidebar d-flex flex-column">
             <div className="sidebar__head d-flex">
