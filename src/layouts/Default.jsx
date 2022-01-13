@@ -4,12 +4,12 @@ import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 
 const DefaultLayout = ({children}) => {
-    const loggedIn = useSelector(state => state.auth.loggedIn);
+    const {loggedIn} = useSelector(state => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!loggedIn) navigate('/login');
-    }, []);
+        if (!loggedIn) return navigate('/login');
+    }, [loggedIn]);
 
     return (
         <div className='d-flex'>

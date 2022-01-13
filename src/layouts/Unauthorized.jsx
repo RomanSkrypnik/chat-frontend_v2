@@ -4,12 +4,12 @@ import {useNavigate} from "react-router-dom";
 
 
 const Unauthorized = ({children}) => {
-    const loggedIn = useSelector(state => state.auth.loggedIn);
+    const {loggedIn} = useSelector(state => state.auth);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (loggedIn) navigate('/');
-    }, []);
+        if (loggedIn) return navigate('/');
+    }, [loggedIn]);
 
     return (
         <div>

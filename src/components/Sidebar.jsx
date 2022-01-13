@@ -19,7 +19,7 @@ const Sidebar = () => {
         } catch (e) {
             console.log(e);
         }
-    }
+    };
 
     useEffect(() => {
         fetchStatuses();
