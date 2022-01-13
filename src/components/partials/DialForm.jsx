@@ -2,11 +2,18 @@ import React from 'react';
 import TextInput from "../inputs/TextInput";
 import RegularButton from "../UI/buttons/RegularButton";
 import cn from "classnames";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import FileInput from "../inputs/FileInput";
+import parse from "html-react-parser";
+import {Link} from "react-router-dom";
 
 const DialForm = ({title, subtitle, fields = [], buttons = [], onSubmit, notice}) => {
     const { register, handleSubmit } = useForm();
+    const options = {
+        replace: (domNode) => {
+            return domNode.name === 'a' && <Link to={domNode.attribs.href}>{domNode.children[0].data}</Link>
+        }
+    }
 
     return (
         <div className="dial-form">
@@ -23,7 +30,7 @@ const DialForm = ({title, subtitle, fields = [], buttons = [], onSubmit, notice}
                     {buttons.map((button, index) => <RegularButton type={button.type} text={button.text} onClick={button.onClick} key={index}/>)}
                 </div>
             </form>
-            <div className="dial-form__notice regular-text text-center mt-3">{notice}</div>
+            {notice && <div className="mt-3">{ parse(notice, options) }</div>}
         </div>
     );
 };

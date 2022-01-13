@@ -2,17 +2,10 @@ import React, {useEffect, useState} from 'react';
 import withUnauthorizedLayout from "../layouts/Unauthorized";
 import DialForm from "../components/partials/DialForm";
 import { login } from "../store/slices/auth";
-import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
-import RegularButton from "../components/UI/buttons/RegularButton";
+import {useDispatch} from "react-redux";
 
 const Login = () => {
     const dispatch = useDispatch();
-    const [value, setValue] = useState(0);
-
-    useEffect(() => {
-        console.log('rerender');
-    }, [value]);
 
     const dialData = {
         title: 'Login',
@@ -29,12 +22,16 @@ const Login = () => {
         ],
         onSubmit: (formData) => {
             dispatch(login(formData));
-        }
+        },
+        notice: `<div class='regular-text d-flex flex-column align-items-center'>
+                    Don't you have an account? Sign up here!
+                    <a href="/register">Click here to create new account</Link>
+                </div>`,
     };
 
     return (
         <section className="login">
-            <DialForm {...dialData}/>
+            <DialForm {...dialData} />
         </section>
     );
 };

@@ -1,17 +1,13 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import Select from 'react-select';
 import cn from "classnames";
 
-const StatusSelect = () => {
+const StatusSelect = ({statuses, selectedStatus}) => {
+    const [value, setValue] = useState({});
 
-    const selectRef = useRef(null);
-    const [value, setValue] = useState(null);
-
-    const options = [
-        { value: 'working', label: 'Working', className: 'working' },
-        { value: 'busy', label: 'Busy', className: 'busy' },
-        { value: 'free', label: 'Free', className: 'free' },
-    ];
+    useEffect(() => {
+        setValue(selectedStatus);
+    }, []);
 
     const selectStyles = {
         control: (styles) => ({
@@ -45,17 +41,17 @@ const StatusSelect = () => {
         IndicatorSeparator:() => null
     };
 
-    const addOptionClass = (option) => {
-        setValue(option.className);
+    const changeStatus = (option) => {
+        setValue(option);
     };
 
 
     return (
             <Select
-                className={cn("status-select last-text", value)}
-                ref={selectRef}
-                onChange={addOptionClass}
-                options={options}
+                className={cn("status-select last-text", value.className)}
+                onChange={changeStatus}
+                options={statuses}
+                value={value}
                 styles={selectStyles}
                 placeholder=''
                 components={components}
