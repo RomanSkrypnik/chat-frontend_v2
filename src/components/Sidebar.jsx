@@ -32,7 +32,7 @@ const Sidebar = () => {
                 <AvatarButton/>
                 <div className="flex-grow-1 ms-3">
                     <div className="sidebar__name bold-text">{user.username}</div>
-                    <StatusSelect statuses={statuses} selectedStatus={selectedStatus}/>
+                    { statuses.length > 0 && <StatusSelect statuses={statuses} selectedStatus={selectedStatus}/>}
                 </div>
                 <SettingButton/>
             </div>

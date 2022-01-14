@@ -1,9 +1,12 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import StatusService from "../../services/StatusService";
 import Select from 'react-select';
+import {useSelector} from "react-redux";
 import cn from "classnames";
 
 const StatusSelect = ({statuses, selectedStatus}) => {
     const [value, setValue] = useState({});
+    const {user} = useSelector(state => state.auth);
 
     useEffect(() => {
         setValue(selectedStatus);
@@ -41,8 +44,13 @@ const StatusSelect = ({statuses, selectedStatus}) => {
         IndicatorSeparator:() => null
     };
 
-    const changeStatus = (option) => {
-        setValue(option);
+    const changeStatus = async (option) => {
+        try {
+            await StatusService.changeStatus(user.email, option);
+            setValue(option);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
 
