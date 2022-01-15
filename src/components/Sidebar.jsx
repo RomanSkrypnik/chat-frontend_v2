@@ -5,11 +5,15 @@ import StatusSelect from "./inputs/StatusSelect";
 import SidebarUserTab from "./partials/SidebarUserTab";
 import SidebarMenu from "./partials/SidebarMenu";
 import StatusService from "../services/StatusService";
+import FriendService from "../services/FriendService";
 import {useSelector} from "react-redux";
+import {login} from "../store/slices/auth";
 
 const Sidebar = () => {
     const [statuses, setStatuses] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState({});
+    const [friends, setFriends] = useState([]);
+
     const user = useSelector(state => state.auth.user);
 
     const fetchStatuses = async () => {
@@ -21,23 +25,33 @@ const Sidebar = () => {
         }
     };
 
+    const fetchFriends = async () => {
+        try{
+            const {data} = await FriendService.fetchFriends();
+            setFriends(data);
+        } catch(e) {
+            console.log(e);
+        }
+    };
+
     useEffect(() => {
         fetchStatuses();
+        fetchFriends();
         setSelectedStatus(user.status);
     }, []);
 
     return (
         <aside className="sidebar d-flex flex-column">
             <div className="sidebar__head d-flex">
-                <AvatarButton/>
+                <AvatarButton status={selectedStatus.className}/>
                 <div className="flex-grow-1 ms-3">
                     <div className="sidebar__name bold-text">{user.username}</div>
-                    { statuses.length > 0 && <StatusSelect statuses={statuses} selectedStatus={selectedStatus}/>}
+                    { statuses.length > 0 && <StatusSelect statuses={statuses} selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />}
                 </div>
                 <SettingButton/>
             </div>
             <div className="sidebar__body flex-grow-1">
-                <SidebarUserTab/>
+                { friends.length > 0 && friends.map((friend, index) => <SidebarUserTab user={friend.friend} lastMessage={friend.lastMessage} key={index}/>) }
             </div>
             <SidebarMenu/>
         </aside>

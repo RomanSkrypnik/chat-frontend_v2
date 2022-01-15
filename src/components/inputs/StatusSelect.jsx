@@ -4,13 +4,8 @@ import Select from 'react-select';
 import {useSelector} from "react-redux";
 import cn from "classnames";
 
-const StatusSelect = ({statuses, selectedStatus}) => {
-    const [value, setValue] = useState({});
+const StatusSelect = ({statuses, selectedStatus, onStatusChange}) => {
     const {user} = useSelector(state => state.auth);
-
-    useEffect(() => {
-        setValue(selectedStatus);
-    }, []);
 
     const selectStyles = {
         control: (styles) => ({
@@ -47,7 +42,7 @@ const StatusSelect = ({statuses, selectedStatus}) => {
     const changeStatus = async (option) => {
         try {
             await StatusService.changeStatus(user.email, option);
-            setValue(option);
+            onStatusChange(option);
         } catch (e) {
             console.log(e);
         }
@@ -56,10 +51,10 @@ const StatusSelect = ({statuses, selectedStatus}) => {
 
     return (
             <Select
-                className={cn("status-select last-text", value.className)}
+                className={cn("status-select last-text", selectedStatus.className)}
                 onChange={changeStatus}
                 options={statuses}
-                value={value}
+                value={selectedStatus}
                 styles={selectStyles}
                 placeholder=''
                 components={components}
