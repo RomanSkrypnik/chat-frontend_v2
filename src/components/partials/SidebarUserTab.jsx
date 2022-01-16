@@ -4,8 +4,7 @@ import ReadMessageIcon from "../UI/ReadMessageIcon";
 import { format } from 'date-fns'
 
 const SidebarUserTab = ({user, lastMessage}) => {
-
-    const date = format(new Date(lastMessage.createdAt), 'MM/dd/yyyy');
+    const date = format(new Date(lastMessage.createdAt), 'dd/MM/yyyy');
     const text = lastMessage.text;
 
     return (

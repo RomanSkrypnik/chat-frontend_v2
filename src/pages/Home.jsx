@@ -6,8 +6,9 @@ import SettingButton from "../components/UI/buttons/SettingButton";
 import withDefaultLayout from "../layouts/Default";
 
 const Home = () => {
+
     return (
-        <section className="position-relative w-100 d-flex flex-column justify-content-end h-100">
+        <section className="home position-relative w-100 d-flex flex-column justify-content-end h-100">
             <SwitchButton/>
             <ChatScroll/>
             <div className="d-flex align-items-center ps-4 pe-5 mt-5 mb-4">

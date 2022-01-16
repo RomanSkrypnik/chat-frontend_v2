@@ -1,0 +1,13 @@
+.home {
+
+  .home__placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 14px;
+    background-color: $purple;
+    padding: 7px 10px;
+  }
+
+}
