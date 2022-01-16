@@ -7,7 +7,6 @@ import SidebarMenu from "./partials/SidebarMenu";
 import StatusService from "../services/StatusService";
 import FriendService from "../services/FriendService";
 import {useSelector} from "react-redux";
-import {login} from "../store/slices/auth";
 
 const Sidebar = () => {
     const [statuses, setStatuses] = useState([]);
@@ -40,6 +39,7 @@ const Sidebar = () => {
         setSelectedStatus(user.status);
     }, []);
 
+
     return (
         <aside className="sidebar d-flex flex-column">
             <div className="sidebar__head d-flex">
@@ -51,7 +51,7 @@ const Sidebar = () => {
                 <SettingButton/>
             </div>
             <div className="sidebar__body flex-grow-1">
-                { friends.length > 0 && friends.map((friend, index) => <SidebarUserTab user={friend.friend} lastMessage={friend.lastMessage} key={index}/>) }
+                { friends.length > 0 && friends.map((friend, index) => <SidebarUserTab user={friend.friend} lastMessage={friend.lastMessage[0]} key={index}/>) }
             </div>
             <SidebarMenu/>
         </aside>
