@@ -6,8 +6,7 @@ import ChatSendButton from "../UI/buttons/ChatSendButton";
 import {useForm} from "react-hook-form";
 
 const ChatTextInput = ({onSubmit}) => {
-
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit, reset } = useForm();
 
     return (
         <div className="chat-text-input d-flex position-relative">
@@ -19,7 +18,7 @@ const ChatTextInput = ({onSubmit}) => {
                     <MicrophoneIcon/>
                 </ChatButton>
             </div>
-            <form action="" className="chat-text-input__form w-100" onSubmit={handleSubmit(data => onSubmit(data))}>
+            <form action="" className="chat-text-input__form w-100" onSubmit={handleSubmit(data => {onSubmit(data); reset()})}>
                 <input {...register("message")} type="text" className="chat-text-input__input last-text last-text_alt" placeholder="Type a new message..."/>
                 <ChatSendButton/>
             </form>

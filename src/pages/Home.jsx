@@ -4,7 +4,7 @@ import ChatTextInput from "../components/inputs/ChatTextInput";
 import SettingButton from "../components/UI/buttons/SettingButton";
 import withDefaultLayout from "../layouts/Default";
 import {useParams} from "react-router-dom";
-import {fetchMessages, sendMessage} from "../store/slices/message";
+import {fetchMessages, fetchOlderMessages, sendMessage} from "../store/slices/message";
 import ChatMessage from "../components/UI/ChatMessage";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -18,15 +18,11 @@ const Home = () => {
 
     useEffect(() => {
         dispatch(fetchMessages(hash));
-        scrollToBottom();
     }, []);
 
 
     useEffect(() => {
-        if (messages.length > 0) {
-            const lastEl = messages.length - 1;
-            if (messages[lastEl].sender.hash !== user.hash) scrollToBottom();
-        }
+        scrollToBottom();
     }, [messages]);
 
     const scrollToBottom = () => {
@@ -36,6 +32,12 @@ const Home = () => {
         container.current.scrollTo(0, scroll);
     }
 
+    const handleScroll = (e) => {
+        if (e.currentTarget.scrollTop === 0) {
+            dispatch(fetchOlderMessages(hash));
+        }
+    }
+
     const onSubmit = (data) => {
         dispatch(sendMessage({hash, message: {text: data.message}}));
     }
@@ -43,7 +45,7 @@ const Home = () => {
     return (
         <section className="home position-relative w-100 d-flex flex-column justify-content-end h-100">
             <SwitchButton/>
-            <div className="home__chat-wrapper d-flex flex-column" ref={container}>
+            <div className="home__chat-wrapper d-flex flex-column" ref={container} onScroll={handleScroll}>
                 {
                     messages.map((message, index) => {
                         let circle = true;
