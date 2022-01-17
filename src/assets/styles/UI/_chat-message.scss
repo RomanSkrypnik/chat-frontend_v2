@@ -1,5 +1,30 @@
 .chat-message {
 
+  &.chat-message_yellow {
+    .chat-message__message {
+      color: $messageWhite;
+      background-color: $yellow;
+      border-radius: 14px 0 14px 14px;
+    }
+
+    .chat-message__time {
+      color: $messageWhite;
+    }
+
+    .chat-message__inner {
+      margin-right: 10px;
+      margin-left: 0;
+    }
+
+    .chat-message__wrapper {
+      flex-direction: row-reverse;
+    }
+
+    .chat-message__name {
+      text-align: right;
+    }
+  }
+
   .chat-message__name {
     color: $darkGrey;
   }
@@ -27,5 +52,15 @@
     right: 20px;
   }
 
+  .chat-message__inner {
+    margin-left: 10px;
+  }
+
+  .chat-message__dummy {
+    width: 44px;
+    height: 44px;
+  }
+
+  align-self: flex-start;
   padding: 0 60px;
 }

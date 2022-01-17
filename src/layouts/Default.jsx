@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Sidebar from "../components/Sidebar";
 import AuthProvider from "../components/AuthProvider";
 

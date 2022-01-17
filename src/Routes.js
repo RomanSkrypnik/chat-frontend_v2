@@ -8,7 +8,7 @@ import HomeEmpty from "./pages/HomeEmpty";
 
 const routes = [
     {path: '/', element: HomeEmpty},
-    {path: '/:id', element: Home},
+    {path: '/:hash', element: Home},
     {path: 'about', element: About},
     {path: 'help', element: Help},
     {path: 'login', element: Login},

@@ -9,10 +9,14 @@ const Unauthorized = ({children}) => {
 
     useEffect(() => {
         if (loggedIn) return navigate('/');
+    }, []);
+
+    useEffect(() => {
+        if (loggedIn) return navigate('/');
     }, [loggedIn]);
 
     return (
-        <div>
+        <div className="unauthorized">
             {children}
         </div>
     );

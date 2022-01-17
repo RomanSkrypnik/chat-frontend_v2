@@ -5,15 +5,17 @@ import StatusSelect from "./inputs/StatusSelect";
 import SidebarUserTab from "./partials/SidebarUserTab";
 import SidebarMenu from "./partials/SidebarMenu";
 import StatusService from "../services/StatusService";
-import FriendService from "../services/FriendService";
-import {useSelector} from "react-redux";
+import {fetchFriends} from "../store/slices/friend";
+import {useDispatch, useSelector} from "react-redux";
 
 const Sidebar = () => {
+    const dispatch = useDispatch();
+
     const [statuses, setStatuses] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState({});
-    const [friends, setFriends] = useState([]);
 
     const user = useSelector(state => state.auth.user);
+    const friends = useSelector(state => state.friend.friends);
 
     const fetchStatuses = async () => {
         try {
@@ -24,18 +26,9 @@ const Sidebar = () => {
         }
     };
 
-    const fetchFriends = async () => {
-        try{
-            const {data} = await FriendService.fetchFriends();
-            setFriends(data);
-        } catch(e) {
-            console.log(e);
-        }
-    };
-
-    useEffect(() => {
+    useEffect( () => {
         fetchStatuses();
-        fetchFriends();
+        dispatch(fetchFriends());
         setSelectedStatus(user.status);
     }, []);
 
