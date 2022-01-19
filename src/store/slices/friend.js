@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import FriendService from "../../services/FriendService";
 
 export const fetchFriends = createAsyncThunk(
@@ -35,6 +35,7 @@ export const friendSlice = createSlice({
 
         setFriends(state, {payload}) {
             state.friends = payload;
+            console.log(state.friends)
         },
 
         addFriend(state, {payload}) {
@@ -43,11 +44,21 @@ export const friendSlice = createSlice({
 
         setFriend(state, {payload}) {
             state.friend = payload;
-        }
+        },
 
+        changeFriendStatus(state, {payload}) {
+            const {hash, status} = payload;
+            const friends = current(state.friends);
+            state.friends = friends.map(onlineFriend => {
+                if (onlineFriend.friend.hash === hash) {
+                    return {...onlineFriend.lastMessage, friend: {...onlineFriend.friend, status}}
+                }
+                return onlineFriend;
+            });
+        }
     }
 });
 
-export const {setFriends, addFriend, setFriend} = friendSlice.actions;
+export const {setFriends, addFriend, setFriend, changeFriendStatus} = friendSlice.actions;
 
 export default friendSlice.reducer;

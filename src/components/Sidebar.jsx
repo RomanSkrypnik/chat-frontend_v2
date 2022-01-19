@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import AvatarButton from "./UI/buttons/AvatarButton";
 import SettingButton from "./UI/buttons/SettingButton";
 import StatusSelect from "./inputs/StatusSelect";
@@ -7,10 +7,11 @@ import SidebarMenu from "./partials/SidebarMenu";
 import StatusService from "../services/StatusService";
 import {fetchFriends} from "../store/slices/friend";
 import {useDispatch, useSelector} from "react-redux";
+import {SocketInstance} from "../layouts/Default";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
-
+    const socket = useContext(SocketInstance);
     const [statuses, setStatuses] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState({});
 
@@ -26,6 +27,11 @@ const Sidebar = () => {
         }
     };
 
+    const changeStatus = (status) => {
+        socket.emit('change-status', {status});
+        setSelectedStatus(status);
+    }
+
     useEffect( () => {
         fetchStatuses();
         dispatch(fetchFriends());
@@ -39,12 +45,12 @@ const Sidebar = () => {
                 <AvatarButton status={selectedStatus.className}/>
                 <div className="flex-grow-1 ms-3">
                     <div className="sidebar__name bold-text">{user.username}</div>
-                    { statuses.length > 0 && <StatusSelect statuses={statuses} selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />}
+                    { statuses.length > 0 && <StatusSelect statuses={statuses} selectedStatus={selectedStatus} onStatusChange={changeStatus} />}
                 </div>
                 <SettingButton/>
             </div>
             <div className="sidebar__body flex-grow-1">
-                { friends.length > 0 && friends.map((friend, index) => <SidebarUserTab user={friend.friend} lastMessage={friend.lastMessage[0]} key={index}/>) }
+                { friends.length > 0 && friends.map((friend, index) => <SidebarUserTab user={friend.friend} lastMessage={friend.lastMessage} key={index}/>) }
             </div>
             <SidebarMenu/>
         </aside>

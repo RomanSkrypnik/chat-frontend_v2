@@ -35,13 +35,13 @@ const Home = () => {
     }
 
     const handleScroll = (e) => {
+        console.log(e.currentTarget.scrollTop);
         if (e.currentTarget.scrollTop === 0) {
             dispatch(fetchOlderMessages(hash));
         }
     }
 
     const onSubmit = (data) => {
-        dispatch(sendMessage({hash, message: {text: data.message}}));
         socket.emit('send-message', {hash, message: {text: data.message}});
     }
 
