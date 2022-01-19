@@ -1,17 +1,19 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef} from 'react';
 import SwitchButton from "../components/UI/buttons/SwitchButton";
 import ChatTextInput from "../components/inputs/ChatTextInput";
 import SettingButton from "../components/UI/buttons/SettingButton";
-import withDefaultLayout from "../layouts/Default";
+import withDefaultLayout, {SocketInstance} from "../layouts/Default";
 import {useParams} from "react-router-dom";
 import {fetchMessages, fetchOlderMessages, sendMessage} from "../store/slices/message";
 import ChatMessage from "../components/UI/ChatMessage";
 import {useDispatch, useSelector} from "react-redux";
 
+
 const Home = () => {
     const dispatch = useDispatch();
     const {hash} = useParams();
     const container = useRef(null);
+    const socket = useContext(SocketInstance);
 
     const {messages} = useSelector(state => state.message);
     const {user} = useSelector(state => state.auth);
@@ -40,6 +42,7 @@ const Home = () => {
 
     const onSubmit = (data) => {
         dispatch(sendMessage({hash, message: {text: data.message}}));
+        socket.emit('send-message', {hash, message: {text: data.message}});
     }
 
     return (

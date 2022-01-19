@@ -1,16 +1,41 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Sidebar from "../components/Sidebar";
 import AuthProvider from "../components/AuthProvider";
+import io from "socket.io-client";
+import {addMessage} from "../store/slices/message";
+import {useDispatch} from "react-redux";
+
+export const SocketInstance = React.createContext(null);
 
 const DefaultLayout = ({children}) => {
+    const dispatch = useDispatch();
+    const [socket, setSocket] = useState(null);
+
+    const token = localStorage.getItem('token');
+
+    useEffect(() => {
+        if (!socket) {
+            setSocket(io('http://localhost:5000/', {auth: {token: `Bearer ${token}`}}));
+        }
+    }, []);
+
+    useEffect(() => {
+        if (socket) {
+            socket.on('new-message', (message) => {
+                dispatch(addMessage(message));
+            });
+        }
+    }, [socket]);
 
     return (
-        <div className='d-flex'>
-            <Sidebar/>
-            <main className="flex-grow-1">
-                {children}
-            </main>
-        </div>
+        <SocketInstance.Provider value={socket}>
+            <div className='d-flex'>
+                <Sidebar/>
+                <main className="flex-grow-1">
+                    {children}
+                </main>
+            </div>
+        </SocketInstance.Provider>
     );
 };
 
