@@ -1,5 +1,16 @@
 .sidebar-tab {
 
+  &.active {
+    .sidebar-tab__message,
+    .sidebar-tab__time,
+    .sidebar-tab__name
+    {
+      color: $white;
+    }
+    color: $white;
+    background-color: $purple;
+  }
+
   .sidebar-tab__message,
   .sidebar-tab__time {
     color: $lightGrey;
@@ -11,17 +22,6 @@
 
   .sidebar-tab__time {
     margin-bottom: 11px;
-  }
-
-  &:hover {
-    .sidebar-tab__message,
-    .sidebar-tab__time,
-    .sidebar-tab__name
-    {
-      color: $white;
-    }
-    color: $white;
-    background-color: $purple;
   }
 
   transition-duration: 0.3s;
