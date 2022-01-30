@@ -28,6 +28,14 @@ export const login = createAsyncThunk(
     }
 );
 
+export const logout = createAsyncThunk(
+    'auth/logout',
+    async (_, {dispatch}) => {
+        await AuthService.logout();
+        dispatch(removeUser());
+    }
+);
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -54,6 +62,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const { setUser, setLoggedIn, setIsLoaded } = authSlice.actions;
+export const { setUser, setIsLoaded, removeUser } = authSlice.actions;
 
 export default authSlice.reducer;

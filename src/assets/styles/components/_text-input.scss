@@ -1,4 +1,10 @@
 .text-input {
+
+  &.text-input_small {
+    font-size: 12px;
+    height: 34px;
+  }
+
   &::placeholder {
     color: $lightGrey;
   }

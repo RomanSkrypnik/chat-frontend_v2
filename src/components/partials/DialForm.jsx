@@ -9,11 +9,12 @@ import {Link} from "react-router-dom";
 
 const DialForm = ({title, subtitle, fields = [], buttons = [], onSubmit, notice}) => {
     const { register, handleSubmit } = useForm();
+
     const options = {
         replace: (domNode) => {
             return domNode.name === 'a' && <Link to={domNode.attribs.href}>{domNode.children[0].data}</Link>
         }
-    }
+    };
 
     return (
         <div className="dial-form">

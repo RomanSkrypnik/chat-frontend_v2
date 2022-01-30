@@ -1,0 +1,16 @@
+.dropdown {
+
+  .dropdown__item {
+    &:not(:last-child) {
+      margin-bottom: 5px;
+    }
+  }
+
+  min-width: 100px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: $purple;
+  padding: 10px 5px;
+  z-index: 2;
+}

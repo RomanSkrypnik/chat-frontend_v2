@@ -8,7 +8,6 @@ import {fetchMessages, fetchOlderMessages, sendMessage} from "../store/slices/me
 import ChatMessage from "../components/UI/ChatMessage";
 import {useDispatch, useSelector} from "react-redux";
 
-
 const Home = () => {
     const dispatch = useDispatch();
     const {hash} = useParams();
@@ -32,29 +31,35 @@ const Home = () => {
             container.current.scrollHeight -
             container.current.clientHeight;
         container.current.scrollTo(0, scroll);
-    }
+    };
 
     const handleScroll = (e) => {
         console.log(e.currentTarget.scrollTop);
         if (e.currentTarget.scrollTop === 0) {
             dispatch(fetchOlderMessages(hash));
         }
-    }
+    };
 
     const onSubmit = (data) => {
         socket.emit('send-message', {hash, message: {text: data.message}});
-    }
+    };
 
     return (
         <section className="home position-relative w-100 d-flex flex-column justify-content-end h-100">
             <SwitchButton/>
             <div className="home__chat-wrapper d-flex flex-column" ref={container} onScroll={handleScroll}>
                 {
-                    messages.map((message, index) => {
+                    messages.length > 0 && messages.map((message, index) => {
                         let circle = true;
-                        if (index > 0) circle = messages[index - 1].sender.hash !== message.sender.hash;
+                        let isDateDifferent = false;
+                        if (index > 0) {
+                            circle = messages[index - 1].sender.hash !== message.sender.hash;
+                            const prevDate = new Date(messages[index - 1].createdAt).getDate();
+                            const currentDate = new Date(message.createdAt).getDate();
+                            isDateDifferent = prevDate !== currentDate;
+                        }
                         const alignToRight = message.sender.hash === user.hash;
-                        return <ChatMessage message={message} alignToRight={alignToRight} key={index} circle={circle}/>
+                        return <ChatMessage message={message} alignToRight={alignToRight} circle={circle} timestamp={isDateDifferent} key={index}/>
                     })
                 }
             </div>

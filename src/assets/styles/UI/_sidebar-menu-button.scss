@@ -1,5 +1,6 @@
 .sidebar-menu-button {
 
+  &.active,
   &:hover {
     &::before {
       content: "";

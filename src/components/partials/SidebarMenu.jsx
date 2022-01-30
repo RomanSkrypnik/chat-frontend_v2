@@ -14,9 +14,16 @@ const SidebarMenu = () => {
       <StarIcon/>
     ];
 
+    const routes = [
+        {path: '/', icon: <HumanIcon/>},
+        {path: '/subscribers', icon: <PeopleIcon/>},
+        {path: '/search', icon: <MagnifierIcon/>},
+        {path: '/favourite', icon: <StarIcon/>},
+    ];
+
     return (
         <div className="sidebar-menu d-flex justify-content-between">
-            {icons.map((icon, index) => <SidebarMenuButton className='w-25' key={index}>{icon}</SidebarMenuButton>)}
+            {routes.map(({path, icon}, index) => <SidebarMenuButton className='w-25' path={path} key={index}>{icon}</SidebarMenuButton>)}
         </div>
     );
 };

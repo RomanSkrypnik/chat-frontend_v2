@@ -15,6 +15,7 @@ const Register = () => {
         subtitle: 'Create an account to enjoy all the services!',
         fields: [
             {type: 'text', placeholder: 'email', name: 'email'},
+            {type: 'text', placeholder: 'name', name: 'name'},
             {type: 'text', placeholder: 'username', name: 'username'},
             {type: 'text', placeholder: 'password', name: 'password'},
         ],

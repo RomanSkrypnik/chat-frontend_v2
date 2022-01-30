@@ -4,18 +4,19 @@ import ReadMessageIcon from "../UI/ReadMessageIcon";
 import {format} from 'date-fns';
 import {NavLink} from "react-router-dom";
 import cn from "classnames";
+import {login} from "../../store/slices/auth";
 
 const SidebarUserTab = ({user, lastMessage}) => {
     const [date, setDate] = useState(null);
     const [message, setMessage] = useState(null);
 
-    const formatedData = lastMessage && format(new Date(lastMessage.createdAt), 'dd/MM/yyyy');
-    const text = lastMessage && lastMessage.text;
+    const formatedData = lastMessage ? format(new Date(lastMessage.createdAt), 'dd/MM/yyyy') : '';
+    const text = lastMessage ? lastMessage.text : '';
 
     const initState = () => {
         setDate(formatedData);
         setMessage(text);
-    }
+    };
 
     useEffect(() => {
         initState();

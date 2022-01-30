@@ -1,6 +1,18 @@
 import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import FriendService from "../../services/FriendService";
 
+export const fetchUsersBySearch = createAsyncThunk(
+    'friend/fetchUsersBySearch',
+    async (search, {dispatch}) => {
+        try {
+            const {data} = await FriendService.fetchUsersBySearch(search);
+            dispatch(setFriends(data));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+);
+
 export const fetchFriends = createAsyncThunk(
     'friend/fetchFriends',
     async (_, {dispatch}) => {
@@ -23,7 +35,7 @@ export const fetchFriend = createAsyncThunk(
             console.log(e);
         }
     }
-)
+);
 
 export const friendSlice = createSlice({
     name: 'friend',
@@ -35,7 +47,6 @@ export const friendSlice = createSlice({
 
         setFriends(state, {payload}) {
             state.friends = payload;
-            console.log(state.friends)
         },
 
         addFriend(state, {payload}) {

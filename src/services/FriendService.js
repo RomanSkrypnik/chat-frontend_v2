@@ -10,4 +10,8 @@ export default class FriendService {
         return $api.get('/friends');
     }
 
+    static async fetchUsersBySearch(search) {
+        return $api.post('/users-by-search', {search});
+    }
+
 }
