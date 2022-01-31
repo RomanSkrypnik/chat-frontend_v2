@@ -25,6 +25,7 @@ const DefaultLayout = ({children}) => {
 
             socket.on('new-message', (message) => {
                 dispatch(addMessage(message));
+                console.log(message);
             });
 
             socket.on('new-status', ({status, hash}) => {

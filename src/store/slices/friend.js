@@ -66,10 +66,10 @@ export const friendSlice = createSlice({
                 }
                 return onlineFriend;
             });
-        }
+        },
     }
 });
 
-export const {setFriends, addFriend, setFriend, changeFriendStatus} = friendSlice.actions;
+export const {setFriends, addFriend, setFriend, changeFriendStatus, changeFriendLastMessage} = friendSlice.actions;
 
 export default friendSlice.reducer;
