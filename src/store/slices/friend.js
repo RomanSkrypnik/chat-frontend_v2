@@ -70,16 +70,16 @@ export const friendSlice = createSlice({
         },
 
         changeFriendLastMessage(state, {payload}) {
-            const {hash, lastMessage} = payload;
+            const {lastMessage} = payload;
+            const {hash} = payload.friend;
             const friends = current(state.friends);
 
             state.friends = friends.map(friend => {
                 if (friend.friend.hash === hash) {
-                    return {...friend.friend, lastMessage}
+                    return {friend: friend.friend, lastMessage};
                 }
                 return friend;
             });
-
         }
     }
 });

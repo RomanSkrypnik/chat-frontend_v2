@@ -10,10 +10,10 @@ const SidebarUserTab = ({user, lastMessage}) => {
     const [date, setDate] = useState(null);
     const [message, setMessage] = useState(null);
 
-    const formatedData = lastMessage ? format(new Date(lastMessage.createdAt), 'dd/MM/yyyy') : '';
-    const text = lastMessage ? lastMessage.text : '';
-
     const initState = () => {
+        const formatedData = lastMessage ? format(new Date(lastMessage.createdAt), 'dd/MM/yyyy') : '';
+        const text = lastMessage ? lastMessage.text : '';
+
         setDate(formatedData);
         setMessage(text);
     };
@@ -21,6 +21,10 @@ const SidebarUserTab = ({user, lastMessage}) => {
     useEffect(() => {
         initState();
     }, []);
+
+    useEffect(() => {
+        initState();
+    }, [lastMessage]);
 
     return (
         <NavLink to={`/${user.hash}`} className="sidebar-tab d-flex align-items-center">

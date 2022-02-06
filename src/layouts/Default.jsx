@@ -25,8 +25,9 @@ const DefaultLayout = ({children}) => {
         if (socket) {
 
             socket.on('new-message', (message) => {
-                console.log(message);
-                dispatch(addMessage(message));
+                const {lastMessage} = message;
+
+                dispatch(addMessage(lastMessage));
                 dispatch(changeFriendLastMessage(message));
             });
 
