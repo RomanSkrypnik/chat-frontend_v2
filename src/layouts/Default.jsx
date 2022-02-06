@@ -5,6 +5,7 @@ import io from "socket.io-client";
 import {addMessage} from "../store/slices/message";
 import {useDispatch} from "react-redux";
 import {changeFriendStatus} from "../store/slices/friend";
+import {changeFriendLastMessage} from "../store/slices/friend";
 
 export const SocketInstance = React.createContext(null);
 
@@ -24,8 +25,9 @@ const DefaultLayout = ({children}) => {
         if (socket) {
 
             socket.on('new-message', (message) => {
-                dispatch(addMessage(message));
                 console.log(message);
+                dispatch(addMessage(message));
+                dispatch(changeFriendLastMessage(message));
             });
 
             socket.on('new-status', ({status, hash}) => {

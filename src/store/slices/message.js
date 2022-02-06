@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import MessageService from "../../services/MessageService";
 
 export const fetchMessages = createAsyncThunk(
@@ -39,6 +39,7 @@ const messageSlice = createSlice({
 
         setMessages(state, {payload}) {
             state.messages = payload;
+            console.log(state.messages);
         },
 
         addMessage(state, {payload}) {
