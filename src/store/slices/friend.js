@@ -63,7 +63,7 @@ export const friendSlice = createSlice({
 
             state.friends = friends.map(onlineFriend => {
                 if (onlineFriend.friend.hash === hash) {
-                    return {...onlineFriend.lastMessage, friend: {...onlineFriend.friend, status}}
+                    return {lastMessage: onlineFriend.lastMessage, friend: {...onlineFriend.friend, status}}
                 }
                 return onlineFriend;
             });
