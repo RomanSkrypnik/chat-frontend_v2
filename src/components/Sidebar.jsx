@@ -12,12 +12,14 @@ import {SocketInstance} from "../layouts/Default";
 import RegularInput from "./inputs/RegularInput";
 import Dropdown from "./UI/Dropdown";
 import {useNavigate} from "react-router-dom";
+import Overlay from "./UI/Overlay";
 
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const socket = useContext(SocketInstance);
+
     const [statuses, setStatuses] = useState([]);
     const [selectedStatus, setSelectedStatus] = useState({});
     const [accountDropdown, setAccountDropdown] = useState(false);
@@ -39,7 +41,7 @@ const Sidebar = () => {
         setSelectedStatus(status);
     };
 
-    useEffect( () => {
+    useEffect(() => {
         fetchStatuses();
         dispatch(fetchFriends());
         setSelectedStatus(user.status);
@@ -55,8 +57,8 @@ const Sidebar = () => {
     };
 
     const dropDownItems = [
-        { text: 'Settings', onClick: () => console.log('Settings') },
-        { text: 'Log out', onClick: handleLogout },
+        {text: 'Settings', onClick: () => console.log('Settings')},
+        {text: 'Log out', onClick: handleLogout},
     ];
 
     return (
@@ -65,19 +67,27 @@ const Sidebar = () => {
                 <AvatarButton status={selectedStatus.className}/>
                 <div className="flex-grow-1 ms-3">
                     <div className="sidebar__name bold-text">{user.username}</div>
-                    { statuses.length > 0 && <StatusSelect statuses={statuses} selectedStatus={selectedStatus} onStatusChange={changeStatus} />}
+                    {statuses.length > 0 &&
+                    <StatusSelect statuses={statuses} selectedStatus={selectedStatus} onStatusChange={changeStatus}/>}
                 </div>
                 <SettingButton onClick={() => setAccountDropdown(!accountDropdown)}/>
-                <div className="position-relative">
-                    { accountDropdown && <Dropdown items={dropDownItems}/>}
-                </div>
+                {accountDropdown &&
+                <>
+                    <div className="position-relative">
+                        <Dropdown items={dropDownItems}/>
+                    </div>
+                    <Overlay onClick={() => setAccountDropdown(!accountDropdown)}/>
+                </>
+                }
             </div>
             <div className="sidebar__body flex-grow-1">
                 <RegularInput
                     placeholder='Search'
                     onChange={searchFriends}
                 />
-                { friends.length > 0 && friends.map((friend, index) => <SidebarUserTab user={friend.friend} lastMessage={friend.lastMessage} key={index}/>) }
+                {friends.length > 0 && friends.map((friend, index) => <SidebarUserTab user={friend.friend}
+                                                                                      lastMessage={friend.lastMessage}
+                                                                                      key={index}/>)}
             </div>
             <SidebarMenu/>
         </aside>
