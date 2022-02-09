@@ -4,8 +4,8 @@ import MessageService from "../../services/MessageService";
 export const fetchMessages = createAsyncThunk(
     'message/fetchMessages',
     async (hash, {dispatch, getState}) => {
-        const { offset, limit } = getState().message;
-        const { data } = await MessageService.fetchMessages(hash, offset, limit);
+        const {offset, limit} = getState().message;
+        const {data} = await MessageService.fetchMessages(hash, offset, limit);
         dispatch(setMessages(data));
         dispatch(increaseOffset());
     }
@@ -14,8 +14,8 @@ export const fetchMessages = createAsyncThunk(
 export const fetchOlderMessages = createAsyncThunk(
     'message/fetchOlderMessages',
     async (hash, {dispatch, getState}) => {
-        const { offset, limit } = getState().message;
-        const { data } = await MessageService.fetchMessages(hash, offset, limit);
+        const {offset, limit} = getState().message;
+        const {data} = await MessageService.fetchMessages(hash, offset, limit);
         dispatch(increaseOffset());
     }
 );
@@ -23,7 +23,7 @@ export const fetchOlderMessages = createAsyncThunk(
 export const sendMessage = createAsyncThunk(
     'message/sendMessage',
     async ({hash, message}, {dispatch}) => {
-        const { data } = await MessageService.sendMessage(hash, message);
+        const {data} = await MessageService.sendMessage(hash, message);
         dispatch(addMessage(data));
     }
 );
@@ -39,7 +39,6 @@ const messageSlice = createSlice({
 
         setMessages(state, {payload}) {
             state.messages = payload;
-            console.log(state.messages);
         },
 
         addMessage(state, {payload}) {
@@ -48,11 +47,15 @@ const messageSlice = createSlice({
 
         increaseOffset(state) {
             state.offset += 40;
+        },
+
+        resetOffset(state) {
+            state.offset = 0;
         }
 
     }
 });
 
-export const { setMessages, addMessage, increaseOffset } = messageSlice.actions;
+export const {setMessages, addMessage, increaseOffset, resetOffset} = messageSlice.actions;
 
 export default messageSlice.reducer;

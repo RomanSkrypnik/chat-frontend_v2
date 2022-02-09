@@ -4,7 +4,7 @@ import ChatTextInput from "../components/inputs/ChatTextInput";
 import SettingButton from "../components/UI/buttons/SettingButton";
 import withDefaultLayout, {SocketInstance} from "../layouts/Default";
 import {useParams} from "react-router-dom";
-import {fetchMessages, fetchOlderMessages, sendMessage} from "../store/slices/message";
+import {fetchMessages, fetchOlderMessages, resetOffset, sendMessage, setMessages} from "../store/slices/message";
 import ChatMessage from "../components/UI/ChatMessage";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -21,10 +21,17 @@ const Home = () => {
         dispatch(fetchMessages(hash));
     }, []);
 
+    useEffect(() => {
+        return () => {
+            dispatch(setMessages([]));
+            dispatch(resetOffset());
+        }
+    }, []);
 
     useEffect(() => {
         scrollToBottom();
     }, [messages]);
+
 
     const scrollToBottom = () => {
         const scroll =
@@ -59,7 +66,8 @@ const Home = () => {
                             isDateDifferent = prevDate !== currentDate;
                         }
                         const alignToRight = message.sender.hash === user.hash;
-                        return <ChatMessage message={message} alignToRight={alignToRight} circle={circle} timestamp={isDateDifferent} key={index}/>
+                        return <ChatMessage message={message} alignToRight={alignToRight} circle={circle}
+                                            timestamp={isDateDifferent} key={index}/>
                     })
                 }
             </div>
