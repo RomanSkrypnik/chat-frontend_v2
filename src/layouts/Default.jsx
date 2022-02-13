@@ -22,8 +22,11 @@ const DefaultLayout = ({children}) => {
     }, []);
 
     useEffect(() => {
-        if (socket) {
+        return () => socket && socket.close();
+    }, [socket]);
 
+    useEffect(() => {
+        if (socket) {
             socket.on('new-message', (message) => {
                 const {lastMessage} = message;
 

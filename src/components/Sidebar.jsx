@@ -11,13 +11,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {SocketInstance} from "../layouts/Default";
 import RegularInput from "./inputs/RegularInput";
 import Dropdown from "./UI/Dropdown";
-import {useNavigate} from "react-router-dom";
 import Overlay from "./UI/Overlay";
 
 
 const Sidebar = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const socket = useContext(SocketInstance);
 
     const [statuses, setStatuses] = useState([]);
@@ -51,10 +49,7 @@ const Sidebar = () => {
         dispatch(fetchUsersBySearch(username));
     };
 
-    const handleLogout = () => {
-        dispatch(logout());
-        navigate('/login');
-    };
+    const handleLogout = () => dispatch(logout());
 
     const dropDownItems = [
         {text: 'Settings', onClick: () => console.log('Settings')},

@@ -11,9 +11,7 @@ const AuthProvider = ({children}) => {
         if(!loggedIn) return navigate('/login');
     }, [loggedIn]);
 
-    return (
-        loggedIn && <>{children}</>
-    );
+    return (loggedIn && <>{children}</>);
 };
 
 export default AuthProvider;
