@@ -11,7 +11,6 @@ import {useDispatch, useSelector} from "react-redux";
 import {SocketInstance} from "../layouts/Default";
 import RegularInput from "./inputs/RegularInput";
 import Dropdown from "./UI/Dropdown";
-import Overlay from "./UI/Overlay";
 
 
 const Sidebar = () => {
@@ -69,9 +68,8 @@ const Sidebar = () => {
                 {accountDropdown &&
                 <>
                     <div className="position-relative">
-                        <Dropdown items={dropDownItems}/>
+                        <Dropdown items={dropDownItems} onClose={() => setAccountDropdown(!accountDropdown)}/>
                     </div>
-                    <Overlay onClick={() => setAccountDropdown(!accountDropdown)}/>
                 </>
                 }
             </div>
