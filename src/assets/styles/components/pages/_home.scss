@@ -11,8 +11,14 @@
   }
 
   .home__chat-wrapper {
+    &::-webkit-scrollbar {
+      width: 0;
+      background: transparent;
+    }
+
     overflow: auto;
-    height: 85vh;
+    height: 88vh;
+    padding: 0 30px;
   }
 
 }

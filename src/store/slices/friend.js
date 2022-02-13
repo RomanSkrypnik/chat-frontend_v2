@@ -29,7 +29,7 @@ export const fetchFriend = createAsyncThunk(
     'friend/fetchFriend',
     async (hash, {dispatch}) => {
         try {
-            const {data} = await FriendService.fetchFriend();
+            const {data} = await FriendService.fetchFriend(hash);
             dispatch(setFriend(data));
         } catch (e) {
             console.log(e);

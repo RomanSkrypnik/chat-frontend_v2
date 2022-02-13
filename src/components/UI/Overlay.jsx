@@ -1,8 +1,9 @@
 import React from 'react';
+import cn from 'classnames';
 
-const Overlay = ({children, onClick}) => {
+const Overlay = ({children, black, onClick}) => {
     return (
-        <div className="overlay" onClick={onClick}>{children}</div>
+        <div className={cn("overlay", black && "overlay_black")} onClick={onClick}>{children}</div>
     );
 };
 

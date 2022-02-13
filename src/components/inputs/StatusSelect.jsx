@@ -4,8 +4,24 @@ import Select from 'react-select';
 import {useSelector} from "react-redux";
 import cn from "classnames";
 
-const StatusSelect = ({statuses, selectedStatus, onStatusChange}) => {
+const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
+
     const {user} = useSelector(state => state.auth);
+
+    const [statuses, setStatuses] = useState([]);
+
+    useEffect(() => {
+        fetchStatuses();
+    }, []);
+
+    const fetchStatuses = async () => {
+        try {
+            const {data} = await StatusService.fetchStatuses();
+            setStatuses(data);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     const selectStyles = {
         control: (styles) => ({
@@ -56,9 +72,9 @@ const StatusSelect = ({statuses, selectedStatus, onStatusChange}) => {
                 options={statuses}
                 value={selectedStatus}
                 styles={selectStyles}
-                placeholder=''
                 components={components}
                 isSearchable={false}
+                isDisabled={disabled}
             />
     );
 };

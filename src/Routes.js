@@ -2,8 +2,8 @@ import React from "react";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import HomeEmpty from "./pages/HomeEmpty";
 import GroupsEmpty from "./pages/GroupsEmpty";
+import HomeEmpty from "./pages/HomeEmpty";
 
 const routes = [
     {path: '/', element: HomeEmpty},

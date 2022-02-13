@@ -50,6 +50,10 @@ export const authSlice = createSlice({
             state.loggedIn = true;
         },
 
+        changeStatus(state, {payload}) {
+            state.user = {...state.user, ...payload};
+        },
+
         removeUser(state) {
             state.user = null;
             state.loggedIn = false;
@@ -62,6 +66,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const { setUser, setIsLoaded, removeUser } = authSlice.actions;
+export const { setUser, setIsLoaded, removeUser, changeStatus } = authSlice.actions;
 
 export default authSlice.reducer;
