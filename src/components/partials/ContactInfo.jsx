@@ -4,8 +4,9 @@ import AvatarButton from "../UI/buttons/AvatarButton";
 import StatusSelect from "../inputs/StatusSelect";
 import cn from "classnames";
 import {useSelector} from "react-redux";
+import ContactButton from "../UI/buttons/ContactButton";
 
-const ContactInfo = ({user, alignToCenter = false, onStatusChange, onClose}) => {
+const ContactInfo = ({user, alignToCenter = false, onStatusChange, onClose, buttons}) => {
     const auth = useSelector(state => state.auth);
 
     return (
@@ -13,7 +14,7 @@ const ContactInfo = ({user, alignToCenter = false, onStatusChange, onClose}) => 
             <div className="contact-info__top-line">
                 <CrossButton onClick={onClose}/>
             </div>
-            <div className="contact-info__content d-flex flex-column align-items-center mt-4 pb-3">
+            <div className="contact-info__content d-flex flex-column align-items-center mt-4">
                 <h2 className="last-text last-text_contact text-purple mb-3">Contact Info</h2>
                 <AvatarButton large disabled/>
                 <div className="last-text last-text_contact-alt text-purple mt-3">{user.name}</div>
@@ -23,6 +24,12 @@ const ContactInfo = ({user, alignToCenter = false, onStatusChange, onClose}) => 
                               disabled={auth.user.name !== user.name}
                 />
             </div>
+            {
+                buttons &&
+                <div className="contact-info__buttons">
+                    {buttons.map((button, key) => <ContactButton {...button} key={key}>{button.text}</ContactButton>)}
+                </div>
+            }
         </div>
     );
 };

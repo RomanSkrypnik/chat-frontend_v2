@@ -1,15 +1,21 @@
 .contact-info {
 
-  .contact-info__content {
-    border-bottom: 1px solid $grey;
-  }
-
   &.contact-info_center {
     width: 100%;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+  }
+
+  .contact-info__content {
+    border-bottom: 1px solid $grey;
+    padding-bottom: 30px;
+  }
+
+  .contact-info__buttons {
+    border-top: 1px solid $grey;
+    padding-top: 20px;
   }
 
   max-width: 320px;

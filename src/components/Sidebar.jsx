@@ -12,6 +12,8 @@ import RegularInput from "./inputs/RegularInput";
 import Dropdown from "./UI/Dropdown";
 import Portal from "./Portal";
 import ContactInfo from "./partials/ContactInfo";
+import LockIcon from "./UI/icons/Lock";
+import LogOutIcon from "./UI/icons/LogOut";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
@@ -47,6 +49,11 @@ const Sidebar = () => {
     const dropDownItems = [
         {text: 'Settings', onClick: handleContactInfo},
         {text: 'Log out', onClick: handleLogout},
+    ];
+
+    const contactFormButtons = [
+        {text: 'Privacy and security', onClick: () => {}, icon: <LockIcon/>},
+        {text: 'Log out', onClick: handleLogout, icon: <LogOutIcon/>},
     ];
 
     return (
@@ -90,6 +97,7 @@ const Sidebar = () => {
                 <Portal>
                     <ContactInfo
                         alignToCenter
+                        buttons={contactFormButtons}
                         user={user}
                         onStatusChange={changeUserStatus}
                         onClose={handleContactInfo}
