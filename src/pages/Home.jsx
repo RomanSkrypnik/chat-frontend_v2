@@ -7,9 +7,7 @@ import {useParams} from "react-router-dom";
 import {
     fetchMessages,
     fetchOlderMessages,
-    resetOffset,
     resetState,
-    sendMessage,
     setMessages
 } from "../store/slices/message";
 import ChatMessage from "../components/UI/ChatMessage";
@@ -40,6 +38,12 @@ const Home = () => {
             dispatch(resetState());
         }
     }, []);
+
+    useEffect(() => {
+        dispatch(resetState());
+        dispatch(fetchMessages(hash));
+        dispatch(fetchFriend(hash));
+    }, [hash]);
 
     useEffect(() => {
         if (offset <= 40) scrollToBottom();

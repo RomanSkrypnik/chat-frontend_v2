@@ -11,6 +11,10 @@
     background-color: $purple;
   }
 
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+
   .sidebar-tab__message,
   .sidebar-tab__time {
     color: $lightGrey;
