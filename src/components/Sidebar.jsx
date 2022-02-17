@@ -52,7 +52,10 @@ const Sidebar = () => {
     ];
 
     const contactFormButtons = [
-        {text: 'Privacy and security', onClick: () => {}, icon: <LockIcon/>},
+        {
+            text: 'Privacy and security', onClick: () => {
+            }, icon: <LockIcon/>
+        },
         {text: 'Log out', onClick: handleLogout, icon: <LogOutIcon/>},
     ];
 
@@ -96,6 +99,7 @@ const Sidebar = () => {
                 contactInfo &&
                 <Portal>
                     <ContactInfo
+                        disabledAvatar={false}
                         alignToCenter
                         buttons={contactFormButtons}
                         user={user}
