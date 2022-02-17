@@ -21,7 +21,7 @@ const Home = () => {
     const container = useRef(null);
     const socket = useContext(SocketInstance);
 
-    const {messages, offset} = useSelector(state => state.message);
+    const {messages} = useSelector(state => state.message);
     const {friend} = useSelector(state => state.friend);
     const {user} = useSelector(state => state.auth);
 
@@ -30,13 +30,6 @@ const Home = () => {
     useEffect(() => {
         dispatch(fetchMessages(hash));
         dispatch(fetchFriend(hash));
-    }, []);
-
-    useEffect(() => {
-        return () => {
-            dispatch(setMessages([]));
-            dispatch(resetState());
-        }
     }, []);
 
     useEffect(() => {
