@@ -46,7 +46,7 @@ const Home = () => {
     }, [hash]);
 
     useEffect(() => {
-        if (offset <= 40) scrollToBottom();
+        scrollToBottom();
     }, [messages]);
 
 

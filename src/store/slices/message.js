@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import MessageService from "../../services/MessageService";
 
 export const fetchMessages = createAsyncThunk(
@@ -46,9 +46,11 @@ const messageSlice = createSlice({
         },
 
         addMessage(state, {payload}) {
-            state.messages = [...payload, ...state.messages];
+            state.messages = [...state.messages, payload];
             state.offset += 40;
         },
+
+
 
         setReceivedAll(state) {
             state.receivedAll = true;
