@@ -11,6 +11,8 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
     const time = format(date, 'hh:mm');
     const formattedDate = currentDate.getDate() === date.getDate() ? 'TODAY' : format(date, 'dd/MM/yyyy');
 
+    console.log(message.sender);
+
     return (
         <>
             {timestamp && <Timestamp date={formattedDate}/>}
@@ -19,7 +21,7 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
                 {circle && <div
                     className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
                 <div className="chat-message__wrapper d-flex">
-                    {circle ? <AvatarButton/> : <div className="chat-message__dummy"/>}
+                    {circle ? <AvatarButton user={message.sender}/> : <div className="chat-message__dummy"/>}
                     <div className="chat-message__inner d-flex flex-column align-items-start">
                         <div className={"chat-message__message regular-text position-relative"}>
                             <span>{message.text}</span>

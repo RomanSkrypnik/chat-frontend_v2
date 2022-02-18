@@ -1,6 +1,18 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import AuthService from "../../services/AuthService";
 
+export const uploadAvatar = createAsyncThunk(
+    'auth/upload-avatar',
+    async (photo, {dispatch}) => {
+        try {
+            const { filename } = await AuthService.uploadPhoto(photo);
+            dispatch(changeAvatar(filename));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+)
+
 export const checkAuth = createAsyncThunk(
     'auth/checkAuth',
     async (_, {dispatch}) => {
@@ -54,6 +66,10 @@ export const authSlice = createSlice({
             state.user = {...state.user, ...payload};
         },
 
+        changeAvatar(state, {payload}) {
+            state.user.pictureUrl = payload;
+        },
+
         removeUser(state) {
             state.user = null;
             state.loggedIn = false;
@@ -66,6 +82,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const { setUser, setIsLoaded, removeUser, changeStatus } = authSlice.actions;
+export const { setUser, setIsLoaded, removeUser, changeStatus, changeAvatar} = authSlice.actions;
 
 export default authSlice.reducer;

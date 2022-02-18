@@ -3,8 +3,6 @@ import AvatarButton from "../UI/buttons/AvatarButton";
 import ReadMessageIcon from "../UI/ReadMessageIcon";
 import {format} from 'date-fns';
 import {NavLink} from "react-router-dom";
-import cn from "classnames";
-import {login} from "../../store/slices/auth";
 
 const SidebarUserTab = ({user, lastMessage}) => {
     const [date, setDate] = useState(null);
@@ -28,7 +26,7 @@ const SidebarUserTab = ({user, lastMessage}) => {
 
     return (
         <NavLink to={`/${user.hash}`} className="sidebar-tab d-flex align-items-center">
-            <AvatarButton status={user.status.className}/>
+            <AvatarButton user={user}/>
             <div className="ms-3">
                 <div className="sidebar-tab__name bold-text">{user.username}</div>
                 <div className="sidebar-tab__message last-text">{message}</div>

@@ -2,10 +2,13 @@
 
   &.avatar_large {
 
-    &:hover {
+    &:not(:disabled):hover {
       &::before {
         content: '';
-        background-color: rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.2);
+        background-image: url("../../img/icons/camera.svg");
+        background-repeat: no-repeat;
+        background-position: center;
         width: 100%;
         height: 35%;
         position: absolute;
@@ -41,6 +44,24 @@
     position: absolute;
     right: 0;
     top: 0;
+  }
+
+  .avatar_input {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+  }
+
+  .avatar__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .avatar__wrapper {
+    display: block;
+    border-radius: 50%;
   }
 
 
