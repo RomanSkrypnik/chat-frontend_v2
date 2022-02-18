@@ -10,7 +10,6 @@ const AvatarButton = ({user, large, disabled = false}) => {
     const onAvatarUpload = (e) => {
         const fd = new FormData();
         fd.append('avatar', e.target.files[0]);
-        fd.append('kal', 'ffsfsdfsd');
         dispatch(uploadAvatar(fd));
     }
 
