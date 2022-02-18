@@ -11,8 +11,6 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
     const time = format(date, 'hh:mm');
     const formattedDate = currentDate.getDate() === date.getDate() ? 'TODAY' : format(date, 'dd/MM/yyyy');
 
-    console.log(message.sender);
-
     return (
         <>
             {timestamp && <Timestamp date={formattedDate}/>}
