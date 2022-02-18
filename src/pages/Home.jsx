@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import SwitchButton from "../components/UI/buttons/SwitchButton";
 import ChatTextInput from "../components/inputs/ChatTextInput";
 import SettingButton from "../components/UI/buttons/SettingButton";
@@ -8,7 +8,6 @@ import {
     fetchMessages,
     fetchOlderMessages,
     resetState,
-    setMessages
 } from "../store/slices/message";
 import ChatMessage from "../components/UI/ChatMessage";
 import {useDispatch, useSelector} from "react-redux";
@@ -28,6 +27,7 @@ const Home = () => {
     const [contactInfo, setContactInfo] = useState(false);
 
     useEffect(() => {
+        console.log('first render');
         dispatch(fetchMessages(hash));
         dispatch(fetchFriend(hash));
     }, []);
@@ -39,7 +39,7 @@ const Home = () => {
     }, [hash]);
 
     useEffect(() => {
-        scrollToBottom();
+        // scrollToBottom();
     }, [messages]);
 
 

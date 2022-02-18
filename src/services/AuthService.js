@@ -18,8 +18,8 @@ export default class AuthService {
         return $api.get('/refresh');
     }
 
-    static async uploadPhoto(photo) {
-        return $api.get('/upload-photo', {avatar: photo});
+    static async uploadPhoto(avatar) {
+        return $api.post('/upload-photo', avatar);
     }
 
 }

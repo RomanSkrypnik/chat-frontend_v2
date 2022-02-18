@@ -3,10 +3,10 @@ import AuthService from "../../services/AuthService";
 
 export const uploadAvatar = createAsyncThunk(
     'auth/upload-avatar',
-    async (photo, {dispatch}) => {
+    async (fd, {dispatch}) => {
         try {
-            const { filename } = await AuthService.uploadPhoto(photo);
-            dispatch(changeAvatar(filename));
+            const { data } = await AuthService.uploadPhoto(fd);
+            dispatch(changeAvatar(data.filename));
         } catch (e) {
             console.log(e);
         }
