@@ -48,10 +48,12 @@
   }
 
   .avatar_input {
+    position: absolute;
     width: 0;
     height: 0;
     overflow: hidden;
     opacity: 0;
+    z-index: 3;
   }
 
   .avatar__image {

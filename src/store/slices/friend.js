@@ -60,6 +60,7 @@ export const friendSlice = createSlice({
         changeFriendStatus(state, {payload}) {
             const {hash, status} = payload;
             const friends = current(state.friends);
+            state.friends = null;
 
             state.friends = friends.map(onlineFriend => {
                 if (onlineFriend.friend.hash === hash) {

@@ -9,10 +9,11 @@ import {
     fetchOlderMessages,
     resetState,
 } from "../store/slices/message";
-import ChatMessage from "../components/UI/ChatMessage";
 import {useDispatch, useSelector} from "react-redux";
-import ContactInfo from "../components/partials/ContactInfo";
+import ContactInfo from "../components/modals/ContactInfo";
 import {fetchFriend} from "../store/slices/friend";
+import UserInfo from "../components/partials/UserInfo";
+import ChatMessages from "../components/partials/ChatMessages";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,6 @@ const Home = () => {
 
     const {messages} = useSelector(state => state.message);
     const {friend} = useSelector(state => state.friend);
-    const {user} = useSelector(state => state.auth);
 
     const [contactInfo, setContactInfo] = useState(false);
 
@@ -61,35 +61,26 @@ const Home = () => {
     };
 
     return (
-        <section className="home position-relative w-100 d-flex flex-column justify-content-end h-100">
+        <section className="home">
             <div className="d-flex mx-4">
                 <div className="flex-grow-1">
                     <SwitchButton/>
                     <div className="home__chat-wrapper d-flex flex-column flex-grow-1"
                          ref={container}
                          onScroll={handleScroll}>
-                        {
-                            messages.length > 0 && messages.map((message, index) => {
-                                let circle = true;
-                                let isDateDifferent = false;
-                                if (index > 0) {
-                                    circle = messages[index - 1].sender.hash !== message.sender.hash;
-                                    const prevDate = new Date(messages[index - 1].createdAt).getDate();
-                                    const currentDate = new Date(message.createdAt).getDate();
-                                    isDateDifferent = prevDate !== currentDate;
-                                }
-                                const alignToRight = message.sender.hash === user.hash;
-                                return <ChatMessage message={message} alignToRight={alignToRight} circle={circle}
-                                                    timestamp={isDateDifferent} key={index}/>
-                            })
-                        }
+                        <ChatMessages messages={messages}/>
                     </div>
                     <div className="d-flex align-items-center ps-4 pe-5 mt-5 mb-4">
                         <SettingButton onClick={() => setContactInfo(!contactInfo)}/>
                         <ChatTextInput onSubmit={onSendMessage}/>
                     </div>
                 </div>
-                {contactInfo && <ContactInfo user={friend} onClose={() => setContactInfo(!contactInfo)}/>}
+                {
+                    contactInfo &&
+                    <ContactInfo onClose={() => setContactInfo(!contactInfo)}>
+                        <UserInfo user={friend}/>
+                    </ContactInfo>
+                }
             </div>
         </section>
     );

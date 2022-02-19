@@ -14,7 +14,8 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
     return (
         <>
             {timestamp && <Timestamp date={formattedDate}/>}
-            <div className={cn("chat-message d-flex flex-column", alignToRight && 'chat-message_yellow align-self-end')}>
+            <div
+                className={cn("chat-message d-flex flex-column", alignToRight && 'chat-message_yellow align-self-end')}>
                 {circle && <div
                     className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
                 <div className="chat-message__wrapper d-flex">

@@ -7,13 +7,12 @@ import SidebarMenu from "./partials/SidebarMenu";
 import {fetchFriends, fetchUsersBySearch} from "../store/slices/friend";
 import {changeStatus, logout} from "../store/slices/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {SocketInstance} from "../layouts/Default";
 import RegularInput from "./inputs/RegularInput";
 import Dropdown from "./UI/Dropdown";
 import Portal from "./Portal";
-import ContactInfo from "./partials/ContactInfo";
-import LockIcon from "./UI/icons/Lock";
-import LogOutIcon from "./UI/icons/LogOut";
+import ContactInfo from "./modals/ContactInfo";
+import CurrentUserInfo from "./partials/CurrentUserInfo";
+import {SocketInstance} from "../layouts/Default";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
@@ -29,12 +28,6 @@ const Sidebar = () => {
         dispatch(fetchFriends());
     }, []);
 
-
-    const changeUserStatus = (status) => {
-        socket.emit('change-status', {status});
-        dispatch(changeStatus({status}));
-    };
-
     const searchFriends = (username) => {
         dispatch(fetchUsersBySearch(username));
     };
@@ -46,17 +39,14 @@ const Sidebar = () => {
         setAccountDropdown(false);
     };
 
+    const handleStatusChange = (status) => {
+        socket.emit('change-status', {status});
+        dispatch(changeStatus({status}));
+    };
+
     const dropDownItems = [
         {text: 'Settings', onClick: handleContactInfo},
         {text: 'Log out', onClick: handleLogout},
-    ];
-
-    const contactFormButtons = [
-        {
-            text: 'Privacy and security', onClick: () => {
-            }, icon: <LockIcon/>
-        },
-        {text: 'Log out', onClick: handleLogout, icon: <LogOutIcon/>},
     ];
 
     return (
@@ -68,7 +58,7 @@ const Sidebar = () => {
                         <div className="sidebar__name bold-text">{user.username}</div>
                         <StatusSelect
                             selectedStatus={user.status}
-                            onStatusChange={changeUserStatus}
+                            onStatusChange={handleStatusChange}
                         />
                     </div>
                     <SettingButton onClick={() => setAccountDropdown(!accountDropdown)}/>
@@ -85,12 +75,13 @@ const Sidebar = () => {
                         placeholder='Search'
                         onChange={searchFriends}
                     />
-                    {friends.length > 0 && friends.map((friend, index) => (
-                            <SidebarUserTab user={friend.friend}
-                                            lastMessage={friend.lastMessage}
-                                            key={index}/>
+                    {
+                        friends.length > 0 && friends.map((friend, index) => (
+                                <SidebarUserTab user={friend.friend}
+                                                lastMessage={friend.lastMessage}
+                                                key={index}/>
+                            )
                         )
-                    )
                     }
                 </div>
                 <SidebarMenu/>
@@ -99,13 +90,12 @@ const Sidebar = () => {
                 contactInfo &&
                 <Portal>
                     <ContactInfo
-                        disabledAvatar={false}
-                        alignToCenter
-                        buttons={contactFormButtons}
                         user={user}
-                        onStatusChange={changeUserStatus}
                         onClose={handleContactInfo}
-                    />
+                        isModal
+                    >
+                        <CurrentUserInfo/>
+                    </ContactInfo>
                 </Portal>
             }
         </>

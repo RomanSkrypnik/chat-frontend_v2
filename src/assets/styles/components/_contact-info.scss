@@ -1,6 +1,6 @@
 .contact-info {
 
-  &.contact-info_center {
+  &.contact-info_modal {
     width: 100%;
     position: absolute;
     top: 50%;
@@ -9,6 +9,9 @@
   }
 
   .contact-info__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     border-bottom: 1px solid $grey;
     padding-bottom: 30px;
   }
