@@ -7,28 +7,30 @@ import SidebarMenu from "./partials/SidebarMenu";
 import {fetchFriends, fetchUsersBySearch} from "../store/slices/friend";
 import {changeStatus, logout} from "../store/slices/auth";
 import {useDispatch, useSelector} from "react-redux";
-import RegularInput from "./inputs/RegularInput";
 import Dropdown from "./UI/Dropdown";
 import Portal from "./Portal";
 import ContactInfo from "./modals/ContactInfo";
 import CurrentUserInfo from "./partials/CurrentUserInfo";
 import {SocketInstance} from "../layouts/Default";
+import TextInput from "./inputs/TextInput";
+import {Controller, useForm} from "react-hook-form";
 
 const Sidebar = () => {
     const dispatch = useDispatch();
     const socket = useContext(SocketInstance);
+    const {control, handleSubmit} = useForm();
 
     const [accountDropdown, setAccountDropdown] = useState(false);
     const [contactInfo, setContactInfo] = useState(false);
 
-    const user = useSelector(state => state.auth.user);
-    const friends = useSelector(state => state.friend.friends);
+    const {user} = useSelector(state => state.auth);
+    const {friends} = useSelector(state => state.friend);
 
     useEffect(() => {
         dispatch(fetchFriends());
     }, []);
 
-    const searchFriends = (username) => {
+    const handleFriendsSearch = ({username}) => {
         dispatch(fetchUsersBySearch(username));
     };
 
@@ -71,10 +73,18 @@ const Sidebar = () => {
                     }
                 </div>
                 <div className="sidebar__body flex-grow-1">
-                    <RegularInput
-                        placeholder='Search'
-                        onChange={searchFriends}
-                    />
+                    <form onChange={handleSubmit(handleFriendsSearch)}>
+                        <Controller
+                            control={control}
+                            name="username"
+                            render={({field: {onChange}}) => (
+                                <TextInput
+                                    placeholder='Search friends'
+                                    onChange={onChange}
+                                />
+                            )}
+                        />
+                    </form>
                     {
                         friends.length > 0 && friends.map((friend, index) => (
                                 <SidebarUserTab user={friend.friend}

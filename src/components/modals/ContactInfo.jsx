@@ -9,7 +9,7 @@ const ContactInfo = ({onClose, isModal = false, children}) => {
             <div className="contact-info__top-line">
                 <CrossButton onClick={onClose}/>
             </div>
-            <div>
+            <div className="contact-info__content mt-2">
                 {children}
             </div>
         </div>

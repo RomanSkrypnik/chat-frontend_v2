@@ -40,17 +40,14 @@ const CurrentUserInfo = () => {
     return (
         <>
 
-            <div className="contact-info__content mt-4">
-                <h2 className="last-text last-text_contact text-purple mb-3">Contact Info</h2>
-                <AvatarButton user={user} large disabled/>
-                <div className="last-text last-text_contact-alt text-purple mt-3">{user.name}</div>
-                <div className="regular-text my-2">Sr. Visual Designer</div>
-                <StatusSelect selectedStatus={user.status} onStatusChange={handleStatusChange}/>
-            </div>
-
+            <h2 className="last-text last-text_contact text-purple mb-3">Contact Info</h2>
+            <AvatarButton user={user} large disabled/>
+            <div className="last-text last-text_contact-alt text-purple mt-2">{user.name}</div>
+            <div className="regular-text my-2">Sr. Visual Designer</div>
+            <StatusSelect selectedStatus={user.status} onStatusChange={handleStatusChange}/>
 
             {
-                <div className="contact-info__buttons">
+                <div className="contact-info__buttons mt-3">
                     {buttons.map((button, key) =>
 
                         <ContactButton
