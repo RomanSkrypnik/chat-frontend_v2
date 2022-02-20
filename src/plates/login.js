@@ -4,7 +4,7 @@ export default [
         text: 'To sign in fill out the fields below',
         fields: [
             {name: 'email', type: 'text', placeholder: 'Email'},
-            {name: 'password', type: 'text', placeholder: 'Password'},
+            {name: 'password', type: 'password', placeholder: 'Password'},
         ],
         buttons: [
             {text: 'Sign in', type: 'submit'},

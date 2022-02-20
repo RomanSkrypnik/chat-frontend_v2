@@ -4,7 +4,7 @@ import TextInput from "../inputs/TextInput";
 const PrivacySettingsForm = () => {
     return (
         <div>
-            <TextInput/>
+            privacy
         </div>
     );
 };

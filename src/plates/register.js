@@ -15,7 +15,7 @@ export default [
         title: 'Create a password',
         fields: [
             {name: 'password', type: 'password', placeholder: 'Password'},
-            {name: 'password', type: 'password', placeholder: 'Confirm your password'},
+            {name: 'passwordConfirm', type: 'password', placeholder: 'Confirm your password'},
         ],
         buttons: [
             {text: 'Back', type: 'button'},

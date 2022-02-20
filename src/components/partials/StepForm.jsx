@@ -25,6 +25,7 @@ const StepForm = ({step, onSubmit, onPrev}) => {
                                 render={
                                     ({field: {onChange, value}}) =>
                                         <TextInput
+                                            type={field.type}
                                             placeholder={field.placeholder}
                                             onChange={onChange}
                                             value={value}/>
