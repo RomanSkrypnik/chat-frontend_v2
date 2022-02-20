@@ -98,16 +98,13 @@ const Sidebar = () => {
             </aside>
             {
                 contactInfo &&
-                <Portal>
-                    <ContactInfo
-                        user={user}
-                        onClose={handleContactInfo}
-                        isModal
-                    >
-                        <CurrentUserInfo/>
-                    </ContactInfo>
-                    }
-                </Portal>
+                <ContactInfo
+                    user={user}
+                    onClose={handleContactInfo}
+                    isModal
+                >
+                    <CurrentUserInfo/>
+                </ContactInfo>
             }
         </>
     );
