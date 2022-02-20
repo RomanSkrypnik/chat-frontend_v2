@@ -55,7 +55,7 @@ const Sidebar = () => {
         <>
             <aside className="sidebar d-flex flex-column">
                 <div className="sidebar__head d-flex">
-                    <AvatarButton user={user}/>
+                    <AvatarButton onClick={handleContactInfo} user={user}/>
                     <div className="flex-grow-1 ms-3">
                         <div className="sidebar__name bold-text">{user.username}</div>
                         <StatusSelect

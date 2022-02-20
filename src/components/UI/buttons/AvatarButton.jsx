@@ -4,7 +4,7 @@ import {API_URL} from "../../../http";
 import {useDispatch, useSelector} from "react-redux";
 import {uploadAvatar} from "../../../store/slices/auth";
 
-const AvatarButton = ({user, large}) => {
+const AvatarButton = ({user, large, onClick}) => {
     const dispatch = useDispatch();
 
     const currentUser = useSelector(state => state.auth.user);
@@ -17,7 +17,7 @@ const AvatarButton = ({user, large}) => {
     };
 
     return (
-        <button className={cn("avatar p-0", large && 'avatar_large')}>
+        <button className={cn("avatar p-0", large && 'avatar_large')} onClick={onClick}>
             <span className="avatar__wrapper">
                 {user.pictureUrl &&
                 <img src={API_URL + '/img/' + user.pictureUrl} alt="Avatar" className="avatar__image"/>}
