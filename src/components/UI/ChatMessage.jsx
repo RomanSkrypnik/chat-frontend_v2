@@ -14,14 +14,19 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
     return (
         <>
             {timestamp && <Timestamp date={formattedDate}/>}
-            <div
-                className={cn("chat-message d-flex flex-column", alignToRight && 'chat-message_yellow align-self-end')}>
-                {circle && <div
-                    className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
-                <div className="chat-message__wrapper d-flex">
-                    {circle ? <AvatarButton user={message.sender}/> : <div className="chat-message__dummy"/>}
+
+            <div className={cn("chat-message", alignToRight && 'chat-message_yellow')}>
+
+                {circle && <div className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
+
+                <div className="chat-message__wrapper">
+                    {
+                        circle && <div className="chat-message__avatar">
+                            <AvatarButton user={message.sender}/>
+                        </div>
+                    }
                     <div className="chat-message__inner d-flex flex-column align-items-start">
-                        <div className={"chat-message__message regular-text position-relative"}>
+                        <div className="chat-message__message regular-text position-relative">
                             <span>{message.text}</span>
                             <span className="chat-message__time">{time}</span>
                         </div>

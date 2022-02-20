@@ -35,7 +35,6 @@ const CurrentUserInfo = () => {
                 <div className="last-text last-text_contact-alt text-purple mt-3">{user.name}</div>
                 <div className="regular-text my-2">Sr. Visual Designer</div>
                 <StatusSelect selectedStatus={user.status} onStatusChange={handleStatusChange}/>
-
             </div>
             {
                 <div className="contact-info__buttons">

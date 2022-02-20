@@ -5,6 +5,8 @@
       color: $messageWhite;
       background-color: $yellow;
       border-radius: 14px 0 14px 14px;
+      margin-left: 0;
+      margin-right: auto;
     }
 
     .chat-message__time {
@@ -16,13 +18,23 @@
       margin-left: 0;
     }
 
-    .chat-message__wrapper {
-      flex-direction: row-reverse;
-    }
-
     .chat-message__name {
       text-align: right;
     }
+
+    .chat-message__avatar {
+      position: absolute;
+      left: unset;
+      right: 0;
+      top: 0;
+    }
+
+    align-self: end;
+  }
+
+  .chat-message__wrapper {
+    width: 242px;
+    position: relative;
   }
 
   .chat-message__name {
@@ -42,6 +54,7 @@
     max-width: 506px;
     padding: 16px 20px 32px;
     margin-top: 10px;
+    margin-left: auto;
   }
 
   .chat-message__time {
@@ -56,10 +69,13 @@
     margin-left: 10px;
   }
 
-  .chat-message__dummy {
-    width: 44px;
-    height: 44px;
+  .chat-message__avatar {
+    position: absolute;
+    left: 0;
+    top: 0;
   }
 
+  display: flex;
+  flex-direction: column;
   align-self: flex-start;
 }

@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import MessageService from "../../services/MessageService";
 
 export const fetchMessages = createAsyncThunk(
@@ -19,14 +19,6 @@ export const fetchOlderMessages = createAsyncThunk(
             const {data} = await MessageService.fetchMessages(hash, offset, limit);
             data.length > 0 ? dispatch(addMessages(data)) : dispatch(setReceivedAll());
         }
-    }
-);
-
-export const sendMessage = createAsyncThunk(
-    'message/sendMessage',
-    async ({hash, message}, {dispatch}) => {
-        const {data} = await MessageService.sendMessage(hash, message);
-        dispatch(addMessage(data));
     }
 );
 

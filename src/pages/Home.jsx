@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import SwitchButton from "../components/UI/buttons/SwitchButton";
 import ChatTextInput from "../components/inputs/ChatTextInput";
 import SettingButton from "../components/UI/buttons/SettingButton";
@@ -17,8 +17,11 @@ import ChatMessages from "../components/partials/ChatMessages";
 
 const Home = () => {
     const dispatch = useDispatch();
+
     const {hash} = useParams();
+
     const container = useRef(null);
+
     const socket = useContext(SocketInstance);
 
     const {messages} = useSelector(state => state.message);
@@ -27,7 +30,6 @@ const Home = () => {
     const [contactInfo, setContactInfo] = useState(false);
 
     useEffect(() => {
-        console.log('first render');
         dispatch(fetchMessages(hash));
         dispatch(fetchFriend(hash));
     }, []);
