@@ -96,6 +96,7 @@ const Sidebar = () => {
                     >
                         <CurrentUserInfo/>
                     </ContactInfo>
+                    }
                 </Portal>
             }
         </>

@@ -1,8 +1,8 @@
 import React from 'react';
 
-const RegularButton = ({text, type, onClick}) => {
+const RegularButton = ({onClick, type, children}) => {
     return (
-        <button type={type} className="regular-button regular-text" onClick={onClick}>{text}</button>
+        <button type={type} className="regular-button regular-text" onClick={onClick}>{children}</button>
     );
 };
 

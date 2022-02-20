@@ -1,109 +1,64 @@
-import React, {useState} from 'react';
-import {Stepper} from 'react-form-stepper';
-import DialForm from "../components/partials/DialForm";
+import React, {useEffect, useState} from 'react';
 import withUnauthorizedLayout from "../layouts/Unauthorized";
+import StepForm from "../components/partials/StepForm";
+import {useNavigate} from "react-router-dom";
 import AuthService from "../services/AuthService";
-import { useNavigate } from "react-router-dom";
+import registerPlate from '../plates/register';
 
 const Register = () => {
-    const [activeStep, setActiveStep] = useState(0);
-    const [formData, setFormData] = useState({});
     const navigate = useNavigate();
 
-    const stepFirst = {
-        title: 'Create your account',
-        subtitle: 'Create an account to enjoy all the services!',
-        fields: [
-            {type: 'text', placeholder: 'email', name: 'email'},
-            {type: 'text', placeholder: 'name', name: 'name'},
-            {type: 'text', placeholder: 'username', name: 'username'},
-            {type: 'text', placeholder: 'password', name: 'password'},
-        ],
-        buttons: [
-            {
-                text: 'Next',
-                type: 'submit',
-            },
-        ],
-        onSubmit: (data) => {
-            setFormData({...formData, data});
-            setActiveStep(activeStep + 1)
+    const [collectedData, setCollectedData] = useState({});
+    const [step, setStep] = useState(null);
+    const [stepNum, setStepNum] = useState(0);
+
+    useEffect(() => {
+        setStepComponent();
+    }, []);
+
+    useEffect(() => {
+        setStepComponent();
+    }, [stepNum]);
+
+    const steps = registerPlate;
+
+    const setStepComponent = () => {
+        let component;
+
+        switch (stepNum) {
+            case 0:
+                component = <StepForm step={steps[0]} onSubmit={onSubmit}/>;
+                break;
+            case 1 :
+                component = <StepForm step={steps[1]} onSubmit={onSubmit} onPrev={toPrevStep}/>;
+                break;
+            case 2 :
+                component = <StepForm step={steps[2]} onSubmit={onSubmit} onPrev={toPrevStep}/>;
+                break;
         }
+
+        setStep(component);
     };
 
-    const stepSecond = {
-        title: 'Would you like to upload your avatar?',
-        fields: [
-            {type: 'file', name: 'picture', placeholder: 'Upload picture', dark: true},
-        ],
-        buttons: [
-            {
-                text: 'Back',
-                type: 'button',
-                onClick: (e) => {
-                    e.preventDefault();
-                    setActiveStep(activeStep - 1);
-                }
-            },
-            {
-                text: 'Next',
-                type: 'submit',
-            }
-        ],
-        onSubmit: (data) => {
-            setFormData({...formData, data});
-            setActiveStep(activeStep + 1)
-        }
+    const toPrevStep = () => {
+        setStepNum(stepNum - 1);
     };
 
-    const stepThird = {
-        title: 'Activate your account',
-        subtitle: 'After this step you will be sent an activation link to your email. Please, check it and activate your account straightaway',
-        buttons: [
-            {
-                text: 'Back',
-                type: 'button',
-                onClick: (e) => {
-                    e.preventDefault();
-                    setActiveStep(activeStep - 1);
-                }
-            },
-            {
-                text: 'Sign up',
-                type: 'submit',
-            },
-        ],
-        onSubmit: () => {
-            const data = formData.data;
-            AuthService.register(data)
+    const onSubmit = (data) => {
+
+        if (stepNum === steps.length - 1) {
+            AuthService.register(collectedData)
                 .then(() => navigate('/login'))
                 .catch(err => console.log(err));
         }
-    };
 
-    const stepLabels = [
-        {label: 'General information'},
-        {label: 'Upload your account picture'},
-        {label: 'Activate your account and finish'},
-    ];
-
-    const stepClassName = 'stepper';
-
-    const getStep = () => {
-        switch (activeStep) {
-            case 0:
-                return <DialForm {...stepFirst} />;
-            case 1:
-                return <DialForm {...stepSecond} />;
-            case 2:
-                return <DialForm {...stepThird} />;
-        }
+        setCollectedData({...collectedData, ...data});
+        setStepNum(stepNum + 1);
     };
 
     return (
         <section className="register">
-            <Stepper steps={stepLabels} activeStep={activeStep} stepClassName={stepClassName}/>
-            {getStep()}
+            {step}
         </section>
     );
 };

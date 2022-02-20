@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-const TextInput = ({name, register, placeholder}) => {
-    const [inputValue, setInputValue] = useState('');
+const TextInput = ({onChange, value, placeholder}) => {
 
     return (
         <input
-            {...register(name)}
             type="text"
             className="text-input regular-text mb-4"
-            onChange={(e) => setInputValue(e.target.value)}
             placeholder={placeholder}
+            onChange={onChange}
+            value={value ?? ''}
         />
     );
 };
