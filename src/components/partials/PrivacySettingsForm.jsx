@@ -9,12 +9,21 @@ const PrivacySettingsForm = () => {
 
     const {handleSubmit, control} = useForm();
 
-    const onSubmit = async ({email, name, oldPassword, newPassword, passwordConfirm}) => {
-        const passwordMatches = AuthService.checkPasswordIdentity();
+    const onSubmit = async (data) => {
+        const {newPassword, passwordConfirm, password} = data;
+
+        const passwordMatches = await AuthService.checkPasswordIdentity(password);
         const newPasswordMatches = FormHelper.compareValues(newPassword, passwordConfirm);
 
-        if (passwordMatches && newPasswordMatches) {
-            console.log('on submit');
+        if (passwordMatches.data.success) {
+            if (newPasswordMatches) {
+                const newData = {email: data.email, name: data.name, password: data.password};
+                await AuthService.changePersonalInfo(newData);
+            } else {
+                console.log("New passwords don't match");
+            }
+        } else {
+            console.log('Invalid password');
         }
     }
 
@@ -24,6 +33,7 @@ const PrivacySettingsForm = () => {
                 <Controller
                     control={control}
                     name="email"
+                    defaultValue=''
                     render={({field: {onChange, value}}) => (
                         <TextInput onChange={onChange} value={value} placeholder="Enter email" label="Email"/>
                     )}
@@ -31,30 +41,34 @@ const PrivacySettingsForm = () => {
                 <Controller
                     control={control}
                     name="name"
+                    defaultValue=''
                     render={({field: {onChange, value}}) => (
                         <TextInput onChange={onChange} value={value} placeholder="Enter name" label="Name"/>
                     )}
                 />
                 <Controller
                     control={control}
-                    name="oldPassword"
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange} value={value} placeholder="Enter old password"
-                                   label="OldPassword"/>
+                    name="password"
+                    defaultValue=''
+                    render={({field: {onChange}}) => (
+                        <TextInput onChange={onChange} placeholder="Enter current password" label="Current password"/>
                     )}
                 />
                 <Controller
                     control={control}
                     name="newPassword"
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange} value={value} placeholder="Enter new password" label="New password"/>
+                    defaultValue=''
+                    render={({field: {onChange}}) => (
+                        <TextInput onChange={onChange} placeholder="Enter new password"
+                                   label="New password"/>
                     )}
                 />
                 <Controller
                     control={control}
                     name="passwordConfirm"
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange} value={value} placeholder="Enter new password again" label="Confirm your password"/>
+                    defaultValue=''
+                    render={({field: {onChange}}) => (
+                        <TextInput onChange={onChange} placeholder="Enter new password again" label="Confirm your password"/>
                     )}
                 />
                 <div className="d-flex justify-content-center mt-2">

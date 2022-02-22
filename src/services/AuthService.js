@@ -23,7 +23,11 @@ export default class AuthService {
     }
 
     static async checkPasswordIdentity(password) {
-        return $api.post('/check-password-identity', password);
+        return $api.post('/check-password-identity', {password});
+    }
+
+    static async changePersonalInfo(data) {
+        return $api.post('/change-personal-info', {data});
     }
 
 }
