@@ -22,4 +22,8 @@ export default class AuthService {
         return $api.post('/upload-photo', avatar);
     }
 
+    static async checkPasswordIdentity(password) {
+        return $api.post('/check-password-identity', password);
+    }
+
 }

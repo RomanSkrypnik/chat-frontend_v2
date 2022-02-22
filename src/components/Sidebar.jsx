@@ -99,6 +99,7 @@ const Sidebar = () => {
             {
                 contactInfo &&
                 <ContactInfo
+                    title="Contact Info"
                     user={user}
                     onClose={handleContactInfo}
                     isModal

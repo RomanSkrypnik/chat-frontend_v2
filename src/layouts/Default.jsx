@@ -42,7 +42,7 @@ const DefaultLayout = ({children}) => {
 
     return (
         <SocketInstance.Provider value={socket}>
-            <div className='d-flex'>
+            <div className='d-flex min-vh-100'>
                 <Sidebar/>
                 <main className="flex-grow-1">
                     {children}

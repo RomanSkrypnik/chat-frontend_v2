@@ -2,7 +2,7 @@ import React from 'react';
 import CrossButton from "../UI/buttons/CrossButton";
 import Portal from "../Portal";
 
-const ContactInfo = ({onClose, isModal = false, children}) => {
+const ContactInfo = ({onClose, isModal = false, title, children}) => {
 
     return (
         isModal ?
@@ -11,6 +11,7 @@ const ContactInfo = ({onClose, isModal = false, children}) => {
                     <div className="contact-info__top-line">
                         <CrossButton onClick={onClose}/>
                     </div>
+                    <h2 className="last-text last-text_contact text-purple text-center mb-3 mt-2">{title}</h2>
                     <div className="contact-info__content mt-2">
                         {children}
                     </div>

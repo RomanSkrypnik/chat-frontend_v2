@@ -39,8 +39,6 @@ const CurrentUserInfo = () => {
 
     return (
         <>
-
-            <h2 className="last-text last-text_contact text-purple mb-3">Contact Info</h2>
             <AvatarButton user={user} large disabled/>
             <div className="last-text last-text_contact-alt text-purple mt-2">{user.name}</div>
             <div className="regular-text my-2">Sr. Visual Designer</div>
@@ -62,7 +60,7 @@ const CurrentUserInfo = () => {
 
             {
                 showModal &&
-                <ContactInfo isModal onClose={() => setShowModal(false)}>
+                <ContactInfo isModal onClose={() => setShowModal(false)} title="Privacy and security">
                     {modalChildren}
                 </ContactInfo>
             }

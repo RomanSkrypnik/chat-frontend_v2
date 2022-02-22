@@ -5,8 +5,11 @@ const Portal = ({children}) => {
     const [container] = useState(() => document.createElement('div'));
 
     useEffect(() => {
+        const activeOverlay = document.getElementsByClassName("overlay_black");
+
         document.body.appendChild(container);
-        container.classList.add('overlay', 'overlay_black', 'position-absolute');
+
+        container.classList.add('overlay', activeOverlay.length === 0 && 'overlay_black', 'position-absolute');
 
         return () => {
             document.body.removeChild(container);
