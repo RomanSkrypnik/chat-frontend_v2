@@ -4,10 +4,13 @@ import TextInput from "../inputs/TextInput";
 import RegularButton from "../UI/buttons/RegularButton";
 import AuthService from "../../services/AuthService";
 import FormHelper from "../../helpers/formHelper";
+import {useDispatch} from "react-redux";
+import {changePersonalInfo} from "../../store/slices/auth";
 
 const PrivacySettingsForm = () => {
-
     const {handleSubmit, control} = useForm();
+
+    const dispatch = useDispatch();
 
     const onSubmit = async (data) => {
         const {newPassword, passwordConfirm, password} = data;
@@ -18,7 +21,7 @@ const PrivacySettingsForm = () => {
         if (passwordMatches.data.success) {
             if (newPasswordMatches) {
                 const newData = {email: data.email, name: data.name, password: data.password};
-                await AuthService.changePersonalInfo(newData);
+                dispatch(changePersonalInfo(newData));
             } else {
                 console.log("New passwords don't match");
             }

@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import FriendService from "../../services/FriendService";
 import MessageService from "../../services/MessageService";
+import AuthService from "../../services/AuthService";
 
 export const fetchOlderMessages = createAsyncThunk(
     'friend/fetchOlderMessages',

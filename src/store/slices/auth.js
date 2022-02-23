@@ -48,6 +48,18 @@ export const logout = createAsyncThunk(
     }
 );
 
+export const changePersonalInfo = createAsyncThunk(
+    'auth/changePersonalInfo',
+    async (formData, {dispatch}) => {
+        try {
+            const {data} = await AuthService.changePersonalInfo(formData);
+            dispatch(setUser(data));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+)
+
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
