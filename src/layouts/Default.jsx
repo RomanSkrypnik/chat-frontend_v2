@@ -2,10 +2,11 @@ import React, {useEffect, useState} from 'react';
 import Sidebar from "../components/Sidebar";
 import AuthProvider from "../components/AuthProvider";
 import io from "socket.io-client";
-import {addMessage} from "../store/slices/message";
+import {addMessage, setNewMessageFlag} from "../store/slices/message";
 import {useDispatch} from "react-redux";
 import {addFriend, changeFriendStatus} from "../store/slices/friend";
 import {changeFriendLastMessage} from "../store/slices/friend";
+import {isDisabled} from "@testing-library/user-event/dist/utils";
 
 export const SocketInstance = React.createContext(null);
 

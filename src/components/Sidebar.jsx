@@ -28,7 +28,6 @@ const Sidebar = () => {
 
     useEffect(() => {
         dispatch(fetchFriends());
-        console.log(friends);
     }, []);
 
     const handleFriendsSearch = ({username}) => {

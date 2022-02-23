@@ -15,6 +15,7 @@ export const fetchOlderMessages = createAsyncThunk(
     'message/fetchOlderMessages',
     async (hash, {dispatch, getState}) => {
         const {receivedAll} = getState().message;
+
         if (!receivedAll) {
             const {offset, limit} = getState().message;
             const {data} = await MessageService.fetchMessages(hash, offset, limit);
@@ -31,7 +32,7 @@ const messageSlice = createSlice({
         offset: 0,
         limit: 40,
         receivedAll: false,
-        newMessage: false
+        newMessageFlag: false
     },
     reducers: {
 
@@ -41,6 +42,7 @@ const messageSlice = createSlice({
         },
 
         addMessage(state, {payload}) {
+            state.newMessageFlag = true;
             state.messages = [...state.messages, payload];
             state.offset += 40;
         },
@@ -58,10 +60,14 @@ const messageSlice = createSlice({
             state.messages = [];
             state.offset = 0;
             state.receivedAll = false;
+        },
+
+        setNewMessageFlag(state, {payload}) {
+            state.newMessageFlag = payload;
         }
     },
 });
 
-export const {setMessages, addMessage, addMessages, setReceivedAll, resetState} = messageSlice.actions;
+export const {setMessages, addMessage, addMessages, setReceivedAll, resetState, setNewMessageFlag} = messageSlice.actions;
 
 export default messageSlice.reducer;

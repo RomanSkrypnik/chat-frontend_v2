@@ -7,7 +7,7 @@ import {useParams} from "react-router-dom";
 import {
     fetchMessages,
     fetchOlderMessages,
-    resetState,
+    resetState, setNewMessageFlag,
 } from "../store/slices/message";
 import {useDispatch, useSelector} from "react-redux";
 import ContactInfo from "../components/modals/ContactInfo";
@@ -24,7 +24,8 @@ const Home = () => {
 
     const socket = useContext(SocketInstance);
 
-    const {messages, offset} = useSelector(state => state.message);
+    const {user} = useSelector(state => state.auth);
+    const {messages, newMessageFlag, offset} = useSelector(state => state.message);
     const {friend} = useSelector(state => state.friend);
 
     const [contactInfo, setContactInfo] = useState(false);
@@ -35,14 +36,29 @@ const Home = () => {
     }, []);
 
     useEffect(() => {
-        dispatch(resetState());
-        dispatch(fetchMessages(hash));
-        dispatch(fetchFriend(hash));
+        if (hash) {
+            dispatch(resetState());
+            dispatch(fetchMessages(hash));
+            dispatch(fetchFriend(hash));
+        }
     }, [hash]);
 
     useEffect(() => {
-        offset <= 40 && scrollToBottom();
+        console.log(offset);
+        if (offset === 40 && messages.length > 0) {
+            scrollToBottom();
+        }
     }, [messages]);
+
+    useEffect(() => {
+        if (newMessageFlag) {
+            const lastMessage = messages[messages.length - 1];
+
+            lastMessage.sender.hash === user.hash && scrollToBottom();
+
+            dispatch(setNewMessageFlag(false));
+        }
+    }, [newMessageFlag]);
 
 
     const scrollToBottom = () => {
@@ -54,7 +70,6 @@ const Home = () => {
 
     const handleScroll = (e) => {
         if (e.currentTarget.scrollTop === 0) {
-            console.log('here');
             dispatch(fetchOlderMessages(hash));
         }
     };
