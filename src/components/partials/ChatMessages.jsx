@@ -9,7 +9,7 @@ const ChatMessages = ({messages}) => {
     return (
         <>
             {
-                messages.length > 0 && messages.map((message, index) => {
+                messages && messages.map((message, index) => {
                     let circle = true;
                     let isDateDifferent = false;
 

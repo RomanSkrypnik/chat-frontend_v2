@@ -4,11 +4,13 @@ import ReadMessageIcon from "../UI/ReadMessageIcon";
 import {format} from 'date-fns';
 import {NavLink} from "react-router-dom";
 
-const SidebarUserTab = ({user, lastMessage}) => {
+const SidebarUserTab = ({user}) => {
     const [date, setDate] = useState(null);
     const [message, setMessage] = useState(null);
 
     const initState = () => {
+        const lastMessage = user.messages[user.messages.length - 1];
+
         const formatedData = lastMessage ? format(new Date(lastMessage.createdAt), 'dd/MM/yyyy') : '';
         const text = lastMessage ? lastMessage.text : '';
 
@@ -22,13 +24,13 @@ const SidebarUserTab = ({user, lastMessage}) => {
 
     useEffect(() => {
         initState();
-    }, [lastMessage]);
+    }, [user.messages]);
 
     return (
-        <NavLink to={`/${user.hash}`} className="sidebar-tab d-flex align-items-center">
-            <AvatarButton user={user}/>
+        <NavLink to={`/${user.friend.hash}`} className="sidebar-tab d-flex align-items-center">
+            <AvatarButton user={user.friend}/>
             <div className="ms-3">
-                <div className="sidebar-tab__name bold-text">{user.username}</div>
+                <div className="sidebar-tab__name bold-text">{user.friend.username}</div>
                 <div className="sidebar-tab__message last-text">{message}</div>
             </div>
             <div className="ms-auto d-flex flex-column align-items-end">

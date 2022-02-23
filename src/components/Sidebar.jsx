@@ -87,8 +87,7 @@ const Sidebar = () => {
                     </form>
                     {
                         friends.length > 0 && friends.map((friend, index) => (
-                                <SidebarUserTab user={friend.friend}
-                                                lastMessage={friend.lastMessage}
+                                <SidebarUserTab user={friend}
                                                 key={index}/>
                             )
                         )

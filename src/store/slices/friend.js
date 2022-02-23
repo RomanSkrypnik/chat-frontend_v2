@@ -25,23 +25,12 @@ export const fetchFriends = createAsyncThunk(
     }
 );
 
-export const fetchFriend = createAsyncThunk(
-    'friend/fetchFriend',
-    async (hash, {dispatch}) => {
-        try {
-            const {data} = await FriendService.fetchFriend(hash);
-            dispatch(setFriend(data));
-        } catch (e) {
-            console.log(e);
-        }
-    }
-);
-
 export const friendSlice = createSlice({
     name: 'friend',
     initialState: {
         friends: [],
         friend: {},
+        isLoaded: false,
     },
     reducers: {
 
@@ -55,19 +44,20 @@ export const friendSlice = createSlice({
                 return friend.friend.hash === payload.friend.hash;
             });
 
-            if(friend.length < 1) {
-                state.friends = [...friends, payload];
-            }
+            if (friend.length < 1) state.friends = [...friends, payload];
         },
 
         setFriend(state, {payload}) {
-            state.friend = payload;
+            const friends = current(state.friends);
+
+            state.friend = friends.filter(friend => {
+                return friend.friend.hash === payload;
+            })[0];
         },
 
         changeFriendStatus(state, {payload}) {
             const {hash, status} = payload;
             const friends = current(state.friends);
-            state.friends = null;
 
             state.friends = friends.map(onlineFriend => {
                 if (onlineFriend.friend.hash === hash) {
@@ -80,16 +70,27 @@ export const friendSlice = createSlice({
         changeFriendLastMessage(state, {payload}) {
             const {lastMessage} = payload;
             const {hash} = payload.friend;
+
             const friends = current(state.friends);
+            const friend = current(state.friend);
 
             state.friends = friends.map(friend => {
                 if (friend.friend.hash === hash) {
-                    return {friend: friend.friend, lastMessage};
+                    return {friend: friend.friend, messages: [...friend.messages, lastMessage]};
                 }
                 return friend;
             });
+
+            state.friend = {...friend, messages: [...friend.messages, lastMessage]}
+        },
+    },
+
+    extraReducers: {
+        [fetchFriends.fulfilled]: (state) => {
+            state.isLoaded = true;
         }
     }
+
 });
 
 export const {setFriends, addFriend, setFriend, changeFriendStatus, changeFriendLastMessage} = friendSlice.actions;

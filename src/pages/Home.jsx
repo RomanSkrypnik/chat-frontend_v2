@@ -4,14 +4,9 @@ import ChatTextInput from "../components/inputs/ChatTextInput";
 import SettingButton from "../components/UI/buttons/SettingButton";
 import withDefaultLayout, {SocketInstance} from "../layouts/Default";
 import {useParams} from "react-router-dom";
-import {
-    fetchMessages,
-    fetchOlderMessages,
-    resetState, setNewMessageFlag,
-} from "../store/slices/message";
 import {useDispatch, useSelector} from "react-redux";
 import ContactInfo from "../components/modals/ContactInfo";
-import {fetchFriend} from "../store/slices/friend";
+import {setFriend} from "../store/slices/friend";
 import UserInfo from "../components/partials/UserInfo";
 import ChatMessages from "../components/partials/ChatMessages";
 
@@ -24,42 +19,26 @@ const Home = () => {
 
     const socket = useContext(SocketInstance);
 
-    const {user} = useSelector(state => state.auth);
-    const {messages, newMessageFlag, offset} = useSelector(state => state.message);
-    const {friend} = useSelector(state => state.friend);
+    const {friend, isLoaded} = useSelector(state => state.friend);
 
     const [contactInfo, setContactInfo] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchMessages(hash));
-        dispatch(fetchFriend(hash));
-    }, []);
+        init();
+    }, [isLoaded]);
 
     useEffect(() => {
-        if (hash) {
-            dispatch(resetState());
-            dispatch(fetchMessages(hash));
-            dispatch(fetchFriend(hash));
-        }
+        hash && init();
     }, [hash]);
 
     useEffect(() => {
-        console.log(offset);
-        if (offset === 40 && messages.length > 0) {
-            scrollToBottom();
-        }
-    }, [messages]);
+        friend && scrollToBottom();
+    }, [friend]);
 
-    useEffect(() => {
-        if (newMessageFlag) {
-            const lastMessage = messages[messages.length - 1];
-
-            lastMessage.sender.hash === user.hash && scrollToBottom();
-
-            dispatch(setNewMessageFlag(false));
-        }
-    }, [newMessageFlag]);
-
+    const init = () => {
+        dispatch(setFriend(hash));
+        scrollToBottom();
+    }
 
     const scrollToBottom = () => {
         const scroll =
@@ -69,10 +48,12 @@ const Home = () => {
     };
 
     const handleScroll = (e) => {
-        if (e.currentTarget.scrollTop === 0) {
-            dispatch(fetchOlderMessages(hash));
-        }
+        // if (e.currentTarget.scrollTop === 0) {
+        //     dispatch(fetchOlderMessages(hash));
+        // }
     };
+
+    const handleContactInfo = () => setContactInfo(!contactInfo);
 
     const onSendMessage = (data) => {
         socket.emit('send-message', {hash, message: {text: data.message}});
@@ -86,16 +67,16 @@ const Home = () => {
                     <div className="home__chat-wrapper d-flex flex-column flex-grow-1"
                          ref={container}
                          onScroll={handleScroll}>
-                        <ChatMessages messages={messages}/>
+                        {friend && <ChatMessages messages={friend.messages}/>}
                     </div>
                     <div className="d-flex align-items-center ps-4 pe-5 mt-5 mb-4">
-                        <SettingButton onClick={() => setContactInfo(!contactInfo)}/>
+                        <SettingButton onClick={handleContactInfo}/>
                         <ChatTextInput onSubmit={onSendMessage}/>
                     </div>
                 </div>
                 {
                     contactInfo &&
-                    <ContactInfo onClose={() => setContactInfo(!contactInfo)}>
+                    <ContactInfo onClose={handleContactInfo}>
                         <UserInfo user={friend}/>
                     </ContactInfo>
                 }
