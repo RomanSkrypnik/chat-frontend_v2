@@ -13,9 +13,21 @@
 
 .last-text {
 
-  &.last-text_alt{
+  &.last-text_alt {
     font-size: 12px;
     line-height: 18px;
+  }
+
+  &.last-text_contact-alt {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: bold;
+  }
+
+  &.last-text_contact {
+    font-size: 18px;
+    line-height: 27px;
+    font-weight: bold;
   }
 
   font-weight: 300;
@@ -24,6 +36,17 @@
 }
 
 .bold-text {
+
+  &.bold-text_alt {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  &.bold-text_fz25 {
+    font-size: 25px;
+    line-height: 30px;
+  }
+
   font-weight: 600;
   font-size: 14px;
   line-height: 21px;
@@ -35,3 +58,12 @@
   font-size: 12px;
   line-height: 150.5%;
 }
+
+.text-grey {
+  color: $darkGrey;
+}
+
+.text-purple {
+  color: $purple;
+}
+

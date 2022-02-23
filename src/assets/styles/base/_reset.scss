@@ -294,6 +294,9 @@ a{
 }
 
 button {
+  &:disabled {
+    cursor: auto;
+  }
   cursor: pointer;
   background-color: transparent;
 }

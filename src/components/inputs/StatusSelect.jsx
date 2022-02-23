@@ -1,17 +1,27 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import StatusService from "../../services/StatusService";
 import Select from 'react-select';
+import {useSelector} from "react-redux";
 import cn from "classnames";
 
-const StatusSelect = () => {
+const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
 
-    const selectRef = useRef(null);
-    const [value, setValue] = useState(null);
+    const {user} = useSelector(state => state.auth);
 
-    const options = [
-        { value: 'working', label: 'Working', className: 'working' },
-        { value: 'busy', label: 'Busy', className: 'busy' },
-        { value: 'free', label: 'Free', className: 'free' },
-    ];
+    const [statuses, setStatuses] = useState([]);
+
+    useEffect(() => {
+        fetchStatuses();
+    }, []);
+
+    const fetchStatuses = async () => {
+        try {
+            const {data} = await StatusService.fetchStatuses();
+            setStatuses(data);
+        } catch (e) {
+            console.log(e);
+        }
+    };
 
     const selectStyles = {
         control: (styles) => ({
@@ -45,21 +55,26 @@ const StatusSelect = () => {
         IndicatorSeparator:() => null
     };
 
-    const addOptionClass = (option) => {
-        setValue(option.className);
+    const changeStatus = async (option) => {
+        try {
+            await StatusService.changeStatus(user.email, option);
+            onStatusChange(option);
+        } catch (e) {
+            console.log(e);
+        }
     };
 
 
     return (
             <Select
-                className={cn("status-select last-text", value)}
-                ref={selectRef}
-                onChange={addOptionClass}
-                options={options}
+                className={cn("status-select last-text", selectedStatus.className)}
+                onChange={changeStatus}
+                options={statuses}
+                value={selectedStatus}
                 styles={selectStyles}
-                placeholder=''
                 components={components}
                 isSearchable={false}
+                isDisabled={disabled}
             />
     );
 };

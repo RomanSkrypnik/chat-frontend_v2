@@ -1,0 +1,15 @@
+.contact-button {
+
+  &:not(:last-child) {
+    margin-bottom: 15px;
+  }
+
+  display: flex;
+  align-items: center;
+  color: $purple;
+  width: 100%;
+  border: 1px solid $purple;
+  border-radius: 8px;
+  text-indent: 10px;
+  padding: 9px 14px 10px;
+}

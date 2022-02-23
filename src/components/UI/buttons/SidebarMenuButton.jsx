@@ -1,10 +1,10 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
-const SidebarMenuButton = ({children}) => {
+const SidebarMenuButton = ({children, path}) => {
 
     return (
-        <Link to="/" className="sidebar-menu-button">{children}</Link>
+        <NavLink to={path} className="sidebar-menu-button">{children}</NavLink>
     );
 
 };

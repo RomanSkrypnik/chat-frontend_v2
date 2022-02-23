@@ -1,0 +1,10 @@
+.stepper {
+
+  &.active {
+    background-color: $yellow !important;
+  }
+
+  &.completed {
+    background-color: $green !important;
+  }
+}
