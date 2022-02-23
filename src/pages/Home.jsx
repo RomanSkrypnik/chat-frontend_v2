@@ -6,7 +6,7 @@ import withDefaultLayout, {SocketInstance} from "../layouts/Default";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import ContactInfo from "../components/modals/ContactInfo";
-import {setFriend} from "../store/slices/friend";
+import {fetchOlderMessages, setFriend} from "../store/slices/friend";
 import UserInfo from "../components/partials/UserInfo";
 import ChatMessages from "../components/partials/ChatMessages";
 
@@ -32,13 +32,12 @@ const Home = () => {
     }, [hash]);
 
     useEffect(() => {
-        friend && scrollToBottom();
+        if (friend && friend.messages) {
+            friend.messages.length <= 40 && scrollToBottom();
+        }
     }, [friend]);
 
-    const init = () => {
-        dispatch(setFriend(hash));
-        scrollToBottom();
-    }
+    const init = () => dispatch(setFriend(hash));
 
     const scrollToBottom = () => {
         const scroll =
@@ -48,9 +47,9 @@ const Home = () => {
     };
 
     const handleScroll = (e) => {
-        // if (e.currentTarget.scrollTop === 0) {
-        //     dispatch(fetchOlderMessages(hash));
-        // }
+        if (e.currentTarget.scrollTop === 0) {
+            dispatch(fetchOlderMessages(hash));
+        }
     };
 
     const handleContactInfo = () => setContactInfo(!contactInfo);

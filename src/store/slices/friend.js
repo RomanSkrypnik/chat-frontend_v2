@@ -1,5 +1,29 @@
 import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import FriendService from "../../services/FriendService";
+import MessageService from "../../services/MessageService";
+
+export const fetchOlderMessages = createAsyncThunk(
+    'friend/fetchOlderMessages',
+    async (hash, {getState, dispatch}) => {
+        try {
+            const {allMessagesReceived} = getState().friend;
+
+            if (!allMessagesReceived) {
+                const {offset, limit} = getState().friend;
+                const {data} = await MessageService.fetchMessages(hash, offset, limit);
+
+                if (data.length >= 1) {
+                    dispatch(increaseOffset());
+                    dispatch(addMessages(data));
+                } else {
+                    dispatch(setAllMessagesReceived());
+                }
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+)
 
 export const fetchUsersBySearch = createAsyncThunk(
     'friend/fetchUsersBySearch',
@@ -19,6 +43,7 @@ export const fetchFriends = createAsyncThunk(
         try {
             const {data} = await FriendService.fetchFriends();
             dispatch(setFriends(data));
+            dispatch(increaseOffset(data));
         } catch (e) {
             console.log(e);
         }
@@ -30,7 +55,10 @@ export const friendSlice = createSlice({
     initialState: {
         friends: [],
         friend: {},
+        limit: 40,
+        offset: 0,
         isLoaded: false,
+        allMessagesReceived: false,
     },
     reducers: {
 
@@ -87,6 +115,18 @@ export const friendSlice = createSlice({
                 state.friend = {...sender, messages: [...sender.messages, lastMessage]};
             }
         },
+
+        addMessages(state, {payload}) {
+            state.friend = {...state, messages: [...payload, ...state.friend.messages]};
+        },
+
+        increaseOffset(state) {
+            state.offset += 40;
+        },
+
+        setAllMessagesReceived(state) {
+            state.allMessagesReceived = true;
+        }
     },
 
     extraReducers: {
@@ -97,6 +137,15 @@ export const friendSlice = createSlice({
 
 });
 
-export const {setFriends, addFriend, setFriend, changeFriendStatus, changeFriendLastMessage} = friendSlice.actions;
+export const {
+    setFriends,
+    addFriend,
+    setFriend,
+    changeFriendStatus,
+    changeFriendLastMessage,
+    increaseOffset,
+    addMessages,
+    setAllMessagesReceived
+} = friendSlice.actions;
 
 export default friendSlice.reducer;
