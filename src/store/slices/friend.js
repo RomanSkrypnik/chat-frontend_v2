@@ -81,7 +81,11 @@ export const friendSlice = createSlice({
                 return friend;
             });
 
-            state.friend = {...friend, messages: [...friend.messages, lastMessage]}
+            const sender = friends.filter(friend => friend.friend.hash === hash)[0];
+
+            if (sender.friend.hash === friend.friend.hash) {
+                state.friend = {...sender, messages: [...sender.messages, lastMessage]};
+            }
         },
     },
 
