@@ -27,7 +27,7 @@ export default [
         text: 'After this step you will be send a message with account confirmation',
         buttons: [
             {text: 'Back', type: 'button'},
-            {text: 'Next', type: 'submit'},
+            {text: 'Register', type: 'submit'},
         ]
     }
 ];
