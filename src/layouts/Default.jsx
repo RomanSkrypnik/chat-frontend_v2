@@ -4,7 +4,7 @@ import AuthProvider from "../components/AuthProvider";
 import io from "socket.io-client";
 import {addMessage} from "../store/slices/message";
 import {useDispatch} from "react-redux";
-import {changeFriendStatus} from "../store/slices/friend";
+import {addFriend, changeFriendStatus} from "../store/slices/friend";
 import {changeFriendLastMessage} from "../store/slices/friend";
 
 export const SocketInstance = React.createContext(null);
@@ -27,11 +27,12 @@ const DefaultLayout = ({children}) => {
 
     useEffect(() => {
         if (socket) {
-            socket.on('new-message', (message) => {
-                const {lastMessage} = message;
+            socket.on('new-message', (messageData) => {
+                const {lastMessage} = messageData;
 
+                dispatch(addFriend(messageData));
                 dispatch(addMessage(lastMessage));
-                dispatch(changeFriendLastMessage(message));
+                dispatch(changeFriendLastMessage(messageData));
             });
 
             socket.on('new-status', ({status, hash}) => {

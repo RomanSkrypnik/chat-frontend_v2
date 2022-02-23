@@ -18,6 +18,7 @@ export const fetchFriends = createAsyncThunk(
     async (_, {dispatch}) => {
         try {
             const {data} = await FriendService.fetchFriends();
+            console.log(data);
             dispatch(setFriends(data));
         } catch (e) {
             console.log(e);
@@ -50,7 +51,14 @@ export const friendSlice = createSlice({
         },
 
         addFriend(state, {payload}) {
-            state.friends.push(payload);
+            const friends = current(state.friends);
+            const friend = friends?.filter(friend => {
+                return friend.friend.hash === payload.friend.hash;
+            });
+
+            if(friend.length < 1) {
+                state.friends = [...friends, payload];
+            }
         },
 
         setFriend(state, {payload}) {

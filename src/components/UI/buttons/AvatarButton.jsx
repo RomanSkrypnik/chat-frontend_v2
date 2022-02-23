@@ -19,8 +19,7 @@ const AvatarButton = ({user, large, onClick}) => {
     return (
         <button className={cn("avatar p-0", large && 'avatar_large')} onClick={onClick}>
             <span className="avatar__wrapper">
-                {user.pictureUrl &&
-                <img src={API_URL + '/img/' + user.pictureUrl} alt="Avatar" className="avatar__image"/>}
+                {user.pictureUrl && <img src={API_URL + '/img/' + user.pictureUrl} alt="Avatar" className="avatar__image"/>}
             </span>
             <span className={cn("avatar__circle", user?.status?.className ?? 'd-none')}/>
             {

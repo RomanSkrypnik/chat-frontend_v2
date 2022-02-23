@@ -6,6 +6,7 @@ export const fetchMessages = createAsyncThunk(
     async (hash, {dispatch, getState}) => {
         const {offset, limit} = getState().message;
         const {data} = await MessageService.fetchMessages(hash, offset, limit);
+
         dispatch(setMessages(data));
     }
 );
@@ -17,6 +18,7 @@ export const fetchOlderMessages = createAsyncThunk(
         if (!receivedAll) {
             const {offset, limit} = getState().message;
             const {data} = await MessageService.fetchMessages(hash, offset, limit);
+
             data.length > 0 ? dispatch(addMessages(data)) : dispatch(setReceivedAll());
         }
     }
@@ -29,6 +31,7 @@ const messageSlice = createSlice({
         offset: 0,
         limit: 40,
         receivedAll: false,
+        newMessage: false
     },
     reducers: {
 
@@ -56,7 +59,7 @@ const messageSlice = createSlice({
             state.offset = 0;
             state.receivedAll = false;
         }
-    }
+    },
 });
 
 export const {setMessages, addMessage, addMessages, setReceivedAll, resetState} = messageSlice.actions;

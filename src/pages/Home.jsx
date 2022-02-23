@@ -24,7 +24,7 @@ const Home = () => {
 
     const socket = useContext(SocketInstance);
 
-    const {messages} = useSelector(state => state.message);
+    const {messages, offset} = useSelector(state => state.message);
     const {friend} = useSelector(state => state.friend);
 
     const [contactInfo, setContactInfo] = useState(false);
@@ -41,7 +41,7 @@ const Home = () => {
     }, [hash]);
 
     useEffect(() => {
-        // scrollToBottom();
+        offset <= 40 && scrollToBottom();
     }, [messages]);
 
 
@@ -54,6 +54,7 @@ const Home = () => {
 
     const handleScroll = (e) => {
         if (e.currentTarget.scrollTop === 0) {
+            console.log('here');
             dispatch(fetchOlderMessages(hash));
         }
     };

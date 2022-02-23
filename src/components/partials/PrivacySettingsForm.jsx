@@ -68,7 +68,8 @@ const PrivacySettingsForm = () => {
                     name="passwordConfirm"
                     defaultValue=''
                     render={({field: {onChange}}) => (
-                        <TextInput onChange={onChange} placeholder="Enter new password again" label="Confirm your password"/>
+                        <TextInput onChange={onChange} placeholder="Enter new password again"
+                                   label="Confirm your password"/>
                     )}
                 />
                 <div className="d-flex justify-content-center mt-2">
