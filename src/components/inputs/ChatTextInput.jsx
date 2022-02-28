@@ -11,7 +11,7 @@ const ChatTextInput = ({onSubmit}) => {
     const handleOnSubmit = (data) => {
         onSubmit(data);
         reset();
-    }
+    };
 
     return (
         <div className="chat-text-input d-flex position-relative">

@@ -6,9 +6,10 @@ import withDefaultLayout, {SocketInstance} from "../layouts/Default";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import ContactInfo from "../components/modals/ContactInfo";
-import {fetchOlderMessages, setFriend} from "../store/slices/friend";
+import {fetchOlderMessages, getFriendByHash, setFriend} from "../store/slices/friend";
 import UserInfo from "../components/partials/UserInfo";
 import ChatMessages from "../components/partials/ChatMessages";
+import {current} from "immer";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -19,25 +20,9 @@ const Home = () => {
 
     const socket = useContext(SocketInstance);
 
-    const {friend, isLoaded} = useSelector(state => state.friend);
-
     const [contactInfo, setContactInfo] = useState(false);
 
-    useEffect(() => {
-        init();
-    }, [isLoaded]);
-
-    useEffect(() => {
-        hash && init();
-    }, [hash]);
-
-    useEffect(() => {
-        if (friend && friend.messages) {
-            friend.messages.length <= 40 && scrollToBottom();
-        }
-    }, [friend]);
-
-    const init = () => dispatch(setFriend(hash));
+    const friend = useSelector(state => getFriendByHash(state.friend, hash));
 
     const scrollToBottom = () => {
         const scroll =

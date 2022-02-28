@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Sidebar from "../components/Sidebar";
 import AuthProvider from "../components/AuthProvider";
 import io from "socket.io-client";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addFriend, changeFriendStatus} from "../store/slices/friend";
 import {changeFriendLastMessage} from "../store/slices/friend";
 
@@ -11,6 +11,8 @@ export const SocketInstance = React.createContext(null);
 const DefaultLayout = ({children}) => {
     const dispatch = useDispatch();
     const [socket, setSocket] = useState(null);
+
+    const {user} = useSelector(state => state.auth);
 
     const token = localStorage.getItem('token');
 
@@ -27,7 +29,9 @@ const DefaultLayout = ({children}) => {
     useEffect(() => {
         if (socket) {
             socket.on('new-message', (messageData) => {
-                dispatch(addFriend(messageData));
+                if (messageData.friend.hash !== user.hash) {
+                    dispatch(addFriend(messageData));
+                }
                 dispatch(changeFriendLastMessage(messageData));
             });
 

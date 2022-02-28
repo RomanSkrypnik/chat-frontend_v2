@@ -9,7 +9,7 @@ const SidebarUserTab = ({user}) => {
     const [message, setMessage] = useState(null);
 
     const initState = () => {
-        const lastMessage = user.messages[user.messages.length - 1];
+        const lastMessage = user.messages ? user.messages[user.messages.length - 1] : '';
 
         const formatedData = lastMessage ? format(new Date(lastMessage.createdAt), 'dd/MM/yyyy') : '';
         const text = lastMessage ? lastMessage.text : '';

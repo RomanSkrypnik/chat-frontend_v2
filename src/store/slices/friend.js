@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import FriendService from "../../services/FriendService";
 import MessageService from "../../services/MessageService";
-import AuthService from "../../services/AuthService";
 
 export const fetchOlderMessages = createAsyncThunk(
     'friend/fetchOlderMessages',
@@ -24,7 +23,7 @@ export const fetchOlderMessages = createAsyncThunk(
             console.log(e);
         }
     }
-)
+);
 
 export const fetchUsersBySearch = createAsyncThunk(
     'friend/fetchUsersBySearch',
@@ -55,7 +54,6 @@ export const friendSlice = createSlice({
     name: 'friend',
     initialState: {
         friends: [],
-        friend: {},
         limit: 40,
         offset: 0,
         isLoaded: false,
@@ -68,20 +66,12 @@ export const friendSlice = createSlice({
         },
 
         addFriend(state, {payload}) {
-            const friends = current(state.friends);
-            const friend = friends?.filter(friend => {
-                return friend.friend.hash === payload.friend.hash;
-            });
+            const friendNotFound = state.friends.findIndex(friend => friend.friend.hash === payload.friend.hash) === -1;
 
-            if (friend.length < 1) state.friends = [...friends, payload];
-        },
-
-        setFriend(state, {payload}) {
-            const friends = current(state.friends);
-
-            state.friend = friends.filter(friend => {
-                return friend.friend.hash === payload;
-            })[0];
+            if (friendNotFound) {
+                const newFriend = {friend: payload.friend, messages: [payload.lastMessage]};
+                state.friends = [...state.friends, newFriend];
+            }
         },
 
         changeFriendStatus(state, {payload}) {
@@ -100,9 +90,7 @@ export const friendSlice = createSlice({
             const {lastMessage} = payload;
             const {hash} = payload.friend;
 
-
             const friends = current(state.friends);
-            const friend = current(state.friend);
 
             state.friends = friends.map(friend => {
                 if (friend.friend.hash === hash) {
@@ -110,14 +98,6 @@ export const friendSlice = createSlice({
                 }
                 return friend;
             });
-
-            if (Object.keys(friend).length > 0) {
-                const sender = friends.filter(friend => friend.friend.hash === hash)[0];
-
-                if (sender.friend.hash === friend.friend.hash) {
-                    state.friend = {...sender, messages: [...sender.messages, lastMessage]};
-                }
-            }
         },
 
         addMessages(state, {payload}) {
@@ -151,5 +131,9 @@ export const {
     addMessages,
     setAllMessagesReceived
 } = friendSlice.actions;
+
+export const getFriendByHash = (state, hash) => {
+    return state.friends.find(friend => friend.friend.hash === hash);
+};
 
 export default friendSlice.reducer;

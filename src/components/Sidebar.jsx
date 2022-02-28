@@ -8,7 +8,6 @@ import {fetchFriends, fetchUsersBySearch} from "../store/slices/friend";
 import {changeStatus, logout} from "../store/slices/auth";
 import {useDispatch, useSelector} from "react-redux";
 import Dropdown from "./UI/Dropdown";
-import Portal from "./Portal";
 import ContactInfo from "./modals/ContactInfo";
 import CurrentUserInfo from "./partials/CurrentUserInfo";
 import {SocketInstance} from "../layouts/Default";
