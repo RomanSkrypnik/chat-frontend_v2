@@ -78,12 +78,9 @@ export const friendSlice = createSlice({
             const {hash, status} = payload;
             const friends = current(state.friends);
 
-            state.friends = friends.map(friend => {
-                if (friend.friend.hash === hash) {
-                    return {...friend, friend: {...friend.friend, status}}
-                }
-                return friend;
-            });
+            state.friends = friends.map(friend =>
+                friend.friend.hash === hash ? {...friend, friend: {...friend.friend, status}} : friend
+            );
         },
 
         changeFriendLastMessage(state, {payload}) {
@@ -92,12 +89,9 @@ export const friendSlice = createSlice({
 
             const friends = current(state.friends);
 
-            state.friends = friends.map(friend => {
-                if (friend.friend.hash === hash) {
-                    return {friend: friend.friend, messages: [...friend.messages, lastMessage]};
-                }
-                return friend;
-            });
+            state.friends = friends.map(friend =>
+                friend.friend.hash === hash ? {friend: friend.friend, messages: [...friend.messages, lastMessage]} : friend
+            );
         },
 
         addMessages(state, {payload}) {
@@ -110,6 +104,16 @@ export const friendSlice = createSlice({
 
         setAllMessagesReceived(state) {
             state.allMessagesReceived = true;
+        },
+
+        setMessageIsRead(state, {payload}) {
+            const friendIndex = state.friends.findIndex(friend => friend.friend.hash === payload.hash);
+
+            console.log(friendIndex);
+
+            state.friends[friendIndex].messages = state.friends[friendIndex].messages.map(message =>
+                message.id === payload.id ? {...message, isRead: true} : message
+            );
         }
     },
 
@@ -129,7 +133,8 @@ export const {
     changeFriendLastMessage,
     increaseOffset,
     addMessages,
-    setAllMessagesReceived
+    setAllMessagesReceived,
+    setMessageIsRead
 } = friendSlice.actions;
 
 export const getFriendByHash = (state, hash) => {

@@ -28,7 +28,7 @@ const ChatMessages = ({messages}) => {
                         alignToRight={alignToRight}
                         circle={circle}
                         timestamp={isDateDifferent}
-                        key={index}
+                        key={message.id}
                     />
                 })
             }

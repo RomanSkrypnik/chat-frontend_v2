@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 import AuthProvider from "../components/AuthProvider";
 import io from "socket.io-client";
 import {useDispatch, useSelector} from "react-redux";
-import {addFriend, changeFriendStatus} from "../store/slices/friend";
+import {addFriend, changeFriendStatus, setMessageIsRead} from "../store/slices/friend";
 import {changeFriendLastMessage} from "../store/slices/friend";
 
 export const SocketInstance = React.createContext(null);
@@ -38,6 +38,11 @@ const DefaultLayout = ({children}) => {
             socket.on('new-status', ({status, hash}) => {
                 dispatch(changeFriendStatus({status, hash}));
             });
+
+            socket.on('message-is-read', ({id, hash}) => {
+                dispatch(setMessageIsRead({id, hash}));
+            });
+
         }
     }, [socket]);
 

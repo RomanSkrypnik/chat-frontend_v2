@@ -6,8 +6,7 @@ export default class MessageService {
         return await $api.post('/messages', {hash, offset, limit});
     }
 
-    static async sendMessage(hash, message) {
-        return await $api.post('/send-message', {hash, message});
+    static async readMessage(id) {
+        return await $api.post('/read-message', {id});
     }
-
 }

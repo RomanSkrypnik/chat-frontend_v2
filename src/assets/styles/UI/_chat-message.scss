@@ -32,6 +32,14 @@
     align-self: end;
   }
 
+  .chat-message__time-holder {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+  }
+
   .chat-message__wrapper {
     width: 242px;
     position: relative;
@@ -46,6 +54,9 @@
       background-color: $yellow;
     }
 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     color: $darkGrey;
     background-color: $lightBlue;
     position: relative;
@@ -60,9 +71,7 @@
   .chat-message__time {
     opacity: 0.6;
     color: $purple;
-    position: absolute;
-    bottom: 14px;
-    right: 20px;
+    margin-right: 10px;
   }
 
   .chat-message__inner {
