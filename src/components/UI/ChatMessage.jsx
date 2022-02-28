@@ -10,7 +10,9 @@ import ReadMessageIcon from "./ReadMessageIcon";
 
 const ChatMessage = ({message, alignToRight = false, circle = false, timestamp = false}) => {
 
-    const {ref, inView} = useInView();
+    const {ref, inView} = useInView({
+        threshold: 0.9,
+    });
 
     const socket = useContext(SocketInstance);
 
@@ -24,7 +26,12 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
     useEffect(async () => {
         if (inView) {
             if (!message.isRead && message.sender.hash !== user.hash) {
-                socket.emit('read-message', {id: message.id, hash: message.sender.hash});
+                const body = {
+                    id: message.id,
+                    friendHash: message.sender.hash,
+                    currentHash: user.hash
+                };
+                socket.emit('read-message', body);
             }
         }
     }, [inView]);
@@ -35,8 +42,7 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
 
             <div className={cn("chat-message", alignToRight && 'chat-message_yellow')} ref={ref}>
 
-                {circle && <div
-                    className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
+                {circle && <div className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
 
                 <div className="chat-message__wrapper">
                     {

@@ -109,8 +109,6 @@ export const friendSlice = createSlice({
         setMessageIsRead(state, {payload}) {
             const friendIndex = state.friends.findIndex(friend => friend.friend.hash === payload.hash);
 
-            console.log(friendIndex);
-
             state.friends[friendIndex].messages = state.friends[friendIndex].messages.map(message =>
                 message.id === payload.id ? {...message, isRead: true} : message
             );
