@@ -28,6 +28,11 @@
     margin-bottom: 11px;
   }
 
+  .sidebar-tab__body {
+    width: 50%;
+    overflow: hidden;
+  }
+
   transition-duration: 0.3s;
   cursor: pointer;
   border-radius: 14px;

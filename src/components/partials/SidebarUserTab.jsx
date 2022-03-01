@@ -3,17 +3,24 @@ import AvatarButton from "../UI/buttons/AvatarButton";
 import ReadMessageIcon from "../UI/ReadMessageIcon";
 import {format} from 'date-fns';
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
+import UnreadMessageLabel from "../UI/UnreadMessageLabel";
 
 const SidebarUserTab = ({user}) => {
     const [date, setDate] = useState(null);
     const [message, setMessage] = useState(null);
+    const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
+
+    const currentUser = useSelector(state => state.auth.user);
 
     const init = () => {
         const lastMessage = user.messages ? user.messages[user.messages.length - 1] : null;
         const formatedData = lastMessage ? format(new Date(lastMessage.createdAt), 'dd/MM/yyyy') : '';
+        const unreadMessages = user.messages && user.messages.filter(message => !message.isRead && message.sender.hash !== user.hash);
 
         setDate(formatedData);
         setMessage(lastMessage);
+        setUnreadMessagesCount(unreadMessages?.length ?? 0);
     };
 
     useEffect(() => {
@@ -27,13 +34,20 @@ const SidebarUserTab = ({user}) => {
     return (
         <NavLink to={`/${user.friend.hash}`} className="sidebar-tab d-flex align-items-center">
             <AvatarButton user={user.friend}/>
-            <div className="ms-3">
+            <div className="sidebar-tab__body ms-3">
                 <div className="sidebar-tab__name bold-text">{user.friend.username}</div>
                 <div className="sidebar-tab__message last-text">{message ? message.text : ''}</div>
             </div>
             <div className="ms-auto d-flex flex-column align-items-end">
                 <div className="sidebar-tab__time last-text">{date}</div>
-                {(message && !message.isRead) && <ReadMessageIcon/>}
+                {
+                    (message && !message.isRead && message.sender.hash === currentUser.hash) && <ReadMessageIcon/>
+                }
+
+                {
+                    (message && !message.isRead && message.sender.hash !== currentUser.hash && unreadMessagesCount > 0) &&
+                    <UnreadMessageLabel>{unreadMessagesCount}</UnreadMessageLabel>
+                }
             </div>
         </NavLink>
     );

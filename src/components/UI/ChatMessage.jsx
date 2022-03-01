@@ -52,7 +52,7 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
                     }
                     <div className="chat-message__inner d-flex flex-column align-items-start">
                         <div className="chat-message__message regular-text position-relative">
-                            <span>{message.text}</span>
+                            <span className="chat-message__message-text">{message.text}</span>
                             <div className="chat-message__time-holder">
                                 <span className="chat-message__time">{time}</span>
                                 {!message.isRead && <ReadMessageIcon/>}

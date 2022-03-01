@@ -86,8 +86,7 @@ const Sidebar = () => {
                     </form>
                     {
                         friends.length > 0 && friends.map((friend, index) => (
-                                <SidebarUserTab user={friend}
-                                                key={index}/>
+                                <SidebarUserTab user={friend} key={index}/>
                             )
                         )
                     }

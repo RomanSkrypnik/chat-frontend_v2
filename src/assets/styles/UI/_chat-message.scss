@@ -84,6 +84,10 @@
     top: 0;
   }
 
+  .chat-message__message-text {
+    word-wrap: break-word;
+  }
+
   display: flex;
   flex-direction: column;
   align-self: flex-start;
