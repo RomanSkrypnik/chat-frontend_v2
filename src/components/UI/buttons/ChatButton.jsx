@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ChatButton = ({children}) => {
+const ChatButton = ({onClick, children}) => {
     return (
-        <button>{ children }</button>
+        <button onClick={onClick}>{ children }</button>
     );
 };
 

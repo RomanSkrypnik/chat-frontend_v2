@@ -10,6 +10,7 @@ import {fetchOlderMessages, getFriendByHash, setFriend} from "../store/slices/fr
 import UserInfo from "../components/partials/UserInfo";
 import ChatMessages from "../components/partials/ChatMessages";
 import {current} from "immer";
+import {logout} from "../store/slices/auth";
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const Home = () => {
     const handleContactInfo = () => setContactInfo(!contactInfo);
 
     const onSendMessage = (data) => {
-        socket.emit('send-message', {hash, message: {text: data.message}});
+        socket.emit('send-message', {...data, hash});
     };
 
     return (

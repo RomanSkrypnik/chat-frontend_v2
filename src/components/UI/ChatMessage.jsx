@@ -7,6 +7,7 @@ import {useInView} from 'react-intersection-observer';
 import {SocketInstance} from "../../layouts/Default";
 import {useSelector} from "react-redux";
 import ReadMessageIcon from "./ReadMessageIcon";
+import {API_URL} from "../../http";
 
 const ChatMessage = ({message, alignToRight = false, circle = false, timestamp = false}) => {
 
@@ -42,7 +43,8 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
 
             <div className={cn("chat-message", alignToRight && 'chat-message_yellow')} ref={ref}>
 
-                {circle && <div className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
+                {circle && <div
+                    className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
 
                 <div className="chat-message__wrapper">
                     {
@@ -52,7 +54,13 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
                     }
                     <div className="chat-message__inner d-flex flex-column align-items-start">
                         <div className="chat-message__message regular-text position-relative">
-                            <span className="chat-message__message-text">{message.text}</span>
+                            {
+                                message.files &&
+                                <div className="d-flex flex-wrap gap-3">
+                                    {message.files.map(file => <img className="chat-message__image" src={`${API_URL}/img/messages/${file.uniqueName}`} alt='' />)}
+                                </div>
+                            }
+                            <span className="chat-message__message-text mt-2">{message.text}</span>
                             <div className="chat-message__time-holder">
                                 <span className="chat-message__time">{time}</span>
                                 {!message.isRead && <ReadMessageIcon/>}

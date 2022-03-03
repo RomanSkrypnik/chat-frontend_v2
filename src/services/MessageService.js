@@ -6,7 +6,9 @@ export default class MessageService {
         return await $api.post('/messages', {hash, offset, limit});
     }
 
-    static async readMessage(id) {
-        return await $api.post('/read-message', {id});
+    static async uploadMedia(fd) {
+        return await $api.post('/send-media-message', fd);
     }
+
+
 }

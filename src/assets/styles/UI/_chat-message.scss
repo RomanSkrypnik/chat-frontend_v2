@@ -5,8 +5,6 @@
       color: $messageWhite;
       background-color: $yellow;
       border-radius: 14px 0 14px 14px;
-      margin-left: 0;
-      margin-right: auto;
     }
 
     .chat-message__time {
@@ -41,7 +39,6 @@
   }
 
   .chat-message__wrapper {
-    width: 242px;
     position: relative;
   }
 
@@ -62,7 +59,7 @@
     position: relative;
     border-radius: 0 14px 14px 14px;
     min-width: 188px;
-    max-width: 506px;
+    max-width: 504px;
     padding: 16px 20px 32px;
     margin-top: 10px;
     margin-left: auto;
@@ -86,6 +83,10 @@
 
   .chat-message__message-text {
     word-wrap: break-word;
+  }
+
+  .chat-message__image {
+
   }
 
   display: flex;

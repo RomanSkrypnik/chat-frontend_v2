@@ -9,6 +9,10 @@
     border: 1px dashed $purple;
   }
 
+  &.file-input_loaded {
+    border: 0;
+  }
+
   .file-input__cross {
     position: absolute;
     top: 50%;
@@ -26,4 +30,5 @@
   border-radius: 8px;
   width: 70px;
   height: 70px;
+  margin: 0 5px;
 }

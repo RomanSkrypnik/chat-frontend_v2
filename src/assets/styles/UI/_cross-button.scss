@@ -1,5 +1,20 @@
 .cross-button {
 
+  &.cross-button_light {
+    &::before,
+    &::after {
+      background-color: $purple;
+    }
+
+    background-color: $white;
+  }
+
+  &.align-to-right {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
   &::before,
   &::after {
     content: "";

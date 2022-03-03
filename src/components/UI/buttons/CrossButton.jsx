@@ -1,8 +1,9 @@
 import React from 'react';
+import cn from "classnames";
 
-const CrossButton = ({onClick}) => {
+const CrossButton = ({light, onClick, className}) => {
     return (
-        <button className="cross-button" onClick={onClick}/>
+        <button className={cn("cross-button", className, light && 'cross-button_light')} onClick={onClick}/>
     );
 };
 
