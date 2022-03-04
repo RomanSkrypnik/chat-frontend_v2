@@ -48,7 +48,7 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
 
                 <div className="chat-message__wrapper">
                     {
-                        circle && <div className="chat-message__avatar">
+                        circle && <div className={cn("d-flex", alignToRight && 'justify-content-end')}>
                             <AvatarButton user={message.sender}/>
                         </div>
                     }
@@ -57,7 +57,7 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
                             {
                                 message.files &&
                                 <div className="d-flex flex-wrap gap-3">
-                                    {message.files.map(file => <img className="chat-message__image" src={`${API_URL}/img/messages/${file.uniqueName}`} alt='' />)}
+                                    {message.files.map((file, index) => <img className="chat-message__image" src={`${API_URL}/img/messages/${file.uniqueName}`} alt='' key={index} />)}
                                 </div>
                             }
                             <span className="chat-message__message-text mt-2">{message.text}</span>

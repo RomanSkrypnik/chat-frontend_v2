@@ -20,13 +20,6 @@
       text-align: right;
     }
 
-    .chat-message__avatar {
-      position: absolute;
-      left: unset;
-      right: 0;
-      top: 0;
-    }
-
     align-self: end;
   }
 
@@ -39,6 +32,8 @@
   }
 
   .chat-message__wrapper {
+    display: flex;
+    flex-direction: column;
     position: relative;
   }
 
@@ -75,18 +70,12 @@
     margin-left: 10px;
   }
 
-  .chat-message__avatar {
-    position: absolute;
-    left: 0;
-    top: 0;
-  }
-
   .chat-message__message-text {
     word-wrap: break-word;
   }
 
   .chat-message__image {
-
+    border-radius: 8px;
   }
 
   display: flex;

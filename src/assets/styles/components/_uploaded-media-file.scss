@@ -1,0 +1,25 @@
+.uploaded-media-file {
+  &:hover {
+    &::before {
+      content: '';
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.3);
+      background-image: url("../../../../public/images/icons/cross.svg");
+      background-position: center;
+      background-repeat: no-repeat;
+      border-radius: 8px;
+    }
+  }
+
+  img {
+    border-radius: 8px;
+    height: 90px;
+  }
+
+  cursor: pointer;
+  position: relative;
+}
