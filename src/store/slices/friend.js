@@ -115,7 +115,7 @@ export const friendSlice = createSlice({
             );
 
             if (state.friend.friend.hash === hash) {
-                state.friend = {...state.friend.friend, messages: [...state.friend.messages, newMessage]};
+                state.friend = {friend: state.friend.friend, messages: [...state.friend.messages, newMessage]};
             }
         },
 
