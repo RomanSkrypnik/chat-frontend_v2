@@ -9,18 +9,28 @@ import {Controller} from "react-hook-form";
 
 const ChatTextInput = ({onSubmit}) => {
     const {handleSubmit, reset, control} = useForm();
+
     const [showDropZone, setShowDropZone] = useState(false);
-    const [messageId, setMessageId] = useState(null);
+    const [mediaFiles, setMediaFiles] = useState([]);
 
     const handleOnSubmit = (data) => {
-        onSubmit({...data, messageId});
-        reset();
+        onSubmit({...data, media: mediaFiles});
+        
+        setShowDropZone(false);
+        reset({text: '', media: null});
     };
 
     return (
         <div className="chat-text-input d-flex position-relative">
 
-            {showDropZone && <DropZone onFileChange={(id) => setMessageId(id)} onClose={() => setShowDropZone(false)}/>}
+            {
+                showDropZone &&
+                <DropZone
+                    control={control}
+                    onFileChange={(mediaFiles) => setMediaFiles(mediaFiles)}
+                    onClose={() => setShowDropZone(false)}
+                />
+            }
 
             <div className="chat-text-input__buttons d-flex">
                 <ChatButton onClick={() => setShowDropZone(!showDropZone)}>

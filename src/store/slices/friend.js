@@ -50,10 +50,20 @@ export const fetchFriends = createAsyncThunk(
     }
 );
 
+export const fetchFriend = createAsyncThunk(
+    'friend/fetchFriend',
+    async (hash, {dispatch}) => {
+        const {data} = await FriendService.fetchFriend(hash);
+
+        dispatch(setFriend(data));
+    }
+);
+
 export const friendSlice = createSlice({
     name: 'friend',
     initialState: {
         friends: [],
+        friend: {},
         limit: 40,
         offset: 0,
         isLoaded: false,
@@ -65,12 +75,17 @@ export const friendSlice = createSlice({
             state.friends = payload;
         },
 
+        setFriend(state, {payload}) {
+            state.friend = payload;
+        },
+
         addFriend(state, {payload}) {
+            const {newMessage} = payload;
+
             const friendNotFound = state.friends.findIndex(friend => friend.friend.hash === payload.friend.hash) === -1;
 
             if (friendNotFound) {
-                const newFriend = {friend: payload.friend, messages: [payload.lastMessage]};
-                state.friends = [...state.friends, newFriend];
+                state.friends = [...state.friends, {...payload, messages: [newMessage]}];
             }
         },
 
@@ -81,17 +96,27 @@ export const friendSlice = createSlice({
             state.friends = friends.map(friend =>
                 friend.friend.hash === hash ? {...friend, friend: {...friend.friend, status}} : friend
             );
+
+            if (state.friend.hash === hash) {
+                state.friend = {...state.friend, friend: {...state.friend.friend, status}};
+            }
         },
 
         changeFriendLastMessage(state, {payload}) {
-            const {lastMessage} = payload;
+            const {newMessage} = payload;
             const {hash} = payload.friend;
 
-            const friends = current(state.friends);
-
-            state.friends = friends.map(friend =>
-                friend.friend.hash === hash ? {friend: friend.friend, messages: [...friend.messages, lastMessage]} : friend
+            state.friends = state.friends.map(friend => {
+                    if (friend.friend.hash === hash) {
+                        return {friend: friend.friend, messages: [...friend.messages, newMessage]}
+                    }
+                    return friend;
+                }
             );
+
+            if (state.friend.friend.hash === hash) {
+                state.friend = {...state.friend.friend, messages: [...state.friend.messages, newMessage]};
+            }
         },
 
         addMessages(state, {payload}) {
@@ -107,11 +132,20 @@ export const friendSlice = createSlice({
         },
 
         setMessageIsRead(state, {payload}) {
-            const friendIndex = state.friends.findIndex(friend => friend.friend.hash === payload.hash);
+            const {id, hash} = payload;
+
+            const friendIndex = state.friends.findIndex(friend => friend.friend.hash === hash);
 
             state.friends[friendIndex].messages = state.friends[friendIndex].messages.map(message =>
-                message.id === payload.id ? {...message, isRead: true} : message
+                message.id === id ? {...message, isRead: true} : message
             );
+
+            if (state.friend.friend.hash === hash) {
+                state.friend.messages = state.friend.messages.map(message => {
+                    if (message.id === id) return {...message, isRead: true};
+                    return message;
+                })
+            }
         }
     },
 
@@ -125,8 +159,8 @@ export const friendSlice = createSlice({
 
 export const {
     setFriends,
-    addFriend,
     setFriend,
+    addFriend,
     changeFriendStatus,
     changeFriendLastMessage,
     increaseOffset,

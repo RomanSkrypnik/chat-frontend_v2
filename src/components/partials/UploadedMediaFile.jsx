@@ -1,13 +1,16 @@
-import React from 'react';
-import {API_URL} from "../../http";
+import React, {useEffect, useState} from 'react';
 
-const UploadedMediaFile = ({uniqueName, onClick}) => {
+const UploadedMediaFile = ({file, onClick}) => {
+    const [url, setUrl] = useState();
 
-    const handleOnClick = () => onClick(uniqueName);
+    useEffect(() => {
+        const url = URL.createObjectURL(file);
+        setUrl(url);
+    }, []);
 
     return (
-        <div className="uploaded-media-file me-3" onClick={handleOnClick}>
-            <img src={`${API_URL}/img/messages/${uniqueName}`} alt=""/>
+        <div className="uploaded-media-file me-3" onClick={() => onClick(file.name)}>
+            <img src={url} alt=""/>
         </div>
     );
 };

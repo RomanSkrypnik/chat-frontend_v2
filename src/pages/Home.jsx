@@ -6,11 +6,11 @@ import withDefaultLayout, {SocketInstance} from "../layouts/Default";
 import {useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import ContactInfo from "../components/modals/ContactInfo";
-import {fetchOlderMessages, getFriendByHash, setFriend} from "../store/slices/friend";
+import {fetchFriend, fetchOlderMessages} from "../store/slices/friend";
 import UserInfo from "../components/partials/UserInfo";
 import ChatMessages from "../components/partials/ChatMessages";
-import {current} from "immer";
-import {logout} from "../store/slices/auth";
+import MessageService from "../services/MessageService";
+
 
 const Home = () => {
     const dispatch = useDispatch();
@@ -23,7 +23,11 @@ const Home = () => {
 
     const [contactInfo, setContactInfo] = useState(false);
 
-    const friend = useSelector(state => getFriendByHash(state.friend, hash));
+    const {friend} = useSelector(state => state.friend);
+
+    useEffect(() => {
+        dispatch(fetchFriend(hash));
+    }, []);
 
     const scrollToBottom = () => {
         const scroll =
@@ -40,8 +44,17 @@ const Home = () => {
 
     const handleContactInfo = () => setContactInfo(!contactInfo);
 
-    const onSendMessage = (data) => {
-        socket.emit('send-message', {...data, hash});
+    const onSendMessage = async ({text, media}) => {
+        const fd = new FormData();
+
+        media.forEach(mediaFile => fd.append('media', mediaFile));
+
+        fd.append('text', text);
+        fd.append('hash', hash);
+
+        const {data} = await MessageService.sendMessage(fd);
+
+        socket.emit('send-message', {messageId: data.id, friendHash: hash});
     };
 
     return (
@@ -52,7 +65,7 @@ const Home = () => {
                     <div className="home__chat-wrapper d-flex flex-column flex-grow-1"
                          ref={container}
                          onScroll={handleScroll}>
-                        {friend && <ChatMessages messages={friend.messages}/>}
+                        {friend.friend && <ChatMessages messages={friend.messages}/>}
                     </div>
                     <div className="d-flex align-items-center ps-4 pe-5 mt-5 mb-4">
                         <SettingButton onClick={handleContactInfo}/>

@@ -1,8 +1,20 @@
 import React, {useState} from 'react';
 import CrossIcon from "../UI/icons/Cross";
 import cn from "classnames";
+import {useController} from "react-hook-form";
 
-const FileInput = ({onChange, placeholder, dark = false}) => {
+const FileInput = ({onFileInput, control, name, placeholder, dark = false}) => {
+
+    const {field} = useController({control, name});
+    const [value, setValue] = useState("");
+
+    const onChange = (e) => {
+        setValue(e.target.value);
+
+        onFileInput(e.target.files);
+
+        field.onChange(e.target.files);
+    };
 
     return (
         <label>
@@ -11,6 +23,7 @@ const FileInput = ({onChange, placeholder, dark = false}) => {
                 <input
                     multiple
                     type="file"
+                    value={value}
                     className="file-input__input"
                     onChange={onChange}
                 />
