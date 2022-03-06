@@ -14,9 +14,15 @@ const SidebarUserTab = ({user}) => {
     const currentUser = useSelector(state => state.auth.user);
 
     const init = () => {
-        const lastMessage = user.messages ? user.messages[user.messages.length - 1] : null;
-        const formatedData = lastMessage ? format(new Date(lastMessage.createdAt), 'dd/MM/yyyy') : '';
+        const lastMessage = user.messages.length > 0 && {...user.messages[user.messages.length - 1]};
+        const formatedData = lastMessage && format(new Date(lastMessage.createdAt), 'dd/MM/yyyy');
         const unreadMessages = user.messages && user.messages.filter(message => !message.isRead && message.sender.hash !== user.hash);
+
+        if (lastMessage.text === '' && lastMessage.files.length > 1) {
+            lastMessage.text = 'Photos'
+        } else if (lastMessage.text === '' && lastMessage.files.length === 1) {
+            lastMessage.text = 'Photo';
+        }
 
         setDate(formatedData);
         setMessage(lastMessage);
@@ -39,7 +45,9 @@ const SidebarUserTab = ({user}) => {
                 <div className="sidebar-tab__message last-text">{message ? message.text : ''}</div>
             </div>
             <div className="ms-auto d-flex flex-column align-items-end">
-                <div className="sidebar-tab__time last-text">{date}</div>
+
+                {date && <div className="sidebar-tab__time last-text">{date}</div>}
+
                 {
                     (message && !message.isRead && message.sender.hash === currentUser.hash) && <ReadMessageIcon/>
                 }

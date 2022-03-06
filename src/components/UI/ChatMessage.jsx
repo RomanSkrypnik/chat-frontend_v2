@@ -7,8 +7,10 @@ import {useInView} from 'react-intersection-observer';
 import {SocketInstance} from "../../layouts/Default";
 import {useSelector} from "react-redux";
 import ReadMessageIcon from "./ReadMessageIcon";
-import {API_URL} from "../../http";
 import PhotoModal from "../modals/PhotoModal";
+import PictureSwitch from "../partials/PictureSwitch";
+
+export const ChatMessageInstance = React.createContext(null);
 
 const ChatMessage = ({message, alignToRight = false, circle = false, timestamp = false}) => {
 
@@ -41,13 +43,17 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
         }
     }, [inView]);
 
+    useEffect(() => {
+        console.log(message.files.length);
+    }, []);
+
     const handlePhotoModalOpen = (src) => {
         setPhotoModalSrc(src);
         setShowPhotoModal(true);
     };
 
     return (
-        <>
+        <ChatMessageInstance.Provider value={handlePhotoModalOpen}>
             {timestamp && <Timestamp date={formattedDate}/>}
 
             <div className={cn("chat-message", alignToRight && 'chat-message_yellow')} ref={ref}>
@@ -65,16 +71,8 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
                         <div className="chat-message__message regular-text position-relative">
                             {
                                 message.files &&
-                                <div className="d-flex flex-wrap gap-3">
-                                    {message.files.map((file, index) => {
-                                        const src = `${API_URL}/img/messages/${file.uniqueName}`;
-
-                                        return <img onClick={() => handlePhotoModalOpen(src)}
-                                                    className="chat-message__image"
-                                                    src={src}
-                                                    alt=''
-                                                    key={index}/>
-                                    })}
+                                <div className="d-flex flex-wrap justify-content-between gap-3">
+                                    <PictureSwitch files={message.files}/>
                                 </div>
                             }
                             <span className="chat-message__message-text mt-2">{message.text}</span>
@@ -88,7 +86,7 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
             </div>
 
             {showPhotoModal && <PhotoModal onClose={() => setShowPhotoModal(false)} src={photoModalSrc}/>}
-        </>
+        </ChatMessageInstance.Provider>
     );
 };
 

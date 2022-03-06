@@ -54,7 +54,7 @@
     position: relative;
     border-radius: 0 14px 14px 14px;
     min-width: 188px;
-    max-width: 504px;
+    max-width: 992px;
     padding: 16px 20px 32px;
     margin-top: 10px;
     margin-left: auto;
@@ -75,6 +75,31 @@
   }
 
   .chat-message__image {
+
+    &.chat-message__image_double {
+      max-width: 49%;
+    }
+
+    &.chat-message__image_triple {
+      &:last-child {
+        max-width: 100%;
+      }
+      max-width: 49%;
+    }
+
+    &.chat-message__image_quadruple {
+      max-width: 49%;
+    }
+
+    &.chat-message__image_quintuple {
+      &:last-child {
+        max-width: 100%;
+      }
+      max-width: 49%;
+    }
+
+    object-fit: cover;
+    cursor: pointer;
     border-radius: 8px;
   }
 
