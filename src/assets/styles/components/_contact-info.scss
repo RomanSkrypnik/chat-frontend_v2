@@ -14,10 +14,41 @@
     align-items: center;
   }
 
+  .contact-info__media {
+    width: 100%;
+    border-top: 1px solid $grey;
+    margin-top: 30px;
+  }
+
   .contact-info__buttons {
     width: 100%;
     border-top: 1px solid $grey;
     padding-top: 20px;
+  }
+
+  .contact-info__media-wrapper {
+
+    &:nth-child(n + 4) {
+      margin-top: 10px;
+    }
+
+    &.contact-info__media-wrapper_more {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    display: flex;
+    justify-content: center;
+    width: 33%;
+    height: 82px;
+  }
+
+  .contact-info__media-image {
+    width: 82px;
+    height: 82px;
+    object-fit: cover;
+    border-radius: 8px;
   }
 
   flex-grow: 1;

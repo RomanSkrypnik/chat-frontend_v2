@@ -45,6 +45,7 @@ const ChatTextInput = ({onSubmit}) => {
                 <Controller
                     control={control}
                     name="text"
+                    defaultValue=""
                     render={({field: {onChange, value}}) => (
                         <input type="text"
                                onChange={onChange}
