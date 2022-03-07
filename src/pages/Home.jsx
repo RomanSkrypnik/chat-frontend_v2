@@ -1,24 +1,20 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import SwitchButton from "../components/UI/buttons/SwitchButton";
-import ChatTextInput from "../components/inputs/ChatTextInput";
-import SettingButton from "../components/UI/buttons/SettingButton";
+import React, {useContext, useState} from 'react';
 import withDefaultLayout, {SocketInstance} from "../layouts/Default";
-import {useParams} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import ContactInfo from "../components/modals/ContactInfo";
-import {fetchFriend, fetchOlderMessages} from "../store/slices/friend";
-import UserInfo from "../components/partials/UserInfo";
-import ChatMessages from "../components/partials/ChatMessages";
+import HomeMedia from "../components/partials/HomeMedia";
+import HomeMessages from "../components/partials/HomeMessages";
+import SwitchButton from "../components/UI/buttons/SwitchButton";
+import SettingButton from "../components/UI/buttons/SettingButton";
+import ChatTextInput from "../components/inputs/ChatTextInput";
 import MessageService from "../services/MessageService";
-import {Form} from "react-bootstrap";
+import ContactInfo from "../components/modals/ContactInfo";
+import UserInfo from "../components/partials/UserInfo";
+import {useSelector} from "react-redux";
+import {useParams} from "react-router";
 
 
 const Home = () => {
-    const dispatch = useDispatch();
 
-    const {hash} = useParams();
-
-    const container = useRef(null);
+    const [homeMedia, setHomeMedia] = useState(false);
 
     const socket = useContext(SocketInstance);
 
@@ -26,24 +22,7 @@ const Home = () => {
 
     const {friend} = useSelector(state => state.friend);
 
-    useEffect(() => {
-        dispatch(fetchFriend(hash));
-    }, []);
-
-    const scrollToBottom = () => {
-        const scroll =
-            container.current.scrollHeight -
-            container.current.clientHeight;
-        container.current.scrollTo(0, scroll);
-    };
-
-    const handleScroll = (e) => {
-        if (e.currentTarget.scrollTop === 0) {
-            dispatch(fetchOlderMessages(hash));
-        }
-    };
-
-    const handleContactInfo = () => setContactInfo(!contactInfo);
+    const {hash} = useParams();
 
     const onSendMessage = async ({text, media}) => {
 
@@ -63,29 +42,39 @@ const Home = () => {
         }
     };
 
+    const handleContactInfo = () => setContactInfo(!contactInfo);
+
+
     return (
-        <section className="home">
-            <div className="d-flex mx-4">
-                <div className="flex-grow-1">
-                    <SwitchButton/>
-                    <div className="home__chat-wrapper d-flex flex-column flex-grow-1"
-                         ref={container}
-                         onScroll={handleScroll}>
-                        {friend.friend && <ChatMessages messages={friend.messages}/>}
+        <>
+            <div className="home">
+                <div className="d-flex mx-4">
+                    <div className="flex-grow-1">
+
+                        <SwitchButton onClick={() => setHomeMedia(!homeMedia)}/>
+
+                        {homeMedia ? <HomeMedia messages={friend.messages}/> : <HomeMessages/>}
+
+                        {
+                            !homeMedia &&
+                            <div className="d-flex align-items-center ps-4 pe-5 mt-5 mb-4">
+                                <SettingButton onClick={handleContactInfo}/>
+                                <ChatTextInput onSubmit={onSendMessage}/>
+                            </div>
+                        }
+
                     </div>
-                    <div className="d-flex align-items-center ps-4 pe-5 mt-5 mb-4">
-                        <SettingButton onClick={handleContactInfo}/>
-                        <ChatTextInput onSubmit={onSendMessage}/>
-                    </div>
+
+                    {
+                        contactInfo &&
+                        <ContactInfo onClose={handleContactInfo}>
+                            {<UserInfo user={friend}/>}
+                        </ContactInfo>
+                    }
+
                 </div>
-                {
-                    contactInfo &&
-                    <ContactInfo onClose={handleContactInfo}>
-                        {<UserInfo user={friend}/>}
-                    </ContactInfo>
-                }
             </div>
-        </section>
+        </>
     );
 };
 

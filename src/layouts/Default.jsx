@@ -27,13 +27,11 @@ const DefaultLayout = ({children}) => {
     useEffect(() => {
         if (socket) {
             socket.on('new-text-message', (messageData) => {
-                console.log(messageData);
                 dispatch(addFriend(messageData));
                 dispatch(addNewMessage(messageData));
             });
 
             socket.on('new-media-message', (messageData) => {
-                console.log(messageData);
                 dispatch(addFriend(messageData));
                 dispatch(addNewMessages(messageData));
             });

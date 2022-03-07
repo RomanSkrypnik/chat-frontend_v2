@@ -1,10 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
+import cn from "classnames";
 
-const SwitchButton = () => {
+const SwitchButton = ({onClick}) => {
+
+    const [activeBtn, setActiveBtn] = useState(false);
+
+    const handleOnClick = () => {
+        setActiveBtn(!activeBtn);
+        onClick();
+    };
+
     return (
         <div className="switch-button d-flex last-text last-text_alt">
-            <button className="switch-button__button switch-button__button_active w-50">Chat</button>
-            <button className="switch-button__button w-50">Media</button>
+            <button className={cn("switch-button__button w-50", !activeBtn && 'switch-button__button_active')} onClick={handleOnClick}>Chat</button>
+            <button className={cn("switch-button__button w-50", activeBtn && 'switch-button__button_active')} onClick={handleOnClick}>Media</button>
         </div>
     );
 };

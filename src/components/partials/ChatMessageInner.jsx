@@ -16,7 +16,9 @@ const ChatMessageInner = ({message}) => {
     const url = `${API_URL}/img/messages/`;
 
     useEffect(() => {
-        assignClassName();
+        if (message.files) {
+            assignClassName();
+        }
     }, []);
 
     const assignClassName = () => {
@@ -41,7 +43,7 @@ const ChatMessageInner = ({message}) => {
 
             <div className="chat-message__message__image-wrapper">
                 {
-                    message.files.length > 0 && message.files.map(file =>
+                    message.files && message.files.map(file =>
                         <img onClick={() => handlePhotoModalOpen(url + file.uniqueName)}
                              className="chat-message__image"
                              src={url + file.uniqueName}
@@ -52,7 +54,7 @@ const ChatMessageInner = ({message}) => {
                 }
             </div>
 
-            <span className="chat-message__message-text mt-2">{message.text}</span>
+            <span className="chat-message__message-text mt-2">{message.text ?? ''}</span>
 
             <div className="chat-message__time-holder">
                 <span className="chat-message__time">{time}</span>

@@ -1,0 +1,13 @@
+.home-media {
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  display: flex;
+  flex-wrap: wrap;
+  height: 85vh;
+  overflow: auto;
+  max-width: 1920px;
+  margin: 100px auto 100px;
+}

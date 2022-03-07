@@ -50,18 +50,23 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
             <div className={cn("chat-message", alignToRight && 'chat-message_yellow')} ref={ref}>
 
                 {
-                    circle && <div className="chat-message__name last-text last-text_alt mb-1">{message.sender.username}</div>
+                    circle &&
+                    <div className="chat-message__name last-text last-text_alt mb-1">{message.sender.username}</div>
                 }
 
                 <div className="chat-message__wrapper">
+
                     {
-                        circle && <div className={cn("d-flex", alignToRight && 'justify-content-end')}>
+                        circle &&
+                        <div className={cn("d-flex", alignToRight && 'justify-content-end')}>
                             <AvatarButton user={message.sender}/>
                         </div>
                     }
+
                     <div className="chat-message__inner d-flex flex-column align-items-start">
-                        {(message.files && message.files.length > 0) && <ChatMessageInner message={message}/>}
+                        {message && <ChatMessageInner message={message}/>}
                     </div>
+
                 </div>
             </div>
 
