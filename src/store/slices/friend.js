@@ -14,7 +14,7 @@ export const fetchOlderMessages = createAsyncThunk(
 
                 if (data.length >= 1) {
                     dispatch(increaseOffset());
-                    dispatch(addMessages(data));
+                    dispatch(addOlderMessages(data));
                 } else {
                     dispatch(setAllMessagesReceived());
                 }
@@ -89,20 +89,7 @@ export const friendSlice = createSlice({
             }
         },
 
-        changeFriendStatus(state, {payload}) {
-            const {hash, status} = payload;
-            const friends = current(state.friends);
-
-            state.friends = friends.map(friend =>
-                friend.friend.hash === hash ? {...friend, friend: {...friend.friend, status}} : friend
-            );
-
-            if (state.friend.hash === hash) {
-                state.friend = {...state.friend, friend: {...state.friend.friend, status}};
-            }
-        },
-
-        changeFriendLastMessage(state, {payload}) {
+        addNewMessage(state, {payload}) {
             const {newMessage} = payload;
             const {hash} = payload.friend;
 
@@ -119,8 +106,37 @@ export const friendSlice = createSlice({
             }
         },
 
-        addMessages(state, {payload}) {
-            state.friend = {...state, messages: [...payload, ...state.friend.messages]};
+        addNewMessages(state, {payload}) {
+            const {friend, newMessages} = payload;
+            const friendHash = friend.hash;
+
+            state.friends = state.friends.map(friend => {
+                if (friend.friend.hash === friendHash) {
+                    return {...friend, messages: [...friend.messages, ...newMessages]}
+                }
+                return friend;
+            });
+
+            if (friendHash === state.friend.friend.hash) {
+                state.friend = {...state.friend, messages: [...state.friend.messages, ...newMessages]};
+            }
+        },
+
+        addOlderMessages(state, {payload}) {
+            state.friend = {...state.friend, messages: [...state.friend.messages, ...payload]};
+        },
+
+        changeFriendStatus(state, {payload}) {
+            const {hash, status} = payload;
+            const friends = current(state.friends);
+
+            state.friends = friends.map(friend =>
+                friend.friend.hash === hash ? {...friend, friend: {...friend.friend, status}} : friend
+            );
+
+            if (state.friend.hash === hash) {
+                state.friend = {...state.friend, friend: {...state.friend.friend, status}};
+            }
         },
 
         increaseOffset(state) {
@@ -162,9 +178,10 @@ export const {
     setFriend,
     addFriend,
     changeFriendStatus,
-    changeFriendLastMessage,
+    addNewMessage,
+    addNewMessages,
     increaseOffset,
-    addMessages,
+    addOlderMessages,
     setAllMessagesReceived,
     setMessageIsRead
 } = friendSlice.actions;

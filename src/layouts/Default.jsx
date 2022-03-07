@@ -3,8 +3,8 @@ import Sidebar from "../components/Sidebar";
 import AuthProvider from "../components/AuthProvider";
 import io from "socket.io-client";
 import {useDispatch} from "react-redux";
-import {addFriend, changeFriendStatus, setMessageIsRead} from "../store/slices/friend";
-import {changeFriendLastMessage} from "../store/slices/friend";
+import {addFriend, addNewMessages, changeFriendStatus, setMessageIsRead} from "../store/slices/friend";
+import {addNewMessage} from "../store/slices/friend";
 
 export const SocketInstance = React.createContext(null);
 
@@ -26,10 +26,16 @@ const DefaultLayout = ({children}) => {
 
     useEffect(() => {
         if (socket) {
-            socket.on('new-message', (messageData) => {
+            socket.on('new-text-message', (messageData) => {
                 console.log(messageData);
                 dispatch(addFriend(messageData));
-                dispatch(changeFriendLastMessage(messageData));
+                dispatch(addNewMessage(messageData));
+            });
+
+            socket.on('new-media-message', (messageData) => {
+                console.log(messageData);
+                dispatch(addFriend(messageData));
+                dispatch(addNewMessages(messageData));
             });
 
             socket.on('new-status', ({status, hash}) => {

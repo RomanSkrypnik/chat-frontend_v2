@@ -6,11 +6,13 @@ const SingleMessagePicture = ({name, url, alt}) => {
     const handlePhotoModalOpen = useContext(ChatMessageInstance);
 
     return (
-        <img onClick={() => handlePhotoModalOpen(url + name)}
-             className="chat-message__image"
-             src={url + name}
-             alt={alt ?? ''}
-        />
+        <div className="chat-message__message regular-text position-relative">
+            <img onClick={() => handlePhotoModalOpen(url + name)}
+                 className="chat-message__image"
+                 src={url + name}
+                 alt={alt ?? ''}
+            />
+        </div>
     );
 };
 

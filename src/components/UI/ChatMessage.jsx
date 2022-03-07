@@ -6,9 +6,8 @@ import Timestamp from "./Timestamp";
 import {useInView} from 'react-intersection-observer';
 import {SocketInstance} from "../../layouts/Default";
 import {useSelector} from "react-redux";
-import ReadMessageIcon from "./ReadMessageIcon";
 import PhotoModal from "../modals/PhotoModal";
-import PictureSwitch from "../partials/PictureSwitch";
+import ChatMessageInner from "../partials/ChatMessageInner";
 
 export const ChatMessageInstance = React.createContext(null);
 
@@ -25,11 +24,6 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
     const [showPhotoModal, setShowPhotoModal] = useState(false);
     const [photoModalSrc, setPhotoModalSrc] = useState(null);
 
-    const currentDate = new Date();
-    const date = new Date(message.createdAt);
-    const time = format(date, 'hh:mm');
-    const formattedDate = currentDate.getDate() === date.getDate() ? 'TODAY' : format(date, 'dd/MM/yyyy');
-
     useEffect(async () => {
         if (inView) {
             if (!message.isRead && message.sender.hash !== user.hash) {
@@ -43,10 +37,6 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
         }
     }, [inView]);
 
-    useEffect(() => {
-        console.log(message.files.length);
-    }, []);
-
     const handlePhotoModalOpen = (src) => {
         setPhotoModalSrc(src);
         setShowPhotoModal(true);
@@ -54,12 +44,14 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
 
     return (
         <ChatMessageInstance.Provider value={handlePhotoModalOpen}>
-            {timestamp && <Timestamp date={formattedDate}/>}
+
+            {timestamp && <Timestamp date={message.createdAt}/>}
 
             <div className={cn("chat-message", alignToRight && 'chat-message_yellow')} ref={ref}>
 
-                {circle && <div
-                    className="chat-message__name last-text last-text_alt fw-bold mb-1">{message.sender.username}</div>}
+                {
+                    circle && <div className="chat-message__name last-text last-text_alt mb-1">{message.sender.username}</div>
+                }
 
                 <div className="chat-message__wrapper">
                     {
@@ -68,24 +60,16 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
                         </div>
                     }
                     <div className="chat-message__inner d-flex flex-column align-items-start">
-                        <div className="chat-message__message regular-text position-relative">
-                            {
-                                message.files &&
-                                <div className="d-flex flex-wrap justify-content-between gap-3">
-                                    <PictureSwitch files={message.files}/>
-                                </div>
-                            }
-                            <span className="chat-message__message-text mt-2">{message.text}</span>
-                            <div className="chat-message__time-holder">
-                                <span className="chat-message__time">{time}</span>
-                                {!message.isRead && <ReadMessageIcon/>}
-                            </div>
-                        </div>
+                        {(message.files && message.files.length > 0) && <ChatMessageInner message={message}/>}
                     </div>
                 </div>
             </div>
 
-            {showPhotoModal && <PhotoModal onClose={() => setShowPhotoModal(false)} src={photoModalSrc}/>}
+            {
+                showPhotoModal &&
+                <PhotoModal onClose={() => setShowPhotoModal(false)} src={photoModalSrc}/>
+            }
+
         </ChatMessageInstance.Provider>
     );
 };

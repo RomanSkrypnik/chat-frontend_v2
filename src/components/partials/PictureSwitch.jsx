@@ -19,11 +19,17 @@ const PictureSwitch = ({files}) => {
     const renderComponent = () => {
         switch (filesLength) {
             case 1:
-                return <SingleMessagePicture name={files[0].uniqueName} url={url}/>;
+                return <div className="chat-message__message regular-text position-relative">
+                    <SingleMessagePicture name={files[0].uniqueName} url={url}/>
+                </div>;
             case 2:
-                return <DoubleMessagePicture files={files} url={url}/>;
+                return <div className="chat-message__message regular-text position-relative">
+                    <DoubleMessagePicture files={files} url={url}/>
+                </div>;
             case 3:
-                return <TripleMessagePicture files={files} url={url}/>;
+                return <div className="chat-message__message regular-text position-relative">
+                    <TripleMessagePicture files={files} url={url}/>
+                </div>;
             case 4:
                 return <QuadrupleMessagePicture files={files} url={url}/>;
             case 5:

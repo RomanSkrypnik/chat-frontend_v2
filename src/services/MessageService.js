@@ -6,9 +6,12 @@ export default class MessageService {
         return await $api.post('/messages', {hash, offset, limit});
     }
 
-    static async sendMessage(fd) {
-        return await $api.post('/send-message', fd);
+    static async sendTextMessage(text, hash) {
+        return await $api.post('/send-text-message', {text, hash});
     }
 
+    static async sendMediaMessage(fd) {
+        return await $api.post('/send-media-message', fd);
+    }
 
 }

@@ -10,6 +10,7 @@ import {fetchFriend, fetchOlderMessages} from "../store/slices/friend";
 import UserInfo from "../components/partials/UserInfo";
 import ChatMessages from "../components/partials/ChatMessages";
 import MessageService from "../services/MessageService";
+import {Form} from "react-bootstrap";
 
 
 const Home = () => {
@@ -45,16 +46,21 @@ const Home = () => {
     const handleContactInfo = () => setContactInfo(!contactInfo);
 
     const onSendMessage = async ({text, media}) => {
-        const fd = new FormData();
 
-        media.forEach(mediaFile => fd.append('media', mediaFile));
+        if (!media || media.length < 1) {
+            const {data} = await MessageService.sendTextMessage(text, hash);
+            socket.emit('send-text-message', {message: data, friendHash: hash});
+        } else {
+            const fd = new FormData();
 
-        fd.append('text', text);
-        fd.append('hash', hash);
+            media.forEach(mediaFile => fd.append('media', mediaFile));
 
-        const {data} = await MessageService.sendMessage(fd);
+            fd.append('text', text);
+            fd.append('hash', hash);
 
-        socket.emit('send-message', {messageId: data.id, friendHash: hash});
+            const {data} = await MessageService.sendMediaMessage(fd);
+            socket.emit('send-media-message', {messages: data, friendHash: hash});
+        }
     };
 
     return (

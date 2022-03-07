@@ -8,6 +8,7 @@ const QuintupleMessagePicture = ({files, url}) => {
     return (
         <>
             {files.map((file, index) => (
+
                     <img onClick={() => handlePhotoModalOpen(url + file.uniqueName)}
                          className="chat-message__image chat-message__image_quintuple"
                          src={url + file.uniqueName}
