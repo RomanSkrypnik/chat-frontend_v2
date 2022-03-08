@@ -44,12 +44,13 @@ const ChatMessageInner = ({message}) => {
             <div className="chat-message__message__image-wrapper">
                 {
                     message.files && message.files.map(file =>
-                        <img onClick={() => handlePhotoModalOpen(url + file.uniqueName)}
-                             className="chat-message__image"
-                             src={url + file.uniqueName}
-                             alt={file.alt ?? ''}
-                             key={file.id}
-                        />
+                        <div className="chat-message__image-wrapper" key={file.id}>
+                            <img onClick={() => handlePhotoModalOpen(url + file.uniqueName)}
+                                 className="chat-message__image"
+                                 src={url + file.uniqueName}
+                                 alt={file.alt ?? ''}
+                            />
+                        </div>
                     )
                 }
             </div>

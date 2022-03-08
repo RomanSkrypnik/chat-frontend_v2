@@ -42,28 +42,42 @@
     color: $darkGrey;
   }
 
+  .chat-message__image-wrapper {
+    position: relative;
+    flex-grow: 1;
+    width: 100%;
+  }
+
   .chat-message__message {
 
+    .chat-message__image-wrapper {
+      width: 440px;
+      height: 590px;
+    }
+
     &.chat-message__message_double,
-    &.chat-message__message_quadruple
-    {
-      .chat-message__image {
-        max-width: 49%;
+    &.chat-message__message_quadruple {
+      .chat-message__image-wrapper {
+        width: 49%;
+        height: 100%;
       }
+
       max-width: 750px;
     }
 
     &.chat-message__message_triple,
-    &.chat-message__message_quintuple
-    {
-      .chat-message__image {
+    &.chat-message__message_quintuple {
+      .chat-message__image-wrapper {
         &:last-child {
           width: 100%;
           max-width: 100%;
-          max-height: 500px;
+          height: 500px;
         }
+
         max-width: 49%;
+        height: 300px;
       }
+
       max-width: 650px;
     }
 
@@ -89,7 +103,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    row-gap: 10px;
+    gap: 10px;
   }
 
   .chat-message__time {
@@ -110,6 +124,8 @@
     object-fit: cover;
     cursor: pointer;
     border-radius: 8px;
+    width: 100%;
+    height: 100%;
   }
 
   display: flex;

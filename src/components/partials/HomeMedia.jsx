@@ -15,7 +15,7 @@ const HomeMedia = ({messages}) => {
     }, [messages]);
 
     const assignMediaFiles = () => {
-        const mediaFiles = messages.map(message => message.files).flat();
+        const mediaFiles = messages.flatMap(message => message.files);
         setMediaFiles(mediaFiles);
     };
 
@@ -23,7 +23,7 @@ const HomeMedia = ({messages}) => {
         <Masonry
             className="home-media"
             breakpointCols={3}
-            columnClassName="my-masonry-grid_column"
+            columnClassName="d-flex flex-column"
         >
             {mediaFiles.length > 0 && mediaFiles.map(mediaFile => (
                 <img

@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import ChatMessages from "./ChatMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchFriend, fetchOlderMessages} from "../../store/slices/friend";
@@ -11,6 +11,7 @@ const HomeMessages = () => {
     const container = useRef(null);
 
     const {friend, offset} = useSelector(state => state.friend);
+    const {user} = useSelector(state => state.auth);
 
     const {hash} = useParams();
 
@@ -19,7 +20,14 @@ const HomeMessages = () => {
     }, []);
 
     useEffect(() => {
-        if (offset < 40) scrollToBottom();
+        if (friend.messages) {
+            const {length} = friend.messages;
+            const {sender} = friend.messages[length - 1];
+
+            if (offset < 40 || sender.hash === user.hash) {
+                scrollToBottom();
+            }
+        }
     }, [friend.messages]);
 
     const scrollToBottom = () => {
