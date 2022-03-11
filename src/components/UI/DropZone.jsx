@@ -21,9 +21,12 @@ const DropZone = ({onFileChange, onClose, control}) => {
             {
                 mediaFiles.length > 0 && (
                     <div className="d-flex">
-                        {mediaFiles.map((mediaFile, index) => <UploadedMediaFile onClick={handleOnDelete}
-                                                                                 file={mediaFile}
-                                                                                 key={index}/>)}
+                        {
+                            mediaFiles.map((mediaFile, index) => (
+                                    <UploadedMediaFile onClick={handleOnDelete} file={mediaFile} key={index}/>
+                                )
+                            )
+                        }
                     </div>
                 )
             }

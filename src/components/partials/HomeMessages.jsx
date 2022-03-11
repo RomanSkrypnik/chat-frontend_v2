@@ -20,7 +20,7 @@ const HomeMessages = () => {
     }, []);
 
     useEffect(() => {
-        if (friend.messages) {
+        if (friend.messages && friend.messages.length > 0) {
             const {length} = friend.messages;
             const {sender} = friend.messages[length - 1];
 

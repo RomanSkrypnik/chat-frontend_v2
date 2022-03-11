@@ -1,8 +1,11 @@
 import React from 'react';
 
-const ChatButton = ({onClick, children}) => {
+const ChatButton = ({onMouseUp, onMouseDown, onClick, children}) => {
     return (
-        <button onClick={onClick}>{ children }</button>
+        <button
+            onClick={onClick}
+            onMouseDown={onMouseDown}
+            onMouseUp={onMouseUp}>{children}</button>
     );
 };
 

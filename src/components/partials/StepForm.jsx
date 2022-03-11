@@ -2,10 +2,13 @@ import React from 'react';
 import {Controller, useForm} from "react-hook-form";
 import TextInput from "../inputs/TextInput";
 import RegularButton from "../UI/buttons/RegularButton";
+import {yupResolver} from "@hookform/resolvers/yup";
 
-const StepForm = ({step, onPrev, onSubmit}) => {
+const StepForm = ({step, onPrev, onSubmit, schema = {}}) => {
 
-    const {handleSubmit, control} = useForm();
+    const {handleSubmit, control, formState: {errors}} = useForm({
+        resolver: yupResolver(schema),
+    });
 
     return (
         <div className="dial-form">
@@ -25,6 +28,9 @@ const StepForm = ({step, onPrev, onSubmit}) => {
                                 render={
                                     ({field: {onChange, value}}) =>
                                         <TextInput
+                                            errorText={errors[field.name]?.message}
+                                            classname={errors[field.name] && 'error'}
+                                            name={field.name}
                                             type={field.type}
                                             placeholder={field.placeholder}
                                             onChange={onChange}

@@ -14,4 +14,8 @@ export default class MessageService {
         return await $api.post('/send-media-message', fd);
     }
 
+    static async sendVoiceMessage(fd) {
+        return await $api.post('/send-voice-message', fd);
+    }
+
 }

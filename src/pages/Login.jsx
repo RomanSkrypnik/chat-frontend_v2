@@ -4,6 +4,7 @@ import StepForm from "../components/partials/StepForm";
 import loginPlate from '../plates/login';
 import {login} from '../store/slices/auth';
 import {useDispatch} from "react-redux";
+import validation from "../validation";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const Login = () => {
     return (
         <section className="register">
             <StepForm
+                schema={validation.login}
                 step={step}
                 onSubmit={onSubmit}
             />

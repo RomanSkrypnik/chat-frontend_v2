@@ -41,7 +41,7 @@ const ChatMessageInner = ({message}) => {
     return (
         <div className={cn("chat-message__message regular-text", className)}>
 
-            <div className="chat-message__message__image-wrapper">
+            <div className="chat-message__image-row">
                 {
                     message.files && message.files.map(file =>
                         <div className="chat-message__image-wrapper" key={file.id}>

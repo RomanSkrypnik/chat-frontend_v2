@@ -14,19 +14,23 @@ const SidebarUserTab = ({user}) => {
     const currentUser = useSelector(state => state.auth.user);
 
     const init = () => {
-        const lastMessage = user.messages.length > 0 && {...user.messages[user.messages.length - 1]};
-        const formatedData = lastMessage && format(new Date(lastMessage.createdAt), 'dd/MM/yyyy');
-        const unreadMessages = user.messages && user.messages.filter(message => !message.isRead && message.sender.hash !== user.hash);
+        const {messages} = user;
 
-        if (lastMessage.text === '' && lastMessage.files.length > 1) {
-            lastMessage.text = 'Photos'
-        } else if (lastMessage.text === '' && lastMessage.files.length === 1) {
-            lastMessage.text = 'Photo';
+        if (messages && messages.length > 0) {
+            const lastMessage = {...messages[messages.length - 1]};
+            const date = format(new Date(lastMessage.createdAt), 'dd/MM/yyyy');
+            const {length} = messages.filter(message => !message.isRead && message.sender.hash !== user.hash);
+
+            if (lastMessage.text === '' && lastMessage.files.length > 1) {
+                lastMessage.text = 'Photos'
+            } else if (lastMessage.text === '' && lastMessage.files.length === 1) {
+                lastMessage.text = 'Photo';
+            }
+
+            setDate(date);
+            setMessage(lastMessage);
+            setUnreadMessagesCount(length);
         }
-
-        setDate(formatedData);
-        setMessage(lastMessage);
-        setUnreadMessagesCount(unreadMessages?.length ?? 0);
     };
 
     useEffect(() => {

@@ -1,5 +1,16 @@
 .text-input {
 
+  &.error {
+    border: 1px solid $red;
+  }
+
+  &.error + span {
+    display: block;
+    text-indent: 10px;
+    color: $red;
+    margin-top: 5px;
+  }
+
   &.text-input_small {
     font-size: 12px;
     height: 34px;

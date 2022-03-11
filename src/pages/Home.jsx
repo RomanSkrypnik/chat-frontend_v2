@@ -68,7 +68,7 @@ const Home = () => {
                     {
                         contactInfo &&
                         <ContactInfo onClose={handleContactInfo}>
-                            {<UserInfo user={friend}/>}
+                            <UserInfo user={friend}/>
                         </ContactInfo>
                     }
 

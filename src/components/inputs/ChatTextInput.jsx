@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import ChatButton from "../UI/buttons/ChatButton";
 import ClipIcon from "../UI/icons/Clip";
 import MicrophoneIcon from "../UI/icons/Microphone";
@@ -6,23 +6,44 @@ import ChatSendButton from "../UI/buttons/ChatSendButton";
 import {useForm} from "react-hook-form";
 import DropZone from "../UI/DropZone";
 import {Controller} from "react-hook-form";
+import useRecorder from "../../hooks/useRecorder";
+import MessageService from '../../services/MessageService';
 
 const ChatTextInput = ({onSubmit}) => {
+
     const {handleSubmit, reset, control} = useForm();
 
     const [showDropZone, setShowDropZone] = useState(false);
     const [mediaFiles, setMediaFiles] = useState([]);
 
+    let [audioFile, isRecording, startRecording, stopRecording] = useRecorder();
+
     const handleOnSubmit = (data) => {
-        onSubmit({...data, media: mediaFiles});
-        
         setShowDropZone(false);
-        reset({text: '', media: null});
+        onSubmit({...data, media: mediaFiles});
+        reset();
     };
+
+    const handleVoiceMessage = async () => {
+        const fd = new FormData();
+
+        fd.append('voice', audioFile);
+
+        const {data} = await MessageService.sendVoiceMessage(fd);
+    };
+
+    const processVoiceMessage = () => {
+        isRecording ? stopRecording() : startRecording();
+    };
+
+    useEffect(async () => {
+        if (audioFile) {
+            await handleVoiceMessage();
+        }
+    }, [audioFile]);
 
     return (
         <div className="chat-text-input d-flex position-relative">
-
             {
                 showDropZone &&
                 <DropZone
@@ -36,7 +57,7 @@ const ChatTextInput = ({onSubmit}) => {
                 <ChatButton onClick={() => setShowDropZone(!showDropZone)}>
                     <ClipIcon/>
                 </ChatButton>
-                <ChatButton>
+                <ChatButton onClick={processVoiceMessage}>
                     <MicrophoneIcon/>
                 </ChatButton>
             </div>
@@ -58,7 +79,6 @@ const ChatTextInput = ({onSubmit}) => {
                 />
                 <ChatSendButton/>
             </form>
-
         </div>
     );
 };

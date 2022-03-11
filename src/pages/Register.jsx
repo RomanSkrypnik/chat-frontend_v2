@@ -4,6 +4,7 @@ import StepForm from "../components/partials/StepForm";
 import {useNavigate} from "react-router-dom";
 import AuthService from "../services/AuthService";
 import registerPlate from '../plates/register';
+import validation from '../validation';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -27,13 +28,27 @@ const Register = () => {
 
         switch (stepNum) {
             case 0:
-                component = <StepForm step={steps[0]} onSubmit={onSubmit}/>;
+                component = <StepForm
+                    step={steps[0]}
+                    onSubmit={onSubmit}
+                    schema={validation.register.first}
+                />;
                 break;
             case 1 :
-                component = <StepForm step={steps[1]} onSubmit={onSubmit} onPrev={toPrevStep}/>;
+                component = <StepForm
+                    step={steps[1]}
+                    onSubmit={onSubmit}
+                    onPrev={toPrevStep}
+                    schema={validation.register.second}
+                />;
                 break;
             case 2 :
-                component = <StepForm step={steps[2]} onSubmit={onSubmit} onPrev={toPrevStep}/>;
+                component = <StepForm
+                    step={steps[2]}
+                    onSubmit={onSubmit}
+                    onPrev={toPrevStep}
+                    schema={validation.register.third}
+                />;
                 break;
         }
 
