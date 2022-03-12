@@ -18,4 +18,8 @@ export default class MessageService {
         return await $api.post('/send-voice-message', fd);
     }
 
+    static async stareMessage(messageId) {
+        return await $api.post('/stare-message', {messageId});
+    }
+
 }

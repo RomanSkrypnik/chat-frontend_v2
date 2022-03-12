@@ -4,12 +4,19 @@ import {format} from "date-fns";
 import cn from "classnames";
 import {ChatMessageInstance} from "../UI/ChatMessage";
 import {API_URL} from "../../http";
+import Dropdown from "../UI/Dropdown";
+import MessageService from "../../services/MessageService";
+import {useSelector} from "react-redux";
+import {setMessageIsStarred} from "../../store/slices/friend";
 
 const ChatMessageInner = ({message}) => {
 
     const [className, setClassName] = useState('');
+    const [showDropDown, setShowDropDown] = useState(false);
 
     const handlePhotoModalOpen = useContext(ChatMessageInstance);
+
+    const {user} = useSelector(state => state.auth);
 
     const date = new Date(message.createdAt);
     const time = format(date, 'hh:mm');
@@ -38,8 +45,17 @@ const ChatMessageInner = ({message}) => {
         }
     };
 
+    const handleOnContextMenu = e => {
+        e.preventDefault();
+        setShowDropDown(true);
+    };
+
+    const dropDownItems = [
+        {text: 'Stare message', onClick: () => {console.log('test')}}
+    ];
+
     return (
-        <div className={cn("chat-message__message regular-text", className)}>
+        <div className={cn("chat-message__message regular-text", className)} onContextMenu={handleOnContextMenu}>
 
             <div className="chat-message__image-row">
                 {
@@ -61,6 +77,10 @@ const ChatMessageInner = ({message}) => {
                 <span className="chat-message__time">{time}</span>
                 {!message.isRead && <ReadMessageIcon/>}
             </div>
+
+            {showDropDown &&
+            <Dropdown className="end align-self-start" items={dropDownItems} onClose={() => setShowDropDown(false)}/>}
+
         </div>
     );
 };

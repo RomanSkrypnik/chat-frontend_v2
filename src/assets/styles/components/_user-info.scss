@@ -1,0 +1,22 @@
+.user-info {
+
+  .user-info__upper,
+  .user-info__bottom
+  {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .user-info__bottom {
+    margin-bottom: 71px;
+  }
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  flex-grow: 1;
+}

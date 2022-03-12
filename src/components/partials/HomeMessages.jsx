@@ -1,58 +1,69 @@
-import React, {useCallback, useEffect, useRef} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import ChatMessages from "./ChatMessages";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchFriend, fetchOlderMessages} from "../../store/slices/friend";
 import {useParams} from "react-router";
+import ContactInfo from "../modals/ContactInfo";
+import UserInfo from "./UserInfo";
+import SettingButton from "../UI/buttons/SettingButton";
+import ChatTextInput from "../inputs/ChatTextInput";
+import MessageService from "../../services/MessageService";
+import {SocketInstance} from "../../layouts/Default";
 
 const HomeMessages = () => {
 
-    const dispatch = useDispatch();
-
-    const container = useRef(null);
-
-    const {friend, offset} = useSelector(state => state.friend);
-    const {user} = useSelector(state => state.auth);
+    const {friend} = useSelector(state => state.friend);
 
     const {hash} = useParams();
+
+    const socket = useContext(SocketInstance);
+
+    const [contactInfo, setContactInfo] = useState(false);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(fetchFriend(hash));
     }, []);
 
-    useEffect(() => {
-        if (friend.messages && friend.messages.length > 0) {
-            const {length} = friend.messages;
-            const {sender} = friend.messages[length - 1];
+    const onSendMessage = async ({text, media}) => {
 
-            if (offset < 40 || sender.hash === user.hash) {
-                scrollToBottom();
-            }
-        }
-    }, [friend.messages]);
+        if (!media || media.length < 1) {
+            const {data} = await MessageService.sendTextMessage(text, hash);
+            socket.emit('send-text-message', {message: data, friendHash: hash});
+        } else {
+            const fd = new FormData();
 
-    const scrollToBottom = () => {
-        const scroll =
-            container.current.scrollHeight -
-            container.current.clientHeight;
-        container.current.scrollTo(0, scroll);
-    };
+            media.forEach(mediaFile => fd.append('media', mediaFile));
 
-    const handleScroll = (e) => {
-        if (e.currentTarget.scrollTop === 0) {
-            dispatch(fetchOlderMessages(hash));
+            fd.append('text', text);
+            fd.append('hash', hash);
+
+            const {data} = await MessageService.sendMediaMessage(fd);
+            socket.emit('send-media-message', {messages: data, friendHash: hash});
         }
     };
+
+    const handleContactInfo = () => setContactInfo(!contactInfo);
 
     return (
-        <>
-            <div className="home__chat-wrapper d-flex flex-column flex-grow-1"
-                 ref={container}
-                 onScroll={handleScroll}>
+        <div className="d-flex">
+            <div className="home__chat-wrapper">
 
                 {friend.friend && <ChatMessages messages={friend.messages}/>}
-
+                <div className="d-flex align-items-center ps-4 pe-5 mt-5 mb-4">
+                    <SettingButton onClick={handleContactInfo}/>
+                    <ChatTextInput onSubmit={onSendMessage}/>
+                </div>
             </div>
-        </>
+
+            {
+                contactInfo &&
+                <ContactInfo onClose={handleContactInfo}>
+                    <UserInfo user={friend}/>
+                </ContactInfo>
+            }
+        </div>
     );
 };
 

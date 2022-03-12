@@ -1,11 +1,17 @@
 .dropdown {
 
+  &.end {
+    bottom: -45px;
+    top: unset;
+  }
+
   .dropdown__item {
     &:not(:last-child) {
       margin-bottom: 5px;
     }
   }
 
+  border-radius: 5px;
   min-width: 100px;
   position: absolute;
   top: 20px;

@@ -8,10 +8,15 @@ import DropZone from "../UI/DropZone";
 import {Controller} from "react-hook-form";
 import useRecorder from "../../hooks/useRecorder";
 import MessageService from '../../services/MessageService';
+import {yupResolver} from "@hookform/resolvers/yup";
+import validation from "../../validation";
 
 const ChatTextInput = ({onSubmit}) => {
 
-    const {handleSubmit, reset, control} = useForm();
+    const {handleSubmit, reset, control, formState} = useForm({
+        mode: 'onChange',
+        resolver: yupResolver(validation.home)
+    });
 
     const [showDropZone, setShowDropZone] = useState(false);
     const [mediaFiles, setMediaFiles] = useState([]);
@@ -25,11 +30,11 @@ const ChatTextInput = ({onSubmit}) => {
     };
 
     const handleVoiceMessage = async () => {
-        const fd = new FormData();
-
-        fd.append('voice', audioFile);
-
-        const {data} = await MessageService.sendVoiceMessage(fd);
+        // const fd = new FormData();
+        //
+        // fd.append('voice', audioFile);
+        //
+        // const {data} = await MessageService.sendVoiceMessage(fd);
     };
 
     const processVoiceMessage = () => {
@@ -77,7 +82,7 @@ const ChatTextInput = ({onSubmit}) => {
                     )
                     }
                 />
-                <ChatSendButton/>
+                <ChatSendButton disabled={!formState.isValid}/>
             </form>
         </div>
     );

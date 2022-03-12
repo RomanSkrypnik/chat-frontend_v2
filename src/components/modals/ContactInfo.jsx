@@ -18,7 +18,7 @@ const ContactInfo = ({onClose, isModal = false, title, children}) => {
                 </div>
             </Portal>
             :
-            <div className="contact-info">
+            <div className="contact-info my-4">
                 <div className="contact-info__top-line">
                     <CrossButton onClick={onClose}/>
                 </div>

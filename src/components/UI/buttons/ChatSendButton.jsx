@@ -1,9 +1,9 @@
 import React from 'react';
 import MessageArrow from "../icons/MessageArrow";
 
-const ChatSendButton = ({onClick}) => {
+const ChatSendButton = ({onClick, disabled = false}) => {
     return (
-        <button type="submit" className="chat-send-button bold-text bold-text_alt d-flex justify-content-between" onClick={onClick}>
+        <button type="submit" className="chat-send-button bold-text bold-text_alt" onClick={onClick} disabled={disabled}>
             <span>Send</span>
             <MessageArrow/>
         </button>

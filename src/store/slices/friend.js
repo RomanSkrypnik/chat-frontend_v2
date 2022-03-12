@@ -162,6 +162,32 @@ export const friendSlice = createSlice({
                     return message;
                 })
             }
+        },
+
+        setMessageIsStarred(state, {payload}) {
+            const {id, hash, user} = payload;
+
+            const index = state.friends.findIndex(friend => friend.friend.hash === hash);
+
+            state.friends[index].messages = state.friends[index].messages.map(message => {
+                if (message.id === id) {
+                    return message.sender.hash === user.hash
+                        ? {...message, starredBySender: true}
+                        : {...message, starredByReceiver: true};
+                }
+                return message;
+            });
+
+            if (state.friend.friend.hash === state.friends[index].friend.hash) {
+                state.friend.messages = state.friend.messages.map(message => {
+                    if (message.id === id) {
+                        return message.sender.hash === user.hash
+                            ? {...message, starredBySender: true}
+                            : {...message, starredByReceiver: true}
+                    }
+                    return message;
+                });
+            }
         }
     },
 
@@ -183,7 +209,8 @@ export const {
     increaseOffset,
     addOlderMessages,
     setAllMessagesReceived,
-    setMessageIsRead
+    setMessageIsRead,
+    setMessageIsStarred
 } = friendSlice.actions;
 
 export const getFriendByHash = (state, hash) => {

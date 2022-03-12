@@ -1,0 +1,11 @@
+.flat-button {
+  &:last-child {
+    border-bottom: 1px solid $grey;
+  }
+
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-top: 1px solid $grey;
+  padding: 20px 0;
+}

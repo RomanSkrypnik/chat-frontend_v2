@@ -1,0 +1,10 @@
+.chat-messages {
+
+  &::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+  }
+
+  flex-grow: 1;
+  overflow: auto;
+}

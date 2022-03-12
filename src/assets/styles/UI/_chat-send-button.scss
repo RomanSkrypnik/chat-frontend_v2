@@ -1,4 +1,12 @@
 .chat-send-button {
+
+  &:disabled {
+    opacity: 0.4;
+  }
+
+  transition-duration: .3s;
+  display: flex;
+  justify-content: space-between;
   position: absolute;
   right: 0;
   top: 0;

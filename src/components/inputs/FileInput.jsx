@@ -12,7 +12,7 @@ const FileInput = ({onFileInput, control, name, placeholder, dark = false}) => {
         field.onChange(acceptedFiles);
     };
 
-    const {field} = useController({control, name});
+    const {field} = useController({control, name, defaultValue: null});
 
     const onDrop = useCallback(onChange, []);
 

@@ -27,10 +27,11 @@ const useRecorder = () => {
 
         const handleStop = async () => {
             if (recorder.state === 'inactive' && !isRecording) {
-                const blob = new Blob(chunks, {type: 'audio/ogg; codecs=vorbis'});
+                const blob = new File(chunks, 'my_record.webm', {type: `audio/webm`});
+                recorder.stream.getTracks().forEach(track => track.stop());
 
-                setAudioFile(blob);
                 setRecorder(null);
+                setAudioFile(blob);
             }
         };
 
@@ -46,8 +47,6 @@ const useRecorder = () => {
             recorder.removeEventListener("dataavailable", handleData);
             recorder.removeEventListener('stop', handleStop);
             recorder.removeEventListener('error', handleError);
-
-            recorder.stream.getTracks().forEach(track => track.stop());
         };
     }, [recorder, isRecording]);
 
@@ -65,7 +64,7 @@ const useRecorder = () => {
 async function requestRecorder() {
     try {
         const stream = await navigator.mediaDevices.getUserMedia({audio: true});
-        return new MediaRecorder(stream);
+        return new MediaRecorder(stream, {mimeType: 'audio/webm',});
     } catch (e) {
         console.log(e);
     }
