@@ -3,11 +3,8 @@ import ReadMessageIcon from "../UI/ReadMessageIcon";
 import {format} from "date-fns";
 import cn from "classnames";
 import {ChatMessageInstance} from "../UI/ChatMessage";
-import {API_URL} from "../../http";
+import {MESSAGE_URL} from "../../http";
 import Dropdown from "../UI/Dropdown";
-import MessageService from "../../services/MessageService";
-import {useSelector} from "react-redux";
-import {setMessageIsStarred} from "../../store/slices/friend";
 
 const ChatMessageInner = ({message}) => {
 
@@ -16,11 +13,8 @@ const ChatMessageInner = ({message}) => {
 
     const handlePhotoModalOpen = useContext(ChatMessageInstance);
 
-    const {user} = useSelector(state => state.auth);
-
     const date = new Date(message.createdAt);
     const time = format(date, 'hh:mm');
-    const url = `${API_URL}/img/messages/`;
 
     useEffect(() => {
         if (message.files) {
@@ -51,7 +45,11 @@ const ChatMessageInner = ({message}) => {
     };
 
     const dropDownItems = [
-        {text: 'Stare message', onClick: () => {console.log('test')}}
+        {
+            text: 'Stare message', onClick: () => {
+                console.log('test')
+            }
+        }
     ];
 
     return (
@@ -61,9 +59,9 @@ const ChatMessageInner = ({message}) => {
                 {
                     message.files && message.files.map(file =>
                         <div className="chat-message__image-wrapper" key={file.id}>
-                            <img onClick={() => handlePhotoModalOpen(url + file.uniqueName)}
+                            <img onClick={() => handlePhotoModalOpen(MESSAGE_URL + file.uniqueName)}
                                  className="chat-message__image"
-                                 src={url + file.uniqueName}
+                                 src={MESSAGE_URL + file.uniqueName}
                                  alt={file.alt ?? ''}
                             />
                         </div>

@@ -13,7 +13,7 @@ import validation from "../../validation";
 
 const ChatTextInput = ({onSubmit}) => {
 
-    const {handleSubmit, reset, control, formState} = useForm({
+    const {handleSubmit, reset, resetField, control, formState} = useForm({
         mode: 'onChange',
         resolver: yupResolver(validation.home)
     });
@@ -52,6 +52,7 @@ const ChatTextInput = ({onSubmit}) => {
             {
                 showDropZone &&
                 <DropZone
+                    resetField={resetField}
                     control={control}
                     onFileChange={(mediaFiles) => setMediaFiles(mediaFiles)}
                     onClose={() => setShowDropZone(false)}
@@ -59,7 +60,6 @@ const ChatTextInput = ({onSubmit}) => {
             }
 
             <div className="chat-text-input__buttons d-flex">
-                <Controller control={control} name="showDropZone" defaultValue={false} render={({field: {onChange, value}}) => <input type="checkbox" value={value}  onChange={onChange} />} />
                 <ChatButton onClick={() => setShowDropZone(!showDropZone)}>
                     <ClipIcon/>
                 </ChatButton>
@@ -69,7 +69,6 @@ const ChatTextInput = ({onSubmit}) => {
             </div>
 
             <form className="chat-text-input__form w-100" onSubmit={handleSubmit(handleOnSubmit)}>
-
                 <Controller
                     control={control}
                     name="text"
@@ -81,8 +80,7 @@ const ChatTextInput = ({onSubmit}) => {
                                className="chat-text-input__input last-text last-text_alt"
                                placeholder="Type a new message..."
                         />
-                    )
-                    }
+                    )}
                 />
 
                 <ChatSendButton disabled={!formState.isValid}/>

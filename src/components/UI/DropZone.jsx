@@ -3,12 +3,15 @@ import FileInput from "../inputs/FileInput";
 import CrossButton from "./buttons/CrossButton";
 import UploadedMediaFile from "../partials/UploadedMediaFile";
 
-const DropZone = ({onFileChange, onClose, control}) => {
+const DropZone = ({resetField, onFileChange, onClose, control}) => {
     const [mediaFiles, setMediaFiles] = useState([]);
 
     const handleOnDelete = async (name) => {
         const newMediaFiles = mediaFiles.filter(mediaFile => mediaFile.name !== name);
+
         setMediaFiles(newMediaFiles);
+
+        newMediaFiles.length === 0 && resetField('media');
     };
 
     useEffect(() => {
@@ -20,11 +23,11 @@ const DropZone = ({onFileChange, onClose, control}) => {
             <CrossButton light className="align-to-right" onClick={onClose}/>
             {
                 mediaFiles.length > 0 && (
-                    <div className="d-flex">
+                    <div className="d-flex flex-wrap">
                         {
-                            mediaFiles.map((mediaFile, index) => (
-                                    <UploadedMediaFile onClick={handleOnDelete} file={mediaFile} key={index}/>
-                                )
+                            mediaFiles.map((mediaFile, index) => <UploadedMediaFile onClick={handleOnDelete}
+                                                                                    file={mediaFile}
+                                                                                    key={index}/>
                             )
                         }
                     </div>
@@ -34,7 +37,7 @@ const DropZone = ({onFileChange, onClose, control}) => {
                 name="media"
                 control={control}
                 placeholder="Add files"
-                onFileInput={(files) => setMediaFiles([...files, ...mediaFiles])}
+                onFileInput={(files) => setMediaFiles(files)}
             />
         </div>
     );

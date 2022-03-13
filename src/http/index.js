@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const API_URL = `http://localhost:5000`;
-export const MESSAGE_URL = `${API_URL}/img/messages/`;
+export const MESSAGE_URL = `${API_URL}/messages/`;
 
 const $api = axios.create({
     withCredentials: true,
