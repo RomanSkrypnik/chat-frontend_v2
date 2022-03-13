@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ChatButton from "../UI/buttons/ChatButton";
 import ClipIcon from "../UI/icons/Clip";
 import MicrophoneIcon from "../UI/icons/Microphone";
@@ -59,15 +59,17 @@ const ChatTextInput = ({onSubmit}) => {
             }
 
             <div className="chat-text-input__buttons d-flex">
+                <Controller control={control} name="showDropZone" defaultValue={false} render={({field: {onChange, value}}) => <input type="checkbox" value={value}  onChange={onChange} />} />
                 <ChatButton onClick={() => setShowDropZone(!showDropZone)}>
                     <ClipIcon/>
                 </ChatButton>
-                <ChatButton onClick={processVoiceMessage}>
+                <ChatButton onClick={processVoiceMessage} control={control} name="test">
                     <MicrophoneIcon/>
                 </ChatButton>
             </div>
 
             <form className="chat-text-input__form w-100" onSubmit={handleSubmit(handleOnSubmit)}>
+
                 <Controller
                     control={control}
                     name="text"
@@ -82,6 +84,7 @@ const ChatTextInput = ({onSubmit}) => {
                     )
                     }
                 />
+
                 <ChatSendButton disabled={!formState.isValid}/>
             </form>
         </div>

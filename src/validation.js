@@ -28,8 +28,9 @@ export default {
     },
 
     home: yup.object().shape({
-        text: yup.string().when('media', {
-            is: null,
+        showDropZone: yup.boolean(),
+        text: yup.string().when('showDropZone', {
+            is: false,
             then: yup.string().required(),
             otherwise: yup.string(),
         }),
