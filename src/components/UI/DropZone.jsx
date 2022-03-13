@@ -37,7 +37,7 @@ const DropZone = ({resetField, onFileChange, onClose, control}) => {
                 name="media"
                 control={control}
                 placeholder="Add files"
-                onFileInput={(files) => setMediaFiles(files)}
+                onFileInput={(files) => setMediaFiles([...mediaFiles, ...files])}
             />
         </div>
     );

@@ -63,7 +63,7 @@ const ChatTextInput = ({onSubmit}) => {
                 <ChatButton onClick={() => setShowDropZone(!showDropZone)}>
                     <ClipIcon/>
                 </ChatButton>
-                <ChatButton onClick={processVoiceMessage} control={control} name="test">
+                <ChatButton onClick={processVoiceMessage}>
                     <MicrophoneIcon/>
                 </ChatButton>
             </div>

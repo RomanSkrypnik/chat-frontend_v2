@@ -8,14 +8,13 @@ const FileInput = ({onFileInput, control, name, placeholder = '', dark = false})
 
     const [files, setFiles] = useState([]);
 
-    const onChange = acceptedFiles => {
-        setFiles(prev => [...prev, ...acceptedFiles]);
-    };
+    const onChange = acceptedFiles => setFiles(acceptedFiles);
 
     useEffect(() => {
-        onFileInput(files);
-
-        field.onChange(files);
+        if (files.length > 0) {
+            onFileInput(files);
+            field.onChange(files);
+        }
     }, [files]);
 
     const {field} = useController({control, name, defaultValue: null});
