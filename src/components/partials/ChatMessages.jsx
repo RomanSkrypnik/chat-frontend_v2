@@ -20,7 +20,7 @@ const ChatMessages = ({messages}) => {
             const {length} = friend.messages;
             const {sender} = friend.messages[length - 1];
 
-            if (offset < 40 || sender.hash === user.hash) {
+            if (offset <= 40 || sender.hash === user.hash) {
                 scrollToBottom();
             }
         }

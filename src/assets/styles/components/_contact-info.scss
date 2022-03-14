@@ -6,6 +6,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    z-index: 999;
   }
 
   .contact-info__content {
@@ -39,6 +40,7 @@
       align-items: center;
     }
 
+    cursor: pointer;
     display: flex;
     justify-content: center;
     width: 33%;
@@ -59,6 +61,5 @@
   border-radius: 14px;
   box-shadow: 0 8px 40px rgba(142, 194, 208, 0.4);
   background-color: $lightBlue;
-  z-index: 999;
   padding: 20px;
 }

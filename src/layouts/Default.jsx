@@ -5,6 +5,7 @@ import io from "socket.io-client";
 import {useDispatch} from "react-redux";
 import {addFriend, addNewMessages, changeFriendStatus, setMessageIsRead} from "../store/slices/friend";
 import {addNewMessage} from "../store/slices/friend";
+import {Howl, Howler} from 'howler';
 
 export const SocketInstance = React.createContext(null);
 
@@ -32,6 +33,12 @@ const DefaultLayout = ({children}) => {
             });
 
             socket.on('new-media-message', (messageData) => {
+                Howler.volume(0.5);
+                const sound = new Howl({
+                    src: ['../../public/sounds/ohhh_sound_effect.mp3'],
+                    html5: true
+                });
+                sound.play();
                 dispatch(addFriend(messageData));
                 dispatch(addNewMessages(messageData));
             });
