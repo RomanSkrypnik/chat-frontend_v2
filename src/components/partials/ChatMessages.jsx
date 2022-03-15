@@ -3,6 +3,7 @@ import ChatMessage from "../UI/ChatMessage";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchOlderMessages} from "../../store/slices/friend";
 import {useParams} from "react-router";
+import Timestamp from "../UI/Timestamp";
 
 const ChatMessages = ({messages}) => {
 
@@ -49,22 +50,23 @@ const ChatMessages = ({messages}) => {
                     let isDateDifferent = false;
 
                     if (index > 0) {
-                        const prevDate = new Date(messages[index - 1].createdAt).getDate();
-                        const currentDate = new Date(message.createdAt).getDate();
+                        const prevDate = new Date(messages[index - 1].createdAt).setHours(0,0,0,0);
+                        const currentDate = new Date(message.createdAt).setHours(0,0,0,0);
 
-                        isDateDifferent = prevDate !== currentDate;
+                        isDateDifferent = prevDate.valueOf() !== currentDate.valueOf();
                         circle = messages[index - 1].sender.hash !== message.sender.hash;
                     }
 
                     const alignToRight = message.sender.hash === user.hash;
 
-                    return <ChatMessage
-                        message={message}
-                        alignToRight={alignToRight}
-                        circle={circle}
-                        timestamp={isDateDifferent}
-                        key={message.id}
-                    />
+                    return <div key={message.id}>
+                        {isDateDifferent && <Timestamp date={message.createdAt}/>}
+                        <ChatMessage
+                            message={message}
+                            alignToRight={alignToRight}
+                            circle={circle}
+                        />
+                    </div>
                 })
             }
         </div>

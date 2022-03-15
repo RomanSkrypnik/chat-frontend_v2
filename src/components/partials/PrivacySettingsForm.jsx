@@ -3,32 +3,27 @@ import {Controller, useForm} from "react-hook-form";
 import TextInput from "../inputs/TextInput";
 import RegularButton from "../UI/buttons/RegularButton";
 import AuthService from "../../services/AuthService";
-import FormHelper from "../../helpers/formHelper";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {changePersonalInfo} from "../../store/slices/auth";
+import {yupResolver} from "@hookform/resolvers/yup";
+import validation from "../../validation";
 
 const PrivacySettingsForm = () => {
-    const {handleSubmit, control} = useForm();
+    const {handleSubmit, control, formState} = useForm({
+        mode: 'onChange',
+        resolver: yupResolver(validation.privacy)
+    });
+
+    const {errors, isDirty} = formState;
 
     const dispatch = useDispatch();
 
-    const onSubmit = async (data) => {
-        const {newPassword, passwordConfirm, password} = data;
+    const {user} = useSelector(state => state.auth);
 
-        const passwordMatches = await AuthService.checkPasswordIdentity(password);
-        const newPasswordMatches = FormHelper.compareValues(newPassword, passwordConfirm);
-
-        if (passwordMatches.data.success) {
-            if (newPasswordMatches) {
-                const newData = {email: data.email, name: data.name, password: data.password};
-                dispatch(changePersonalInfo(newData));
-            } else {
-                console.log("New passwords don't match");
-            }
-        } else {
-            console.log('Invalid password');
-        }
-    }
+    const onSubmit = async data => {
+        const res = await AuthService.checkPasswordIdentity(data.password);
+        res.data.success && dispatch(changePersonalInfo(data));
+    };
 
     return (
         <>
@@ -36,47 +31,78 @@ const PrivacySettingsForm = () => {
                 <Controller
                     control={control}
                     name="email"
-                    defaultValue=''
+                    defaultValue={user.email}
                     render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange} value={value} placeholder="Enter email" label="Email"/>
+                        <TextInput onChange={onChange}
+                                   value={value}
+                                   placeholder="Enter email"
+                                   label="Email"
+                                   errorText={errors.email?.message}
+                                   classname={errors.email && 'error'}
+                        />
                     )}
                 />
                 <Controller
                     control={control}
                     name="name"
-                    defaultValue=''
+                    defaultValue={user.name}
                     render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange} value={value} placeholder="Enter name" label="Name"/>
-                    )}
-                />
-                <Controller
-                    control={control}
-                    name="password"
-                    defaultValue=''
-                    render={({field: {onChange}}) => (
-                        <TextInput onChange={onChange} placeholder="Enter current password" label="Current password"/>
+                        <TextInput onChange={onChange}
+                                   value={value}
+                                   placeholder="Enter name"
+                                   label="Name"
+                                   errorText={errors.name?.message}
+                                   classname={errors.name && 'error'}
+                        />
                     )}
                 />
                 <Controller
                     control={control}
                     name="newPassword"
                     defaultValue=''
-                    render={({field: {onChange}}) => (
-                        <TextInput onChange={onChange} placeholder="Enter new password"
-                                   label="New password"/>
+                    render={({field: {onChange, value}}) => (
+                        <TextInput onChange={onChange}
+                                   value={value}
+                                   placeholder="Enter new password"
+                                   label="New password"
+                                   type="password"
+                                   classname={errors.newPassword && 'error'}
+                                   errorText={errors.newPassword?.message}
+                        />
                     )}
                 />
                 <Controller
                     control={control}
                     name="passwordConfirm"
                     defaultValue=''
-                    render={({field: {onChange}}) => (
-                        <TextInput onChange={onChange} placeholder="Enter new password again"
-                                   label="Confirm your password"/>
+                    render={({field: {onChange, value}}) => (
+                        <TextInput onChange={onChange}
+                                   value={value}
+                                   placeholder="Enter new password again"
+                                   label="Confirm your password"
+                                   type="password"
+                                   classname={errors.passwordConfirm && 'error'}
+                                   errorText={errors.passwordConfirm?.message}
+                        />
+                    )}
+                />
+                <Controller
+                    control={control}
+                    name="password"
+                    defaultValue=''
+                    render={({field: {onChange, value}}) => (
+                        <TextInput onChange={onChange}
+                                   value={value}
+                                   placeholder="Enter current password"
+                                   label="Current password"
+                                   type="password"
+                                   classname={errors.password && 'error'}
+                                   errorText={errors.password?.message}
+                        />
                     )}
                 />
                 <div className="d-flex justify-content-center mt-2">
-                    <RegularButton type="submit">Save changes</RegularButton>
+                    <RegularButton disabled={!formState.isValid} type="submit">Save changes</RegularButton>
                 </div>
             </form>
         </>

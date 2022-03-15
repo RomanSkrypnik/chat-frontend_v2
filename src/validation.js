@@ -33,5 +33,23 @@ export default {
             then: yup.string().required(),
             otherwise: yup.string(),
         }),
+    }),
+
+    privacy: yup.object().shape({
+        email: yup.string().email().required(),
+        name: yup.string().required(),
+        password: yup.string().required().min(8),
+        newPassword: yup.lazy(val => {
+            if (val === '') {
+                return yup.string();
+            } else {
+                return yup.string().min(8, 'Minimal length of password is 8 letters')
+            }
+        }),
+        passwordConfirm: yup.string().when('newPassword', {
+            is: '',
+            then: yup.string(),
+            otherwise: yup.string().oneOf([yup.ref('newPassword')], "Passwords don't match"),
+        })
     })
 };

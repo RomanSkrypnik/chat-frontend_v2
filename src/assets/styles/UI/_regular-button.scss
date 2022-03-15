@@ -1,4 +1,9 @@
 .regular-button {
+
+  &:disabled {
+    opacity: 0.4;
+  }
+
   font-size: 16px;
   border-radius: 14px;
   color: $white;

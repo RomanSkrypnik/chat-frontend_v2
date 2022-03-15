@@ -11,7 +11,7 @@ import ChatMessageInner from "../partials/ChatMessageInner";
 
 export const ChatMessageInstance = React.createContext(null);
 
-const ChatMessage = ({message, alignToRight = false, circle = false, timestamp = false}) => {
+const ChatMessage = ({message, alignToRight = false, circle = false}) => {
 
     const {ref, inView} = useInView({
         threshold: 0.9,
@@ -44,8 +44,6 @@ const ChatMessage = ({message, alignToRight = false, circle = false, timestamp =
 
     return (
         <ChatMessageInstance.Provider value={handlePhotoModalOpen}>
-
-            {timestamp && <Timestamp date={message.createdAt}/>}
 
             <div className={cn("chat-message", alignToRight && 'chat-message_yellow')} ref={ref}>
 
