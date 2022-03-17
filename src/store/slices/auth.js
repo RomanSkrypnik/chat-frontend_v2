@@ -5,7 +5,7 @@ export const uploadAvatar = createAsyncThunk(
     'auth/upload-avatar',
     async (fd, {dispatch}) => {
         try {
-            const { data } = await AuthService.uploadPhoto(fd);
+            const {data} = await AuthService.uploadPhoto(fd);
             dispatch(changeAvatar(data.filename));
         } catch (e) {
             console.log(e);
@@ -17,7 +17,7 @@ export const checkAuth = createAsyncThunk(
     'auth/checkAuth',
     async (_, {dispatch}) => {
         try {
-            const { data } = await AuthService.refresh();
+            const {data} = await AuthService.refresh();
             localStorage.setItem('token', data.accessToken);
             dispatch(setUser(data.user));
         } catch (e) {
@@ -30,11 +30,11 @@ export const checkAuth = createAsyncThunk(
 export const login = createAsyncThunk(
     'auth/login',
     async ({email, password}, {dispatch}) => {
-        try{
-            const { data } = await AuthService.login(email, password);
+        try {
+            const {data} = await AuthService.login(email, password);
             localStorage.setItem('token', data.tokens.accessToken);
             dispatch(setUser(data.user));
-        } catch(e) {
+        } catch (e) {
             console.log(e);
         }
     }
@@ -43,8 +43,12 @@ export const login = createAsyncThunk(
 export const logout = createAsyncThunk(
     'auth/logout',
     async (_, {dispatch}) => {
-        await AuthService.logout();
-        dispatch(removeUser());
+        try {
+            await AuthService.logout();
+            dispatch(removeUser());
+        } catch (e) {
+            console.log(e);
+        }
     }
 );
 
@@ -58,7 +62,7 @@ export const changePersonalInfo = createAsyncThunk(
             console.log(e);
         }
     }
-)
+);
 
 export const authSlice = createSlice({
     name: 'auth',
@@ -94,6 +98,6 @@ export const authSlice = createSlice({
     }
 });
 
-export const { setUser, setIsLoaded, removeUser, changeStatus, changeAvatar} = authSlice.actions;
+export const {setUser, setIsLoaded, removeUser, changeStatus, changeAvatar} = authSlice.actions;
 
 export default authSlice.reducer;

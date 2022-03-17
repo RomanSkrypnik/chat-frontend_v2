@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import Sidebar from "../components/Sidebar";
-import AuthProvider from "../components/AuthProvider";
+import AuthProvider from "../components/providers/AuthProvider";
 import io from "socket.io-client";
 import {useDispatch} from "react-redux";
 import {addFriend, addNewMessages, changeFriendStatus, setMessageIsRead} from "../store/slices/friend";

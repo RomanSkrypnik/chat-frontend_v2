@@ -38,7 +38,7 @@ export default {
     privacy: yup.object().shape({
         email: yup.string().email().required(),
         name: yup.string().required(),
-        password: yup.string().required().min(8),
+        password: yup.string().required(),
         newPassword: yup.lazy(val => {
             if (val === '') {
                 return yup.string();
