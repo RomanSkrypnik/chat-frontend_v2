@@ -25,11 +25,10 @@ const SnackbarProvider = ({children}) => {
         setCurrTimeout(timeout);
     };
 
-
     return (
         <SnackBarContext.Provider value={handleSnackbar}>
             {children}
-            {show && <Snackbar
+            {show && currTimeout && <Snackbar
                 title={title}
                 message={message}
                 color={color}

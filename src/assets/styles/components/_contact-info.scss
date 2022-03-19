@@ -1,5 +1,9 @@
 .contact-info {
 
+  &.contact-info_extended {
+    max-width: 600px;
+  }
+
   &.contact-info_modal {
     width: 100%;
     position: absolute;

@@ -60,93 +60,99 @@ const PrivacySettingsForm = () => {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)} className="d-flex flex-column w-100">
-                <Controller
-                    control={control}
-                    name="email"
-                    defaultValue={user.email}
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange}
-                                   value={value}
-                                   placeholder="Enter email"
-                                   label="Email"
-                                   errorText={isDirty && errors.email?.message}
-                                   classname={isDirty && errors.email && 'error'}
+                <div className="d-flex justify-content-between">
+                    <div className="col-6 px-2">
+                        <Controller
+                            control={control}
+                            name="email"
+                            defaultValue={user.email}
+                            render={({field: {onChange, value}}) => (
+                                <TextInput onChange={onChange}
+                                           value={value}
+                                           placeholder="Enter email"
+                                           label="Email"
+                                           errorText={isDirty && errors.email?.message}
+                                           classname={isDirty && errors.email && 'error'}
+                                />
+                            )}
                         />
-                    )}
-                />
-                <Controller
-                    control={control}
-                    name="name"
-                    defaultValue={user.name}
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange}
-                                   value={value}
-                                   placeholder="Enter name"
-                                   label="Name"
-                                   errorText={isDirty && errors.name?.message}
-                                   classname={isDirty && errors.name && 'error'}
+                        <Controller
+                            control={control}
+                            name="name"
+                            defaultValue={user.name}
+                            render={({field: {onChange, value}}) => (
+                                <TextInput onChange={onChange}
+                                           value={value}
+                                           placeholder="Enter name"
+                                           label="Name"
+                                           errorText={isDirty && errors.name?.message}
+                                           classname={isDirty && errors.name && 'error'}
+                                />
+                            )}
                         />
-                    )}
-                />
-                <Controller
-                    control={control}
-                    name="username"
-                    defaultValue={user.username}
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange}
-                                   value={value}
-                                   placeholder="Enter username"
-                                   label="Username"
-                                   errorText={isDirty && errors.name?.message}
-                                   classname={isDirty && errors.name && 'error'}
+                        <Controller
+                            control={control}
+                            name="username"
+                            defaultValue={user.username}
+                            render={({field: {onChange, value}}) => (
+                                <TextInput onChange={onChange}
+                                           value={value}
+                                           placeholder="Enter username"
+                                           label="Username"
+                                           errorText={isDirty && errors.name?.message}
+                                           classname={isDirty && errors.name && 'error'}
+                                />
+                            )}
                         />
-                    )}
-                />
-                <Controller
-                    control={control}
-                    name="newPassword"
-                    defaultValue=''
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange}
-                                   value={value}
-                                   placeholder="Enter new password"
-                                   label="New password"
-                                   type="password"
-                                   classname={isDirty && errors.newPassword && 'error'}
-                                   errorText={isDirty && errors.newPassword?.message}
+                    </div>
+                    <div className="col-6 px-2">
+                        <Controller
+                            control={control}
+                            name="newPassword"
+                            defaultValue=''
+                            render={({field: {onChange, value}}) => (
+                                <TextInput onChange={onChange}
+                                           value={value}
+                                           placeholder="Enter new password"
+                                           label="New password"
+                                           type="password"
+                                           classname={isDirty && errors.newPassword && 'error'}
+                                           errorText={isDirty && errors.newPassword?.message}
+                                />
+                            )}
                         />
-                    )}
-                />
-                <Controller
-                    control={control}
-                    name="passwordConfirm"
-                    defaultValue=''
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange}
-                                   value={value}
-                                   placeholder="Enter new password again"
-                                   label="Confirm your password"
-                                   type="password"
-                                   classname={isDirty && errors.passwordConfirm && 'error'}
-                                   errorText={isDirty && errors.passwordConfirm?.message}
+                        <Controller
+                            control={control}
+                            name="passwordConfirm"
+                            defaultValue=''
+                            render={({field: {onChange, value}}) => (
+                                <TextInput onChange={onChange}
+                                           value={value}
+                                           placeholder="Enter new password again"
+                                           label="Confirm your password"
+                                           type="password"
+                                           classname={isDirty && errors.passwordConfirm && 'error'}
+                                           errorText={isDirty && errors.passwordConfirm?.message}
+                                />
+                            )}
                         />
-                    )}
-                />
-                <Controller
-                    control={control}
-                    name="password"
-                    defaultValue=''
-                    render={({field: {onChange, value}}) => (
-                        <TextInput onChange={onChange}
-                                   value={value}
-                                   placeholder="Enter current password"
-                                   label="Current password"
-                                   type="password"
-                                   classname={isDirty && errors.password && 'error'}
-                                   errorText={isDirty && errors.password?.message}
+                        <Controller
+                            control={control}
+                            name="password"
+                            defaultValue=''
+                            render={({field: {onChange, value}}) => (
+                                <TextInput onChange={onChange}
+                                           value={value}
+                                           placeholder="Enter current password"
+                                           label="Current password"
+                                           type="password"
+                                           classname={isDirty && errors.password && 'error'}
+                                           errorText={isDirty && errors.password?.message}
+                                />
+                            )}
                         />
-                    )}
-                />
+                    </div>
+                </div>
                 <div className="d-flex justify-content-center mt-2">
                     <RegularButton disabled={!formState.isValid} type="submit">Save changes</RegularButton>
                 </div>

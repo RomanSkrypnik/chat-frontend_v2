@@ -60,7 +60,12 @@ const CurrentUserInfo = () => {
 
             {
                 showModal &&
-                <ContactInfo isModal onClose={() => setShowModal(false)} title="Privacy and security">
+                <ContactInfo
+                    isModal
+                    extended
+                    onClose={() => setShowModal(false)}
+                    title="Privacy and security"
+                >
                     {modalChildren}
                 </ContactInfo>
             }

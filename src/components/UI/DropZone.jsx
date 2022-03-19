@@ -6,6 +6,10 @@ import UploadedMediaFile from "../partials/UploadedMediaFile";
 const DropZone = ({resetField, onFileChange, onClose, control}) => {
     const [mediaFiles, setMediaFiles] = useState([]);
 
+    useEffect(() => {
+        onFileChange(mediaFiles);
+    }, [mediaFiles]);
+
     const handleOnDelete = async (name) => {
         const newMediaFiles = mediaFiles.filter(mediaFile => mediaFile.name !== name);
 
@@ -13,10 +17,6 @@ const DropZone = ({resetField, onFileChange, onClose, control}) => {
 
         newMediaFiles.length === 0 && resetField('media');
     };
-
-    useEffect(() => {
-        onFileChange(mediaFiles);
-    }, [mediaFiles]);
 
     return (
         <div className="drop-zone d-flex">

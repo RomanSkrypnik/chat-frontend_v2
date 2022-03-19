@@ -2,15 +2,19 @@ import React, {useEffect, useState} from 'react';
 import Sidebar from "../components/Sidebar";
 import AuthProvider from "../components/providers/AuthProvider";
 import io from "socket.io-client";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {addFriend, addNewMessages, changeFriendStatus, setMessageIsRead} from "../store/slices/friend";
 import {addNewMessage} from "../store/slices/friend";
 import {Howl, Howler} from 'howler';
+import SoundHelper from "../helpers/soundHelper";
 
 export const SocketInstance = React.createContext(null);
 
 const DefaultLayout = ({children}) => {
     const dispatch = useDispatch();
+
+    const {user} = useSelector(state => state.auth);
+
     const [socket, setSocket] = useState(null);
 
     const token = localStorage.getItem('token');
@@ -28,17 +32,23 @@ const DefaultLayout = ({children}) => {
     useEffect(() => {
         if (socket) {
             socket.on('new-text-message', (messageData) => {
+                const {newMessage} = messageData;
+
+                if (newMessage.sender.hash !== user.hash) {
+                    SoundHelper.playSound('clock.wav');
+                }
+
                 dispatch(addFriend(messageData));
                 dispatch(addNewMessage(messageData));
             });
 
             socket.on('new-media-message', (messageData) => {
-                Howler.volume(0.5);
-                const sound = new Howl({
-                    src: ['../../public/sounds/ohhh_sound_effect.mp3'],
-                    html5: true
-                });
-                sound.play();
+                const {newMessage} = messageData;
+
+                if (newMessage.sender.hash !== user.hash) {
+                    SoundHelper.playSound('clock.wav');
+                }
+
                 dispatch(addFriend(messageData));
                 dispatch(addNewMessages(messageData));
             });

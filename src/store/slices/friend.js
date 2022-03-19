@@ -80,12 +80,12 @@ export const friendSlice = createSlice({
         },
 
         addFriend(state, {payload}) {
-            const {newMessage} = payload;
+            const {friend, newMessages} = payload;
 
             const friendNotFound = state.friends.findIndex(friend => friend.friend.hash === payload.friend.hash) === -1;
 
             if (friendNotFound) {
-                state.friends = [...state.friends, {...payload, messages: [newMessage]}];
+                state.friends = [...state.friends, {friend, messages: newMessages}];
             }
         },
 

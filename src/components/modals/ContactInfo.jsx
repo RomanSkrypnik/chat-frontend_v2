@@ -1,13 +1,14 @@
 import React from 'react';
 import CrossButton from "../UI/buttons/CrossButton";
 import Portal from "../Portal";
+import cn from "classnames";
 
-const ContactInfo = ({onClose, isModal = false, title, children}) => {
+const ContactInfo = ({onClose, isModal = false, extended = false, title, children}) => {
 
     return (
         isModal ?
             <Portal>
-                <div className="contact-info contact-info_modal">
+                <div className={cn("contact-info contact-info_modal", extended && 'contact-info_extended')}>
                     <div className="contact-info__top-line">
                         <CrossButton onClick={onClose}/>
                     </div>

@@ -24,17 +24,17 @@ const ChatTextInput = ({onSubmit}) => {
     let [audioFile, isRecording, startRecording, stopRecording] = useRecorder();
 
     const handleOnSubmit = (data) => {
-        setShowDropZone(false);
         onSubmit({...data, media: mediaFiles});
         reset();
+        setShowDropZone(false);
     };
 
     const handleVoiceMessage = async () => {
-        // const fd = new FormData();
-        //
-        // fd.append('voice', audioFile);
-        //
-        // const {data} = await MessageService.sendVoiceMessage(fd);
+        const fd = new FormData();
+
+        fd.append('voice', audioFile);
+
+        const {data} = await MessageService.sendVoiceMessage(fd);
     };
 
     const processVoiceMessage = () => {
