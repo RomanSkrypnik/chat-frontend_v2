@@ -5,7 +5,6 @@ import io from "socket.io-client";
 import {useDispatch, useSelector} from "react-redux";
 import {addFriend, addNewMessages, changeFriendStatus, setMessageIsRead} from "../store/slices/friend";
 import {addNewMessage} from "../store/slices/friend";
-import {Howl, Howler} from 'howler';
 import SoundHelper from "../helpers/soundHelper";
 
 export const SocketInstance = React.createContext(null);
@@ -43,9 +42,9 @@ const DefaultLayout = ({children}) => {
             });
 
             socket.on('new-media-message', (messageData) => {
-                const {newMessage} = messageData;
+                const {newMessages} = messageData;
 
-                if (newMessage.sender.hash !== user.hash) {
+                if (newMessages[0].sender.hash !== user.hash) {
                     SoundHelper.playSound('clock.wav');
                 }
 
