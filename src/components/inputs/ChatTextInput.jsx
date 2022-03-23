@@ -25,8 +25,11 @@ const ChatTextInput = ({onSubmit}) => {
 
     const handleOnSubmit = (data) => {
         onSubmit({...data, media: mediaFiles});
-        reset();
+
         setShowDropZone(false);
+        setMediaFiles([]);
+
+        reset();
     };
 
     const handleVoiceMessage = async () => {

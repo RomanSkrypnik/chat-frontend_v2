@@ -6,12 +6,10 @@ import cn from "classnames";
 
 const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
 
-    const {user} = useSelector(state => state.auth);
-
     const [statuses, setStatuses] = useState([]);
 
-    useEffect(() => {
-        fetchStatuses();
+    useEffect(async () => {
+        await fetchStatuses();
     }, []);
 
     const fetchStatuses = async () => {
@@ -25,14 +23,14 @@ const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
 
     const selectStyles = {
         control: (styles) => ({
-                ...styles,
-                backgroundColor: '#6588DE',
-                width: '88px',
-                borderRadius: '14px',
-                height: '20px',
-                minHeight: 'auto',
-                border: 'none',
-                textIndent: '15px',
+            ...styles,
+            backgroundColor: '#6588DE',
+            width: '88px',
+            borderRadius: '14px',
+            height: '20px',
+            minHeight: 'auto',
+            border: 'none',
+            textIndent: '15px',
         }),
         option: (styles) => ({
             ...styles,
@@ -47,35 +45,25 @@ const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
             outline: 'none',
             borderRadius: 'none'
         }),
-        singleValue: (styles) => ({ ...styles, color: '#ffffff' }),
+        singleValue: (styles) => ({...styles, color: '#ffffff'}),
     };
 
     const components = {
-        DropdownIndicator:() => null,
-        IndicatorSeparator:() => null
+        DropdownIndicator: () => null,
+        IndicatorSeparator: () => null
     };
-
-    const changeStatus = async (option) => {
-        try {
-            await StatusService.changeStatus(user.email, option);
-            onStatusChange(option);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
 
     return (
-            <Select
-                className={cn("status-select last-text", selectedStatus.className)}
-                onChange={changeStatus}
-                options={statuses}
-                value={selectedStatus}
-                styles={selectStyles}
-                components={components}
-                isSearchable={false}
-                isDisabled={disabled}
-            />
+        <Select
+            className={cn("status-select last-text", selectedStatus.className)}
+            onChange={(option) => onStatusChange(option)}
+            options={statuses}
+            value={selectedStatus}
+            styles={selectStyles}
+            components={components}
+            isSearchable={false}
+            isDisabled={disabled}
+        />
     );
 };
 

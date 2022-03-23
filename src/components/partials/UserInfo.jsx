@@ -8,10 +8,19 @@ import PurpleArrow from "../UI/icons/PurpleArrow";
 import ContactButton from "../UI/buttons/ContactButton";
 import ProhibitionSign from "../UI/icons/ProhibitionSign";
 import Urn from "../UI/icons/Urn";
+import {useDispatch, useSelector} from "react-redux";
+import {muteFriend, unmuteFriend} from "../../store/slices/friend";
+import {useParams} from "react-router-dom";
 
 const UserInfo = ({user}) => {
     const [mediaFiles, setMediaFiles] = useState([]);
     const [overallLength, setOverallLength] = useState(null);
+
+    const {friend} = useSelector(state => state.friend);
+
+    const {hash} = useParams();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         init();
@@ -33,12 +42,14 @@ const UserInfo = ({user}) => {
         setOverallLength(overallLength);
     };
 
+    const handleMuteFriend = () => {
+        friend.friend.isMuted ? dispatch(unmuteFriend(hash)) : dispatch(muteFriend(hash))
+    };
+
     const flatButtons = [
         {
-            text: 'Mute notifications', onClick: () => {
-                console.log('clicked')
-            },
-            icon: <Circle/>
+            text: 'Mute notifications', onClick: handleMuteFriend,
+            icon: <Circle isActive={friend.friend.isMuted}/>
         },
         {
             text: 'Starred Messages', onClick: () => {

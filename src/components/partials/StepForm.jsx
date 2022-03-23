@@ -25,6 +25,7 @@ const StepForm = ({step, onPrev, onSubmit, schema = {}}) => {
                                 control={control}
                                 name={field.name}
                                 key={field.name}
+                                defaultValue=""
                                 render={
                                     ({field: {onChange, value}}) =>
                                         <TextInput

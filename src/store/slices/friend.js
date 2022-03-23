@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import FriendService from "../../services/FriendService";
 import MessageService from "../../services/MessageService";
+import MuteService from "../../services/MuteService";
 
 export const fetchOlderMessages = createAsyncThunk(
     'friend/fetchOlderMessages',
@@ -52,10 +53,33 @@ export const fetchFriends = createAsyncThunk(
 
 export const fetchFriend = createAsyncThunk(
     'friend/fetchFriend',
-    async (hash, {dispatch}) => {
-        const {data} = await FriendService.fetchFriend(hash);
+    async (hash, {dispatch, getState}) => {
+        const {friends} = getState().friend;
 
-        dispatch(setFriend(data));
+        const friend = friends.find(({friend}) => friend.hash === hash);
+
+        if (!friend) {
+            const {data} = await FriendService.fetchFriend(hash);
+            dispatch(setFriend(data));
+        } else {
+            dispatch(setFriend(friend));
+        }
+    }
+);
+
+export const muteFriend = createAsyncThunk(
+    'friend/muteFriend',
+    async (hash, {dispatch}) => {
+        const {data} = await MuteService.mute(hash);
+        dispatch(updateFriend(data));
+    }
+);
+
+export const unmuteFriend = createAsyncThunk(
+    'friend/unmuteFriend',
+    async (hash, {dispatch}) => {
+        const {data} = await MuteService.unmute(hash);
+        dispatch(updateFriend(data));
     }
 );
 
@@ -79,45 +103,59 @@ export const friendSlice = createSlice({
             state.friend = payload;
         },
 
-        addFriend(state, {payload}) {
-            const {friend, newMessages} = payload;
+        updateFriend(state, {payload}) {
+            const {hash} = payload;
 
-            const friendNotFound = state.friends.findIndex(friend => friend.friend.hash === payload.friend.hash) === -1;
+            state.friends = state.friends.map((friend) => {
+                if (friend.friend.hash === hash) {
+                    return {...friend, friend: payload};
+                }
+                return friend;
+            });
+
+            const friendHash = state.friend.friend.hash;
+
+            if (friendHash === hash) {
+                state.friend = {...state.friend, friend: payload};
+            }
+        },
+
+        addFriend(state, {payload}) {
+            const friendNotFound = state.friends.findIndex(friend => friend.friend.hash === payload.hash) === -1;
 
             if (friendNotFound) {
-                state.friends = [...state.friends, {friend, messages: newMessages}];
+                state.friends = [...state.friends, {friend: payload, messages: []}];
             }
         },
 
         addNewMessage(state, {payload}) {
-            const {newMessage} = payload;
-            const {hash} = payload.friend;
+            const {friend, newMessage} = payload;
 
-            state.friends = state.friends.map(friend => {
-                    if (friend.friend.hash === hash) {
-                        return {friend: friend.friend, messages: [...friend.messages, newMessage]}
+            state.friends = state.friends.map(stateFriend => {
+                    if (stateFriend.friend.hash === friend.hash) {
+                        return {...stateFriend, messages: [...stateFriend.messages, newMessage]}
                     }
-                    return friend;
+                    return stateFriend;
                 }
             );
 
-            if (state.friend.friend.hash === hash) {
-                state.friend = {friend: state.friend.friend, messages: [...state.friend.messages, newMessage]};
+            if (state.friend.friend.hash === friend.hash) {
+                state.friend = {...state.friend, messages: [...state.friend.messages, newMessage]};
             }
         },
 
         addNewMessages(state, {payload}) {
             const {friend, newMessages} = payload;
-            const friendHash = friend.hash;
+            const {hash} = friend;
 
             state.friends = state.friends.map(friend => {
-                if (friend.friend.hash === friendHash) {
+                if (friend.friend.hash === hash) {
                     return {...friend, messages: [...friend.messages, ...newMessages]}
                 }
                 return friend;
             });
 
-            if (friendHash === state.friend.friend.hash) {
+            if (state.friend.friend.hash === hash) {
                 state.friend = {...state.friend, messages: [...state.friend.messages, ...newMessages]};
             }
         },
@@ -188,7 +226,7 @@ export const friendSlice = createSlice({
                     return message;
                 });
             }
-        }
+        },
     },
 
     extraReducers: {
@@ -210,11 +248,7 @@ export const {
     addOlderMessages,
     setAllMessagesReceived,
     setMessageIsRead,
-    setMessageIsStarred
+    updateFriend
 } = friendSlice.actions;
-
-export const getFriendByHash = (state, hash) => {
-    return state.friends.find(friend => friend.friend.hash === hash);
-};
 
 export default friendSlice.reducer;

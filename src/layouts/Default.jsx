@@ -30,26 +30,24 @@ const DefaultLayout = ({children}) => {
 
     useEffect(() => {
         if (socket) {
-            socket.on('new-text-message', (messageData) => {
-                const {newMessage} = messageData;
+            socket.on('new-text-message', ({friend, newMessage}) => {
 
-                if (newMessage.sender.hash !== user.hash) {
+                if (newMessage.sender.hash !== user.hash && !friend.isMuted) {
                     SoundHelper.playSound('clock.wav');
                 }
 
-                dispatch(addFriend(messageData));
-                dispatch(addNewMessage(messageData));
+                dispatch(addFriend(friend));
+                dispatch(addNewMessage({friend, newMessage}));
             });
 
-            socket.on('new-media-message', (messageData) => {
-                const {newMessages} = messageData;
+            socket.on('new-media-message', ({friend, newMessages}) => {
 
-                if (newMessages[0].sender.hash !== user.hash) {
+                if (newMessages[0].sender.hash !== user.hash && !friend.isMuted) {
                     SoundHelper.playSound('clock.wav');
                 }
 
-                dispatch(addFriend(messageData));
-                dispatch(addNewMessages(messageData));
+                dispatch(addFriend(friend));
+                dispatch(addNewMessages({friend, newMessages}));
             });
 
             socket.on('new-status', ({status, hash}) => {
