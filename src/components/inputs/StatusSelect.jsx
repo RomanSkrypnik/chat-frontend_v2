@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import StatusService from "../../services/StatusService";
 import Select from 'react-select';
-import {useSelector} from "react-redux";
 import cn from "classnames";
+import SelectArrow from "../UI/icons/SelectArrow";
 
 const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
 
@@ -37,6 +37,10 @@ const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
             backgroundColor: '#6588DE',
             color: 'white',
         }),
+        dropdownIndicator: (provided, state) => ({
+            ...provided,
+            transform: state.selectProps.menuIsOpen && 'rotate(180deg)'
+        }),
         menu: (styles) => ({
             ...styles,
             width: '88px',
@@ -49,8 +53,8 @@ const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
     };
 
     const components = {
-        DropdownIndicator: () => null,
-        IndicatorSeparator: () => null
+        DropdownIndicator: () => <SelectArrow/>,
+        IndicatorSeparator: () => null,
     };
 
     return (
