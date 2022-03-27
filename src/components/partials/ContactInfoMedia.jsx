@@ -1,13 +1,20 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {API_URL, MESSAGE_URL} from "../../http";
 import PhotoModal from "../modals/PhotoModal";
 import {ChatMessageInstance} from "../UI/ChatMessage";
 import {HomeContext} from "../../pages/Home";
 
-const ContactInfoMedia = ({mediaFiles, overallLength}) => {
-
+const ContactInfoMedia = ({mediaFiles}) => {
     const [showPhotoModal, setShowPhotoModal] = useState(false);
     const [photoModalSrc, setPhotoModalSrc] = useState(null);
+    const [photos, setPhotos] = useState([]);
+
+    useEffect(() => {
+        const clientHeight = (window.innerHeight - 60) * 0.3;
+        const columnsCount = Math.ceil(clientHeight / 82);
+
+        setPhotos(mediaFiles.slice(0, columnsCount * 3));
+    }, []);
 
     const handleSwitch = useContext(HomeContext);
 
@@ -21,12 +28,13 @@ const ContactInfoMedia = ({mediaFiles, overallLength}) => {
             <h2 className="last-text last-text_contact text-purple mb-3 mt-3 text-center">Media</h2>
             <div className="d-flex flex-wrap">
                 {
-                    mediaFiles.length > 0 &&
-                    mediaFiles.map((mediaFile, index) => (
-                            index !== 8 ?
-                                <div className="contact-info__media-wrapper" key={index} onClick={() => handleOnClick(`${MESSAGE_URL}${mediaFile.uniqueName}`)}>
+                    photos.length > 0 &&
+                    photos.map((photo, index) => (
+                            photos.length - 1 !== index ?
+                                <div className="contact-info__media-wrapper" key={index}
+                                     onClick={() => handleOnClick(`${MESSAGE_URL}${photo.uniqueName}`)}>
                                     <img
-                                        src={`${MESSAGE_URL}${mediaFile.uniqueName}`}
+                                        src={`${MESSAGE_URL}${photo.uniqueName}`}
                                         alt=""
                                         className="contact-info__media-image"
                                     />
@@ -36,7 +44,7 @@ const ContactInfoMedia = ({mediaFiles, overallLength}) => {
                                     onClick={handleSwitch}
                                     className="contact-info__media-wrapper contact-info__media-wrapper_more last-text last-text_alt text-purple"
                                     key={index}>
-                                    {overallLength} more >
+                                    {mediaFiles.length - photos.length} more >
                                 </div>
                         )
                     )

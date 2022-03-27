@@ -36,10 +36,8 @@ const UserInfo = ({user}) => {
         const copyMessages = [...messages].reverse();
 
         const mediaFiles = copyMessages.flatMap(message => message.files);
-        const overallLength = mediaFiles.length - 8;
 
-        setMediaFiles(mediaFiles.slice(0, 9));
-        setOverallLength(overallLength);
+        setMediaFiles(mediaFiles);
     };
 
     const handleMuteFriend = () => {
