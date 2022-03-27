@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import FriendService from "../../services/FriendService";
 import MessageService from "../../services/MessageService";
 import MuteService from "../../services/MuteService";
+import BlockedService from "../../services/BlockedService";
 
 export const fetchOlderMessages = createAsyncThunk(
     'friend/fetchOlderMessages',
@@ -82,6 +83,23 @@ export const unmuteFriend = createAsyncThunk(
         dispatch(updateFriend(data));
     }
 );
+
+export const blockFriend = createAsyncThunk(
+    'friend/blockFriend',
+    async (hash, {dispatch}) => {
+        const {data} = await BlockedService.blockFriend(hash);
+        dispatch(updateFriend(data));
+    }
+);
+
+export const unblockFriend = createAsyncThunk(
+    'friend/unblockFriend',
+    async (hash, {dispatch}) => {
+        const {data} = await BlockedService.unblockFriend(hash);
+        dispatch(updateFriend(data));
+    }
+);
+
 
 export const friendSlice = createSlice({
     name: 'friend',

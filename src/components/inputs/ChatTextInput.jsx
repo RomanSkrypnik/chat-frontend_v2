@@ -10,8 +10,13 @@ import useRecorder from "../../hooks/useRecorder";
 import MessageService from '../../services/MessageService';
 import {yupResolver} from "@hookform/resolvers/yup";
 import validation from "../../validation";
+import {useSelector} from "react-redux";
 
 const ChatTextInput = ({onSubmit}) => {
+
+    const [disabledText, setDisabledText] = useState(null);
+
+    const {friend} = useSelector(state => state.friend);
 
     const {handleSubmit, reset, resetField, control, formState} = useForm({
         mode: 'onChange',
@@ -22,6 +27,19 @@ const ChatTextInput = ({onSubmit}) => {
     const [mediaFiles, setMediaFiles] = useState([]);
 
     let [audioFile, isRecording, startRecording, stopRecording] = useRecorder();
+
+    useEffect(() => {
+        console.log(friend);
+        if (friend.friend) {
+            if (friend.friend.isBlockedByMe) {
+                setDisabledText('You have blocked this user');
+            } else if (friend.friend.isBlocked) {
+                setDisabledText('You have been blocked by this user');
+            } else {
+                setDisabledText(null);
+            }
+        }
+    }, [friend.friend]);
 
     const handleOnSubmit = (data) => {
         onSubmit({...data, media: mediaFiles});
@@ -63,10 +81,11 @@ const ChatTextInput = ({onSubmit}) => {
             }
 
             <div className="chat-text-input__buttons d-flex">
-                <ChatButton onClick={() => setShowDropZone(!showDropZone)}>
+                <ChatButton isDisabled={friend.friend && friend.friend.isBlocked}
+                            onClick={() => setShowDropZone(!showDropZone)}>
                     <ClipIcon/>
                 </ChatButton>
-                <ChatButton onClick={processVoiceMessage}>
+                <ChatButton isDisabled={friend.friend && friend.friend.isBlocked} onClick={processVoiceMessage}>
                     <MicrophoneIcon/>
                 </ChatButton>
             </div>
@@ -78,10 +97,11 @@ const ChatTextInput = ({onSubmit}) => {
                     defaultValue=""
                     render={({field: {onChange, value}}) => (
                         <input type="text"
+                               disabled={friend.friend && friend.friend.isBlocked}
                                onChange={onChange}
                                value={value}
                                className="chat-text-input__input last-text last-text_alt"
-                               placeholder="Type a new message..."
+                               placeholder={disabledText ? disabledText : "Type a new message..."}
                         />
                     )}
                 />

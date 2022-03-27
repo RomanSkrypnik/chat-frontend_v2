@@ -2,25 +2,10 @@ import React, {useEffect, useState} from 'react';
 import AvatarButton from "../UI/buttons/AvatarButton";
 import StatusSelect from "../inputs/StatusSelect";
 import ContactInfoMedia from "./ContactInfoMedia";
-import FlatButton from "../UI/buttons/FlatButton";
-import Circle from "../UI/icons/Circle";
-import PurpleArrow from "../UI/icons/PurpleArrow";
-import ContactButton from "../UI/buttons/ContactButton";
-import ProhibitionSign from "../UI/icons/ProhibitionSign";
-import Urn from "../UI/icons/Urn";
-import {useDispatch, useSelector} from "react-redux";
-import {muteFriend, unmuteFriend} from "../../store/slices/friend";
-import {useParams} from "react-router-dom";
+import UserInfoButtons from "./UserInfoButtons";
 
 const UserInfo = ({user}) => {
     const [mediaFiles, setMediaFiles] = useState([]);
-    const [overallLength, setOverallLength] = useState(null);
-
-    const {friend} = useSelector(state => state.friend);
-
-    const {hash} = useParams();
-
-    const dispatch = useDispatch();
 
     useEffect(() => {
         init();
@@ -40,29 +25,6 @@ const UserInfo = ({user}) => {
         setMediaFiles(mediaFiles);
     };
 
-    const handleMuteFriend = () => {
-        friend.friend.isMuted ? dispatch(unmuteFriend(hash)) : dispatch(muteFriend(hash))
-    };
-
-    const flatButtons = [
-        {
-            text: 'Mute notifications', onClick: handleMuteFriend,
-            icon: <Circle isActive={friend.friend.isMuted}/>
-        },
-        {
-            text: 'Starred Messages', onClick: () => {
-                console.log('clicked')
-            },
-            icon: <PurpleArrow/>
-        },
-    ];
-
-    const buttons = [
-        {text: 'Block Contact', onClick: () => console.log('clicked'), icon: <ProhibitionSign/>},
-        {text: 'Delete Chat', onClick: () => console.log('clicked'), icon: <Urn/>},
-    ];
-
-
     return (
         <div className="user-info mt-4">
 
@@ -73,34 +35,9 @@ const UserInfo = ({user}) => {
                 <div className="regular-text my-2">Sr. Visual Designer</div>
                 <StatusSelect selectedStatus={user.friend.status} disabled/>
 
-                {mediaFiles.length > 0 && <ContactInfoMedia mediaFiles={mediaFiles} overallLength={overallLength}/>}
+                {mediaFiles.length > 0 && <ContactInfoMedia mediaFiles={mediaFiles}/>}
             </div>
-
-            <div className="user-info__bottom">
-                <div className="mt-4 w-100">
-                    {
-                        flatButtons.map((button, index) => (
-                            <FlatButton
-                                onClick={button.onClick}
-                                key={index}
-                                icon={button.icon}
-                            >{button.text}</FlatButton>)
-                        )
-                    }
-                </div>
-
-                <div className="mt-4 w-100">
-                    {
-                        buttons.map((button, index) => (
-                            <ContactButton onClick={button.onClick}
-                                           icon={button.icon}
-                                           type="button"
-                                           key={index}>
-                                {button.text}</ContactButton>))
-                    }
-                </div>
-            </div>
-
+            <UserInfoButtons/>
         </div>
     );
 };

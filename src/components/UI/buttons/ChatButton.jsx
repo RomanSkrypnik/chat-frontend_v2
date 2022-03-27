@@ -1,10 +1,10 @@
 import React from 'react';
 
-const ChatButton = ({onClick, children}) => {
+const ChatButton = ({onClick, isDisabled = false, children}) => {
 
     return (
         <>
-            <button onClick={onClick}>{children}</button>
+            <button disabled={isDisabled} onClick={onClick}>{children}</button>
         </>
     );
 };
