@@ -3,7 +3,7 @@ import ReadMessageIcon from "../UI/ReadMessageIcon";
 import {format} from "date-fns";
 import cn from "classnames";
 import {ChatMessageInstance} from "../UI/ChatMessage";
-import {MESSAGE_URL} from "../../http";
+import {MESSAGE_URL, VOICE_URL} from "../../http";
 import Dropdown from "../UI/Dropdown";
 
 const ChatMessageInner = ({message}) => {
@@ -57,14 +57,23 @@ const ChatMessageInner = ({message}) => {
 
             <div className="chat-message__image-row">
                 {
-                    message.files && message.files.map(file =>
-                        <div className="chat-message__image-wrapper" key={file.id}>
-                            <img onClick={() => handlePhotoModalOpen(MESSAGE_URL + file.uniqueName)}
-                                 className="chat-message__image"
-                                 src={MESSAGE_URL + file.uniqueName}
-                                 alt={file.alt ?? ''}
-                            />
-                        </div>
+                    message.files && message.files.map(file => {
+                        const {uniqueName, alt} = file;
+
+                        const ext = uniqueName.substring(uniqueName.lastIndexOf('.'), uniqueName.length);
+
+                        if (ext === '.ogg') {
+                            return <audio src={VOICE_URL + uniqueName} controls key={file.id}/>
+                        }
+
+                        return <div className="chat-message__image-wrapper" key={file.id}>
+                                <img onClick={() => handlePhotoModalOpen(MESSAGE_URL + uniqueName)}
+                                     className="chat-message__image"
+                                     src={MESSAGE_URL + uniqueName}
+                                     alt={alt ?? ''}
+                                />
+                            </div>
+                        }
                     )
                 }
             </div>
@@ -76,8 +85,13 @@ const ChatMessageInner = ({message}) => {
                 {!message.isRead && <ReadMessageIcon/>}
             </div>
 
-            {showDropDown &&
-            <Dropdown className="end align-self-start" items={dropDownItems} onClose={() => setShowDropDown(false)}/>}
+            {
+                showDropDown && <Dropdown
+                    className="end align-self-start"
+                    items={dropDownItems}
+                    onClose={() => setShowDropDown(false)}
+                />
+            }
 
         </div>
     );

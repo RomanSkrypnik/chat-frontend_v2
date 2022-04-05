@@ -4,7 +4,11 @@ const ChatButton = ({onClick, isDisabled = false, children}) => {
 
     return (
         <>
-            <button disabled={isDisabled} onClick={onClick}>{children}</button>
+            <button
+                className="chat-button"
+                disabled={isDisabled}
+                onClick={onClick}
+            >{children}</button>
         </>
     );
 };

@@ -1,5 +1,5 @@
-import React from 'react';
-import {blockFriend, muteFriend, unblockFriend, unmuteFriend} from "../../store/slices/friend";
+import React, {useState} from 'react';
+import {blockFriend, clearChat, muteFriend, unblockFriend, unmuteFriend} from "../../store/slices/friend";
 import Circle from "../UI/icons/Circle";
 import PurpleArrow from "../UI/icons/PurpleArrow";
 import ProhibitionSign from "../UI/icons/ProhibitionSign";
@@ -9,8 +9,12 @@ import {useParams} from "react-router-dom";
 import FlatButton from "../UI/buttons/FlatButton";
 import ContactButton from "../UI/buttons/ContactButton";
 import Unlocked from "../UI/icons/Unlocked";
+import ContactInfo from "../modals/ContactInfo";
+import Prompt from "./Prompt";
 
 const UserInfoButtons = () => {
+
+    const [showPrompt, setShowPrompt] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -20,6 +24,11 @@ const UserInfoButtons = () => {
 
     const handleMute = () => {
         friend.friend.isMuted ? dispatch(unmuteFriend(hash)) : dispatch(muteFriend(hash))
+    };
+
+    const handleChatDelete = answer => {
+        answer && dispatch(clearChat(hash));
+        setShowPrompt(false);
     };
 
     const flatButtons = [
@@ -40,7 +49,7 @@ const UserInfoButtons = () => {
             {text: 'Block Contact', onClick: () => dispatch(blockFriend(hash)), icon: <ProhibitionSign/>}
             :
             {text: 'Unblock Contact', onClick: () => dispatch(unblockFriend(hash)), icon: <Unlocked/>},
-        {text: 'Delete Chat', onClick: () => console.log('clicked'), icon: <Urn/>},
+        {text: 'Delete Chat', onClick: () => setShowPrompt(true), icon: <Urn/>},
     ];
 
     return (
@@ -67,6 +76,12 @@ const UserInfoButtons = () => {
                             {button.text}</ContactButton>))
                 }
             </div>
+
+            {
+                showPrompt && <ContactInfo isModal title="Confirm action" onClose={() => setShowPrompt(false)}>
+                    <Prompt question="Do you want to delete all chat messages" onClick={handleChatDelete}/>
+                </ContactInfo>
+            }
         </div>
     );
 };

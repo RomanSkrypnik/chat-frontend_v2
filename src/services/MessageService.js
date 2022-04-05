@@ -22,4 +22,8 @@ export default class MessageService {
         return await $api.post('/stare-message', {messageId});
     }
 
+    static async clearChat(hash) {
+        return await $api.post('/clear-chat', {hash});
+    }
+
 }

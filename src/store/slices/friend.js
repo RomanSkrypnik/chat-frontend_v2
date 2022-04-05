@@ -100,6 +100,14 @@ export const unblockFriend = createAsyncThunk(
     }
 );
 
+export const clearChat = createAsyncThunk(
+    'friend/clearChat',
+    async (hash, {dispatch}) => {
+        const {data} = await MessageService.clearChat(hash);
+        data.success && dispatch(clearFriendChat(hash));
+    }
+);
+
 
 export const friendSlice = createSlice({
     name: 'friend',
@@ -179,7 +187,7 @@ export const friendSlice = createSlice({
         },
 
         addOlderMessages(state, {payload}) {
-            state.friend = {...state.friend, messages: [...state.friend.messages, ...payload]};
+            state.friend = {...state.friend, messages: [...payload, ...state.friend.messages]};
         },
 
         changeFriendStatus(state, {payload}) {
@@ -245,6 +253,16 @@ export const friendSlice = createSlice({
                 });
             }
         },
+
+        clearFriendChat(state, {payload}) {
+            const index = state.friends.findIndex(friend => friend.friend.hash === payload);
+
+            state.friends[index] = {...state.friends[index], messages: []};
+
+            if (state.friend.friend.hash === payload) {
+                state.friend = {...state.friend, messages: []};
+            }
+        }
     },
 
     extraReducers: {
@@ -266,7 +284,8 @@ export const {
     addOlderMessages,
     setAllMessagesReceived,
     setMessageIsRead,
-    updateFriend
+    updateFriend,
+    clearFriendChat
 } = friendSlice.actions;
 
 export default friendSlice.reducer;

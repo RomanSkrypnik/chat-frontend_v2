@@ -24,7 +24,14 @@ const SidebarUserTab = ({user}) => {
             if (lastMessage.text === '' && lastMessage.files.length > 1) {
                 lastMessage.text = 'Photos'
             } else if (lastMessage.text === '' && lastMessage.files.length === 1) {
-                lastMessage.text = 'Photo';
+                const {uniqueName} = lastMessage.files[0];
+
+                const ext = uniqueName.substring(uniqueName.lastIndexOf('.'), uniqueName.length);
+                if (ext === '.ogg') {
+                    lastMessage.text = 'Voice message';
+                } else {
+                    lastMessage.text = 'Photo';
+                }
             }
 
             setDate(date);

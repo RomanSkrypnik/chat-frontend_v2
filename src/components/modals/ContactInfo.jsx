@@ -3,7 +3,7 @@ import CrossButton from "../UI/buttons/CrossButton";
 import Portal from "../Portal";
 import cn from "classnames";
 
-const ContactInfo = ({onClose, isModal = false, extended = false, title, children}) => {
+const ContactInfo = ({onClose, isModal = false, extended = false, title, text, children}) => {
 
     return (
         isModal ?
@@ -13,6 +13,7 @@ const ContactInfo = ({onClose, isModal = false, extended = false, title, childre
                         <CrossButton onClick={onClose}/>
                     </div>
                     <h2 className="last-text last-text_contact text-purple text-center mb-3 mt-2">{title}</h2>
+                    {text && <div className="regular-text">{text}</div>}
                     <div className="contact-info__content mt-2">
                         {children}
                     </div>

@@ -1,8 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import AvatarButton from "./buttons/AvatarButton";
-import {format} from 'date-fns';
 import cn from "classnames";
-import Timestamp from "./Timestamp";
 import {useInView} from 'react-intersection-observer';
 import {SocketInstance} from "../../layouts/Default";
 import {useSelector} from "react-redux";

@@ -91,8 +91,8 @@ const Sidebar = () => {
                         )
                     }
                 </div>
-                <SidebarMenu/>
             </aside>
+
             {
                 contactInfo &&
                 <ContactInfo

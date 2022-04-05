@@ -1,7 +1,10 @@
 import axios from "axios";
 
-export const API_URL = `http://localhost:5000`;
+export const API_URL = 'http://localhost:5000';
+
+export const AVATAR_URL = `${API_URL}/avatars/`;
 export const MESSAGE_URL = `${API_URL}/messages/`;
+export const VOICE_URL = `${API_URL}/voices/`;
 
 const $api = axios.create({
     withCredentials: true,

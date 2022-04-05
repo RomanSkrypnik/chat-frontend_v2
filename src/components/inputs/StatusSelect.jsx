@@ -53,7 +53,7 @@ const StatusSelect = ({selectedStatus, onStatusChange, disabled = false}) => {
     };
 
     const components = {
-        DropdownIndicator: () => <SelectArrow/>,
+        DropdownIndicator: () => !disabled ? <SelectArrow/> : null,
         IndicatorSeparator: () => null,
     };
 
